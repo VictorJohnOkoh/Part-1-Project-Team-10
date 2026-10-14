@@ -6,7 +6,9 @@ from PyQt6.QtWidgets import (
     
     )
 
+#this class is for the window where the users can enter their login details to enter the system
 class Window(QWidget):
+    #this function is to initialise the window where the details are entered
     def __init__(self):
         super().__init__()
         self.resize(300,300)
@@ -24,6 +26,7 @@ class Window(QWidget):
         layout.addWidget(self.password)
         layout.addWidget(button)
 
+    #this function is where the checks are ran to make sure the user is authorised
     def login(self):
         if self.username.text() == "admin" and self.password.text() == "secret":
             print("S")
