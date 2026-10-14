@@ -1,0 +1,21 @@
+- Technical Solutions to prevent brute force attacks
+    - Throttling which is increasing the time delay between login attempts
+    - Account Lockout is to lock out the user after a specific number of failed login attempts (5- 10 are recommended by the NCSC)
+
+- Passwords should be stored in a hashed format
+    - To prevent brute force attacks using rainbow tables for this passwords need to be salted
+
+- Prioritising the protection of important accounts (EG admins)
+    - One way this could be implemented is session timeouts though this could be applied for everyone
+
+- Different types of password generation 
+    - Machine generated password to avoid having users use common / resused passwords
+        - Would need to meet specific criteria
+        - Would need its own script for password generation
+    - User generated passwords
+        - The cons outweigh the pros (up for discussion)
+    - 2FA 
+        - To prevent passwords being stolen in transit
+        - There are ways for this but may require infrastructure
+
+- Email addresses are stored in the format of ...@make-it-all.co.uk with the parts before being the firstname.surname
