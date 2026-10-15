@@ -67,9 +67,10 @@ class RegisterWindow(QWidget):
 
 
 class LoginWindow(QWidget):
-    def __init__(self):
+    def __init__(self, verify_login):
         super().__init__()
 
+        self.verify_login = verify_login
         self.setWindowTitle("MAKE IT ALL")
         self.resize(WIDTH, HEIGHT)
 
