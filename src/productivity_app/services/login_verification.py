@@ -1,4 +1,10 @@
 import re
+from PyQt6.QtWidgets import (
+    QApplication, QWidget, QLabel,QPushButton,
+    QLineEdit,QVBoxLayout,QGridLayout,
+    QMessageBox
+    
+    )
 from pathlib import Path
 
 """
@@ -25,15 +31,17 @@ def check_user(username: str, password: str):
         #call function to hash password entered
         role = check_credentials(username,password) 
         if role == "admin":
-            print("You will be taken to the admin screen")
+            return "admin"
             #function to take the user to admin screen
         else:
-            print("You will be taken to the team member screen")
+            #print("You will be taken to the team member screen")
             #function to take user to team member screen
+            return "team_member"
 
     else:
-        print("incorrect")
+        #print("incorrect")
+        return "unauth_user"
 
 #test use cases
-check_user("john.smith@make-it-all.co.uk","hash")
+#check_user("john.smith@make-it-all.co.uk","hash")
 #check_user("Fake credentials")

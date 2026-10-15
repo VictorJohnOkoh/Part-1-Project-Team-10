@@ -1,4 +1,7 @@
 import sys
+
+from src.productivity_app.services.login_verification import check_user
+
 from PyQt6.QtWidgets import (
     QApplication, QWidget, QLabel,QPushButton,
     QLineEdit,QVBoxLayout,QGridLayout,
@@ -28,13 +31,14 @@ class Window(QWidget):
 
     #this function is where the checks are ran to make sure the user is authorised
     def login(self):
-        if self.username.text() == "admin" and self.password.text() == "secret":
-            print("S")
+        role = check_user(self.username.text(),self.password.text())
+        if role == "admin":
+            QMessageBox.information(self,"Admin Screen","You are now on the admin screen")
+        elif role == "team_member":
+            QMessageBox.information(self,"Team member","You are now on the team member screen")
         else:
             QMessageBox.warning(self,"Login fail","Wrong username/password")
             self.password.clear()
-
-
 
 app = QApplication(sys.argv)
 window = Window()

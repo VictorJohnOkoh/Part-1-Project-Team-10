@@ -1,1 +1,1 @@
-from .login_verification import check_user, check_password
+from .login_verification import check_user
