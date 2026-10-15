@@ -1,0 +1,4 @@
+username:hash:role
+john.smith@make-it-all.co.uk:hash:admin
+bilbo.baggins@make-it-all.co.uk:hash2:team_member
+sherlok.holmes@make-it-all.co.uk:hash3:team_member
