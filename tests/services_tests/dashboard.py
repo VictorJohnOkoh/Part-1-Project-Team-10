@@ -1,10 +1,11 @@
 import unittest
-from src.productivity_app.users.Employee import Employee
+from src.productivity_app.services import check_user, check_password
 
-class MyTestCase(unittest.TestCase):
-    def test_access(self):
-        user = Employee(1234, 'John', 'Smith', 'johnsmith@make-it-all.co.uk')
-        self.assertFalse(, False)  # add assertion here
+class LoginTests(unittest.TestCase):
+    def test_wrong_user_and_pass(self):
+        username = "ADMIN"
+        password = "ADMIN"
+        self.assertFalse(check_user(username) and check_password(password), False)  # add assertion here
 
 
 if __name__ == '__main__':
