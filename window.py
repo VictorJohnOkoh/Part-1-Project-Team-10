@@ -1,17 +1,38 @@
 import sys
-
-from src.productivity_app.services.login_verification import check_user
-
 from PyQt6.QtWidgets import (
     QApplication, QWidget, QLabel,QPushButton,
     QLineEdit,QVBoxLayout,QGridLayout,
     QMessageBox
     
     )
+# Notes: implement the login system using password industry standard
+# add a register option. 
+# email checking
+# 
 
+class dashboard_window(QWidget):
+    def __init__(self):
+        super().__init__()
+        self.resize(600,300)
+        self.setWindowTitle("Dashboard")
 #this class is for the window where the users can enter their login details to enter the system
+
+class register_window(QWidget):
+    def __init__(self):
+        super().__init__()
+        self.resize(300,300)
+        self.setWindowTitle("Register")
+        self.email = QLineEdit(placeholderText="Email")
+        self.password = QLineEdit(placeholderText="Password")
+
+        button = QPushButton("create account")
+        button.clicked.connect(self.register)
+
+    def register(self):
+        pass
+
 class Window(QWidget):
-    #this function is to initialise the window where the details are entered
+    
     def __init__(self):
         super().__init__()
         self.resize(300,300)
@@ -23,22 +44,32 @@ class Window(QWidget):
         button = QPushButton("Login")
         button.clicked.connect(self.login)
 
+        register_button = QPushButton("Register")
+        register_button.clicked.connect(self.register)
+
         layout = QVBoxLayout(self)
         #layout.addWidget(title)
         layout.addWidget(self.username)
         layout.addWidget(self.password)
         layout.addWidget(button)
+        layout.addWidget(register_button)
+
+    def register(self):
+        self.register = register_window()
+        self.register.show()
 
     #this function is where the checks are ran to make sure the user is authorised
     def login(self):
-        role = check_user(self.username.text(),self.password.text())
-        if role == "admin":
-            QMessageBox.information(self,"Admin Screen","You are now on the admin screen")
-        elif role == "team_member":
-            QMessageBox.information(self,"Team member","You are now on the team member screen")
+        if self.username.text() == "a" and self.password.text() == "a":
+            self.dashboard_window = dashboard_window()
+            self.dashboard_window.show()
+            self.close()
         else:
             QMessageBox.warning(self,"Login fail","Wrong username/password")
             self.password.clear()
+
+
+
 
 app = QApplication(sys.argv)
 window = Window()
