@@ -1,21 +1,25 @@
 # Making post aspect of project
-topicslist = []
+topicsList = []
 post = {}
-def create_post(title, body, topics):
-    post[topics] = {
-        "title": title,
-        "body": body
+
+def create_post(Inptitle, Inpbody, Inptopics):
+    post[Inptopics] = {
+        "title": Inptitle,
+        "body": Inpbody
     }
+def make_post():
+    for i in range(2):
+        Inptopics = str(input("Enter post topics:"))
+        Inptitle =  str(input("Enter post title:"))
+        Inpbody = str(input("Enter post body:"))
+        if Inptopics not in topicsList:
+            topicsList.append(Inptopics)
+        create_post(Inptitle, Inpbody, Inptopics)
 
-for i in range(2):
-    title =  str(input("Enter post title:"))
-    topics = str(input("Enter post topics:"))
-    topicslist.append(topics)
-    body = str(input("Enter post body:"))
-    create_post(title, body, topics)
-
-for singletopics in topicslist:
-    if singletopics in post:
-        print(post[singletopics])
-    else:
-        print("Not found")
+def view_post():
+    singletopic = str(input("Enter the topics you want to view:"))
+    for topics in topicsList:
+        if singletopic == topics and singletopic in post:
+            print(singletopic, post[singletopic])
+        else:
+            print("Not found")
