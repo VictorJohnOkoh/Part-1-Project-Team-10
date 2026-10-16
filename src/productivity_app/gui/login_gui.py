@@ -1,9 +1,13 @@
+from src.productivity_app.services.login_verification import check_user
+
+
 from PyQt6.QtWidgets import (
     QWidget,
     QVBoxLayout,
     QLabel,
     QLineEdit,
     QPushButton,
+    QMessageBox
 )
 
 from productivity_app.services.login_verification import check_user, check_password
@@ -30,11 +34,11 @@ class LoginWindow(QWidget):
         layout.addWidget(self.login_button)
 
     def login(self):
-        if check_user(self.username.text()):
-            print("User exists")
+        role = check_user(self.username.text(),self.password.text())
+        if role == "admin":
+            QMessageBox.information(self,"Admin Screen","You are now on the admin screen")
+        elif role == "team_member":
+            QMessageBox.information(self,"Team member","You are now on the team member screen")
         else:
-            print("User does not exist")
-        if check_password(self.password.text()):
-            print("Password correct")
-        else:
-            print("Password incorrect")
+            QMessageBox.warning(self,"Login fail","Wrong username/password")
+            self.password.clear()
