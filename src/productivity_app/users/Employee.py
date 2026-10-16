@@ -1,6 +1,6 @@
 from src.productivity_app.users.Project import Project
 
-class User:
+class Employee:
     def __init__(self, id: int, first_name: str, last_name: str, email: str, tasks: list[Project]|None = None):
         self.id = id
         self.first_name = first_name

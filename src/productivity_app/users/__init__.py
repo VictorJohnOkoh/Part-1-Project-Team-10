@@ -1,6 +1,6 @@
-from src.productivity_app.users import User, Manager, Project
+from src.productivity_app.users import Employee, Manager, Project
 __all__ = [
-    'User',
+    'Employee.py',
     'Manager',
     'Project'
 ]

@@ -1,9 +1,9 @@
 import unittest
-from src.productivity_app.users.User import User
+from src.productivity_app.users.Employee import Employee
 
 class MyTestCase(unittest.TestCase):
     def test_access(self):
-        user = User(1234, 'John', 'Smith', 'johnsmith@make-it-all.co.uk')
+        user = Employee(1234, 'John', 'Smith', 'johnsmith@make-it-all.co.uk')
         self.assertFalse(, False)  # add assertion here
 
 
