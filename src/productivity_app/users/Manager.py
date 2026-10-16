@@ -1,6 +1,14 @@
-from User import User
+from Employee import Employee
 from Project import Project
+import datetime
 
-class Manager(User):
+class Manager(Employee):
     def __init__(self, id: int, first_name: str, last_name: str, email: str, projects: list[Project]|None = None):
         super().__init__(id, first_name, last_name, email, tasks=projects)
+
+    def create_new_project(self, name: str, goal: str, team_members: list[Employee]=None, deadline: type[datetime]=None):
+        new_project = Project(name, datetime.datetime.now(), goal, team_members, deadline)
+        self.tasks.append(new_project)
+
+    def get_employee_details(self, employee: Employee):
+        return employee.id, employee.get_full_name(), employee.email, employee.tasks
