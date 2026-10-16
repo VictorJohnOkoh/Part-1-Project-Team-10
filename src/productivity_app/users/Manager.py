@@ -1,5 +1,5 @@
-from productivity_app.users.User import User
-from productivity_app.users.Project import Project
+from src.productivity_app.users.User import User
+from src.productivity_app.users.Project import Project
 
 class Manager(User):
     def __init__(self, id: int, first_name: str, last_name: str, email: str, projects: list[Project]|None = None):
