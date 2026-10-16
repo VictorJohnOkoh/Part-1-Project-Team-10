@@ -2,7 +2,6 @@ import sys
 from PyQt6.QtWidgets import QApplication, QStackedWidget, QMainWindow
 from gui.login_gui import LoginWindow
 from gui.dashboard_gui import Dashboard
-from services.login_verification import check_user, check_password
 from users.Manager import Manager
 
 WIDTH, HEIGHT = 800, 600
