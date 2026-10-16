@@ -7,7 +7,7 @@ from PyQt6.QtWidgets import (
     QTableWidget,
 )
 from PyQt6.QtGui import QFont
-from productivity_app.users import Manager
+from src.productivity_app.users import Manager
 
 WIDTH, HEIGHT = 800, 600
 font = QFont("Arial", 60)

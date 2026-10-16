@@ -6,8 +6,8 @@ from PyQt6.QtWidgets import (
     QPushButton, QMessageBox,
 )
 
-from productivity_app.services.login_verification import check_user, check_password
-from productivity_app.services.login_verification import LoginVerification
+from src.productivity_app.services.login_verification import check_user, check_password
+from src.productivity_app.services.login_verification import LoginVerification
 
 WIDTH, HEIGHT = 800, 600
 
