@@ -1,15 +1,18 @@
 # Making post aspect of project
 
 # Stores all posts in dictionary and has a list of topics to find specific posts
-topicsList = []
+topicstitle = {}
 post = {}
 
 def create_post(Inptitle, Inpbody, Inptopics):
     # Adds new posts into posts dictionary
-    post[Inptopics] = {
+    if Inptopics not in post:
+        post[Inptopics] = []
+
+    post[Inptopics].append({
         "title": Inptitle,
         "body": Inpbody
-    }
+    })
 
 def make_post():
     # Allows users to input various post information 
@@ -33,30 +36,39 @@ def make_post():
         print("Please enter a valid body.")
         return
 
-    # Checks if topic is already in the list and if it is valid
-    if strtopics not in topicsList:
-        topicsList.append(strtopics)
-    
+    # Checks if topic is already in the dictionary and if it is valid
+    if strtopics not in topicstitle:
+        topicstitle[strtopics] = strtitle
+
     # After check creates post
     create_post(strtitle, strbody, strtopics)
     print("Post created successfully!")
 
 def view_post():
-    Postcount = 0
+    # Allows user to input topic and view all posts related to that topic
     singletopic = str(input("Enter the topics you want to view:"))
     strsingletopic = singletopic.strip()
 
+    # Checks if topic is valid and if it exists in the dictionary
     if not strsingletopic:
         print("Please enter a valid topic.")
         return
     
-    if strsingletopic not in topicsList:
+    if strsingletopic not in topicstitle:
         print("No posts about this topic have been found.")
         return
-    
-    # Loops through the topics list and checks if the topic is in the list of topics and prints all posts with that topic
-    for topics in topicsList:
-        if strsingletopic == topics and strsingletopic in post:
-            print("topic:", strsingletopic, post[strsingletopic])
-            Postcount += 1
+
+    ## Creates list of title and body of all posts related to the topic and counts the number of posts found
+    posts_found = post[strsingletopic]
+    Postcount = len(posts_found)
+
+    print("\n")
+    print("Posts found for topic:", strsingletopic)
     print("Number of posts found:", Postcount)
+    print("--------------------------")
+    # Loops through each post in the list and prints the title and body of each post
+    for single_posts in posts_found:
+        print("Title:", single_posts["title"])
+        print("Body:", single_posts["body"])
+        print("--------------------------")
+
