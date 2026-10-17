@@ -14,6 +14,21 @@ from productivity_app.services.login_verification import check_user, check_passw
 
 WIDTH, HEIGHT = 800, 600
 
+class RegisterWindow(QWidget):
+    def __init__(self):
+        super().__init__()
+
+        self.resize(300,300)
+        self.setWindowTitle("Register")
+        self.email = QLineEdit(placeholderText="Email")
+        self.password = QLineEdit(placeholderText="Password")
+        
+        button = QPushButton("create account")
+        button.clicked.connect(self.register_account)
+
+    def register_account(self):
+            pass
+
 class LoginWindow(QWidget):
     def __init__(self):
         super().__init__()
@@ -27,11 +42,15 @@ class LoginWindow(QWidget):
         self.login_button = QPushButton("Login")
         self.login_button.clicked.connect(self.login)
 
+        self.register_button = QPushButton("Register")
+        self.register_button.clicked.connect(self.register)
+
         layout = QVBoxLayout(self)
         layout.addWidget(QLabel("LOGIN MENU"))
         layout.addWidget(self.username)
         layout.addWidget(self.password)
         layout.addWidget(self.login_button)
+        layout.addWidget(self.register_button)
 
     def login(self):
         role = check_user(self.username.text(),self.password.text())
@@ -42,3 +61,7 @@ class LoginWindow(QWidget):
         else:
             QMessageBox.warning(self,"Login fail","Wrong username/password")
             self.password.clear()
+
+    def register(self):
+        self.register = RegisterWindow()
+        self.register.show()

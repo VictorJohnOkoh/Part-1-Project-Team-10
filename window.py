@@ -5,6 +5,8 @@ from PyQt6.QtWidgets import (
     QMessageBox
     
     )
+import re
+import string
 # Notes: implement the login system using password industry standard
 # add a register option. 
 # email checking
@@ -28,8 +30,34 @@ class register_window(QWidget):
         button = QPushButton("create account")
         button.clicked.connect(self.register)
 
+        layout = QVBoxLayout(self)
+
+        layout.addWidget(self.email)
+        layout.addWidget(self.password)
+        layout.addWidget(button)
+
     def register(self):
-        pass
+        email = self.email.text().strip()
+        password = self.password.text()
+
+        error = self.check_password(password)
+        if error:
+            QMessageBox.warning(self, "Password too weak",error)
+            return
+
+    def check_password(self, password):
+        #special_character = "!@#$%^&*()-=_+[]{}|:;'\",.<>/?"
+        if len(password) < 12:
+            print("password must be atleast 12 character long")
+        #if re.search(r)
+        lower =  any(c.islower() for c in password)
+        upper = any(c.upper() for c in password)
+        special = any(c in string.punctuation for c in password)
+        digit = any(c.isdigit() for c in password)
+    
+        if not (lower and upper and special and digit):
+            print("password must contain lower case upper case special and digit")
+        return None
 
 class Window(QWidget):
     
@@ -57,6 +85,20 @@ class Window(QWidget):
     def register(self):
         self.register = register_window()
         self.register.show()
+
+    def check_password(self, password):
+        #special_character = "!@#$%^&*()-=_+[]{}|:;'\",.<>/?"
+        if len(password) < 12:
+            print("password must be atleast 12 character long")
+        #if re.search(r)
+        lower =  any(c.islower() for c in password)
+        upper = any(c.upper() for c in password)
+        special = any(c in string.punctuation for c in password)
+        digit = any(c.isdigit() for c in password)
+
+        if not (lower or upper or special or digit):
+            print("password must contain lower case upper case special and digit")
+        return None
 
     #this function is where the checks are ran to make sure the user is authorised
     def login(self):
