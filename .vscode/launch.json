@@ -1,0 +1,20 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Run productivity_app",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "productivity_app",
+            "cwd": "${workspaceFolder}",
+            "python": "${command:python.interpreterPath}"
+        },
+        {
+            "name": "Python Debugger: Python File",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${file}",
+            "python": "${command:python.interpreterPath}"
+        }
+    ]
+}

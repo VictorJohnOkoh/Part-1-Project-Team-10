@@ -1,6 +1,3 @@
-from src.productivity_app.services.login_verification import check_user
-
-
 from PyQt6.QtWidgets import (
     QWidget,
     QVBoxLayout,
@@ -10,7 +7,7 @@ from PyQt6.QtWidgets import (
     QMessageBox
 )
 
-from src.productivity_app.services.login_verification import check_user
+from productivity_app.services.login_verification import check_user
 
 WIDTH, HEIGHT = 800, 600
 
