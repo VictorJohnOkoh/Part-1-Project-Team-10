@@ -24,7 +24,8 @@ def create_post(Inptitle, Inpbody, Inptopics):
     # Adds title and body as element to list of posts for the given topic
     post[Inptopics].append({
         "title": Inptitle,
-        "body": Inpbody
+        "body": Inpbody,
+        "comments": [] 
     })
 
 def make_post():
@@ -50,6 +51,42 @@ def make_post():
 
     create_post(strtitle, strbody, strtopics)
     print("Post created successfully!")
+
+def make_comment():
+    # Allows user to input topic to comment on
+    Inpcommenttopic = str(input("Enter the topic you want to comment on:"))
+    strcommenttopic = Inpcommenttopic.strip().lower()
+
+    # Checks to ensure topic is not empty
+    if not strcommenttopic:
+        print("Please enter a valid topic.")
+        return
+
+    # Checks if topic exists within the dictionary of posts
+    if strcommenttopic not in post:
+        print("No posts about this topic have been found.")
+        return
+
+    Inptitle = str(input("Enter the title of the post you want to comment on:"))
+    strtitle = Inptitle.strip().lower()
+
+    post_found = False
+    for single_posts in post[strcommenttopic]:
+        if single_posts["title"].lower() == strtitle:
+            Inpcomment = str(input("Enter your comment:"))
+            strcomment = Inpcomment.strip()
+
+            if not strcomment:
+                print("Please enter a valid comment.")
+                return
+            
+            single_posts["comments"].append(strcomment)
+            post_found = True
+            print("Comment added successfully!")
+            break
+
+    if post_found == False:
+        print("No post with the given title has been found.")
 
 def view_post():
     # Allows user to input topic to view the posts related to that topic
@@ -84,5 +121,13 @@ def view_post():
     for single_posts in posts_found:
         print("Title:", single_posts["title"])
         print("Body:", single_posts["body"])
+
+        if single_posts["comments"]:
+            print("Comments:")
+            for comment in single_posts["comments"]:
+                print("-", comment)
+        else:
+            print("Comments:")
+            print("No comments for this post.")
         print("--------------------------")
 
