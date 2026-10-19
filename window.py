@@ -85,7 +85,7 @@ class Window(QWidget):
     def register(self):
         self.register = register_window()
         self.register.show()
-
+        """
     def check_password(self, password):
         #special_character = "!@#$%^&*()-=_+[]{}|:;'\",.<>/?"
         if len(password) < 12:
@@ -99,7 +99,7 @@ class Window(QWidget):
         if not (lower or upper or special or digit):
             print("password must contain lower case upper case special and digit")
         return None
-
+    """
     #this function is where the checks are ran to make sure the user is authorised
     def login(self):
         if self.username.text() == "a" and self.password.text() == "a":
