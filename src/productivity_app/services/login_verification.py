@@ -15,7 +15,7 @@ The data is subject to change as required
 
 #function used to check if the username and password exist in the file
 def check_credentials(username,password):
-    USERS_FILE = Path(__file__).parent / "test_users.txt"
+    USERS_FILE = Path(__file__).parent.parent / "users" / "test_users.txt"
     with open(USERS_FILE,"r") as user_file:
         for line in user_file:
             current_line = line.strip().split(":")

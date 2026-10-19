@@ -1,6 +1,6 @@
 import sys
 from PyQt6.QtWidgets import QApplication
-from src.productivity_app.gui.login_gui import LoginWindow
+from productivity_app.gui.login_gui import LoginWindow
 
 def main():
     app = QApplication(sys.argv)
