@@ -1,5 +1,5 @@
-from Employee import Employee
-from Project import Project
+from src.productivity_app.users.Employee import Employee
+from src.productivity_app.users.Project import Project
 import datetime
 
 class Manager(Employee):

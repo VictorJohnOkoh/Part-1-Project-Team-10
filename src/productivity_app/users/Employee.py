@@ -1,4 +1,8 @@
-from src.productivity_app.users.Project import Project
+from __future__ import annotations
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from src.productivity_app.users.Project import Project
 
 class Employee:
     def __init__(self, id: int, first_name: str, last_name: str, email: str, tasks: list[Project]|None = None):

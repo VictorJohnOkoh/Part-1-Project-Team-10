@@ -1,5 +1,9 @@
+from __future__ import annotations
+from typing import TYPE_CHECKING
 import datetime
-from Employee import Employee
+
+if TYPE_CHECKING:
+    from src.productivity_app.users.Employee import Employee
 
 class Project:
     def __init__(self, name, date: type[datetime], goal: str, team_members: list[Employee] = None, deadline: type[datetime] = None):
