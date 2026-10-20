@@ -34,17 +34,18 @@ def check_user(username: str, password: str):
 
         #call function to hash password entered
         role = check_credentials(username,password) 
-        if role == "admin":
-            return "admin"
+        if role == "team_leader":
+            return "team_leader"
             #function to take the user to admin screen
         elif role =="team_member":
             #print("You will be taken to the team member screen")
             #function to take user to team member screen
             return "team_member"
         else:
+            #call function to log invalid login attempt
             return "unauth_user"
     else:
-        #print("incorrect")
+        #call function to log invalid login attempt
         return "unauth_user"
 
 #test use cases
