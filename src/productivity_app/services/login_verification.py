@@ -5,6 +5,7 @@ from PyQt6.QtWidgets import (
     QMessageBox
     
     )
+from datetime import datetime
 from pathlib import Path
 from productivity_app.services.hashing_function import verify_password
 
@@ -13,6 +14,11 @@ The test_users.txt is just to test the functionality of the password verificatio
 The data is subject to change as required
 """
 
+def tracker(username,password):
+    TRACKER_FILE = Path(__file__).parent.parent / "services" / "invalid_attempts.txt"
+    timestamp = datetime.now().isoformat(timespec = "seconds").replace(":","-") 
+    with open(TRACKER_FILE,"a") as tracking_file:
+        tracking_file.write(f"{username}:{password}:{timestamp}\n")
 
 #function used to check if the username and password exist in the file
 def check_credentials(username,password):
@@ -25,8 +31,6 @@ def check_credentials(username,password):
                 return current_line[2]
             elif current_line[0] == username and current_line[1] != password:
                 return None
-
-
 
 #used to check if the username is correct
 def check_user(username: str, password: str):
@@ -42,12 +46,14 @@ def check_user(username: str, password: str):
             #function to take user to team member screen
             return "team_member"
         else:
-            #call function to log invalid login attempt
+            tracker(username,password)
             return "unauth_user"
     else:
-        #call function to log invalid login attempt
+        tracker(username,password)
         return "unauth_user"
 
 #test use cases
 #check_user("john.smith@make-it-all.co.uk","hash")
 #check_user("Fake credentials")
+
+tracker("username1","password1")
