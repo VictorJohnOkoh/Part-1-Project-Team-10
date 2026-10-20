@@ -37,6 +37,7 @@ class LoginWindow(QWidget):
         elif check_password(self.password.text()) and check_user(self.username.text()):
             return "employee"
         else:
+<<<<<<< HEAD
             self.show_error()
             return None
 
@@ -44,3 +45,19 @@ class LoginWindow(QWidget):
         QMessageBox.warning(self, "Error", "Invalid username or password")
 
 
+=======
+            print("User does not exist")
+        if check_password(self.password.text()):
+            print("Password correct")
+        else:
+            print("Password incorrect")
+
+if __name__ == "__main__":
+    import sys
+    from PyQt6.QtWidgets import QApplication
+
+    app = QApplication(sys.argv)
+    window = LoginWindow()
+    window.show()
+    sys.exit(app.exec())
+>>>>>>> 140813e (Changed toml and updated login gui to view system gui)
