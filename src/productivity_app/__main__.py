@@ -1,8 +1,8 @@
 import sys
 from PyQt6.QtWidgets import QApplication, QStackedWidget, QMainWindow
-from gui.login_gui import LoginWindow
-from gui.dashboard_gui import Dashboard
-from users.Manager import Manager
+from productivity_app.gui.login_gui import LoginWindow
+from .gui.dashboard_gui import Dashboard
+from .users.Manager import Manager
 
 WIDTH, HEIGHT = 800, 600
 

@@ -2,3 +2,5 @@
 .venv2
 .junie
 .idea
+__pycache__/
+*.pyc
