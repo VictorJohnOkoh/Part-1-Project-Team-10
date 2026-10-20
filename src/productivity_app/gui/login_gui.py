@@ -91,8 +91,8 @@ class LoginWindow(QWidget):
 
     def login(self):
         role = check_user(self.username.text(),self.password.text())
-        if role == "admin":
-            QMessageBox.information(self,"Admin Screen","You are now on the admin screen")
+        if role == "team_leader":
+            QMessageBox.information(self,"Team Leader Screen","You are now on the team leader screen")
         elif role == "team_member":
             QMessageBox.information(self,"Team member","You are now on the team member screen")
         else:
