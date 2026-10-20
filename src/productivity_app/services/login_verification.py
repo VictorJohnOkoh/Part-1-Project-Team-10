@@ -20,7 +20,10 @@ def check_credentials(username,password):
         for line in user_file:
             current_line = line.strip().split(":")
             if current_line[0] == username and current_line[1] == password:
+                #only returns the role if the credentials exist in the file
                 return current_line[2]
+            elif current_line[0] == username and current_line[1] != password:
+                return None
 
 
 
@@ -33,11 +36,12 @@ def check_user(username: str, password: str):
         if role == "admin":
             return "admin"
             #function to take the user to admin screen
-        else:
+        elif role =="team_member":
             #print("You will be taken to the team member screen")
             #function to take user to team member screen
             return "team_member"
-
+        else:
+            return "unauth_user"
     else:
         #print("incorrect")
         return "unauth_user"
