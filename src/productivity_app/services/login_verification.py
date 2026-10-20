@@ -6,6 +6,7 @@ from PyQt6.QtWidgets import (
     
     )
 from pathlib import Path
+from productivity_app.services.hashing_function import verify_password
 
 """
 The test_users.txt is just to test the functionality of the password verification
@@ -19,7 +20,7 @@ def check_credentials(username,password):
     with open(USERS_FILE,"r") as user_file:
         for line in user_file:
             current_line = line.strip().split(":")
-            if current_line[0] == username and current_line[1] == password:
+            if current_line[0] == username and verify_password(password,current_line[1]):
                 #only returns the role if the credentials exist in the file
                 return current_line[2]
             elif current_line[0] == username and current_line[1] != password:
