@@ -1,50 +1,51 @@
 from PyQt6 import QtWidgets
 from PyQt6 import QtCore
 from PyQt6 import QtGui
+from ..users.Manager import Manager
+from ..users.Employee import Employee
 
+#(Are yet to be attached)
+#from .gui.to_do_gui import to_do
+#from .gui.post_gui import post
+#from .gui.tasks_gui import tasks
+#from .gui.training_gui import training
+#from .gui.progress_gui import progress
+#from .gui.assign_tasks_gui import assign_tasks
+#from .gui.register_employee_gui import register_employee
 
-# Our dashboard window. It "is a" QWidget, so it gets all of QWidget's abilities
+# The actual dashboard window
 class Dashboard(QtWidgets.QWidget):
 
-    # Runs automatically when someone writes Dashboard()
+# Runs automatically when someone writes Dashboard()
     def __init__(self,user):
-        # Let QWidget do its own setup first, otherwise Qt breaks
+# Let QWidget do its own setup first, otherwise Qt breaks
         super().__init__()
 
-        # Text shown in the window's title bar
         self.setWindowTitle("Dashboard")
 
-        # Starting width and height in pixels (the user can still resize it)
         self.resize(800, 600)
-
 
         self.user = user
 
-        # Build everything that goes inside the window
+# Build everything that goes inside the window
         self.build_ui()
 
 
-    # Keeps all the widget/layout code in one place, separate from setup
+# Keeps all the ui building in one place because AI said it was a good idea :)
     def build_ui(self):
-        # Top-level layout: stacks things vertically, top to bottom
         main_layout = QtWidgets.QVBoxLayout()
 
-        # A simple text widget, just to prove the window works
+#title at the top of the screen that says "Welcome, 67 Sahurr"
         welcome_string = f"Welcome, {self.user.first_name}" 
         title_label = QtWidgets.QLabel(welcome_string)
         title_label.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         title_label.setFont(QtGui.QFont("Arial",22))
 
-        # A button, also a placeholder for now
-        refresh_button = QtWidgets.QPushButton("Refresh")
-
-        # When the button is clicked, run our on_refresh method
-        refresh_button.clicked.connect(self.on_refresh)
 
         task_box_1 = QtWidgets.QHBoxLayout()
         task_box_2 = QtWidgets.QHBoxLayout()
         task_box_3 = QtWidgets.QHBoxLayout()
-
+#adding all the buttons 
         to_do_button = QtWidgets.QPushButton("To-do List")
         post_button = QtWidgets.QPushButton("View Post")
         tasks_button = QtWidgets.QPushButton("View Tasks")
@@ -52,6 +53,15 @@ class Dashboard(QtWidgets.QWidget):
         progress_button = QtWidgets.QPushButton("Project Progress")
         assign_tasks_button = QtWidgets.QPushButton("Assign Tasks")
         register_employee_button = QtWidgets.QPushButton("Register employee")
+
+# connected the buttons to their functions (the functions that call their gui to pop up)
+        to_do_button.clicked.connect(self.to_do_clicked)
+        post_button.clicked.connect(self.post_clicked)
+        tasks_button.clicked.connect(self.tasks_clicked)
+        training_button.clicked.connect(self.training_clicked)
+        progress_button.clicked.connect(self.progress_clicked)
+        assign_tasks_button.clicked.connect(self.assign_tasks_clicked)
+        register_employee_button.clicked.connect(self.register_employee_clicked)
 
 
         all_buttons = [to_do_button, post_button, tasks_button, training_button, progress_button, assign_tasks_button, register_employee_button]
@@ -69,30 +79,43 @@ class Dashboard(QtWidgets.QWidget):
         task_box_1.addWidget(to_do_button,1)
         task_box_1.addWidget(post_button, 1)
         task_box_1.addWidget(tasks_button, 1)
-
         task_box_2.addWidget(training_button, 1)
-        task_box_2.addWidget(progress_button, 1)
-        task_box_2.addWidget(assign_tasks_button, 1)
 
-        task_box_3.addWidget(register_employee_button, 1)
+# only adding the register, project progress and assign task buttons if the user is of the manager class
+        if isinstance(self.user, Manager):
+            task_box_3.addWidget(register_employee_button, 1)
+            task_box_2.addWidget(progress_button, 1)
+            task_box_2.addWidget(assign_tasks_button, 1)
+        #elif isinstance(self.user, Team_Leader): this is for if they are team leader but remains unimplemented
+        #this is for basic team members
+        else:
+            pass
 
         # Attach the layout to this window, so Qt actually displays it
         self.setLayout(main_layout)
 
-    # A "slot": the code that runs when the button is clicked
-    def on_refresh(self):
-        print("Refresh clicked")
 
+    # The functions that run depending on which button is clicked
+    #e.g. if to_do_button is clicked, 
+    # its respective function is run so that the function may show the ui for the to-do functionality
 
-# Only runs if you run THIS file directly (handy for testing on its own).
-# It's ignored when another file imports Dashboard.
-if __name__ == "__main__":
-    # Every Qt program needs exactly one QApplication, created before any widgets
-    app = QtWidgets.QApplication([])
+    def to_do_clicked(self):
+        print("todo clicked")
 
-    # Create the dashboard and make it visible
-    window = Dashboard()
-    window.show()
+    def post_clicked(self):
+        print("post clicked")
 
-    # Start Qt's event loop: waits for clicks/keys until the window closes
-    app.exec()
+    def tasks_clicked(self):
+        print("tasks clicked")
+
+    def training_clicked(self):
+        print("training clicked")
+
+    def progress_clicked(self):
+        print("progress clicked")
+
+    def assign_tasks_clicked(self):
+        print("assign tasks clicked")
+
+    def register_employee_clicked(self):
+        print("register employee clicked")
