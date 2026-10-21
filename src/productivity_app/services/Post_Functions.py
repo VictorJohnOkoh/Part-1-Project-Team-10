@@ -2,9 +2,8 @@
 post = {}
 RestrictedTopics = {}
 
-def RestrictTopics():
+def RestrictTopics(InpRestrictedTopic):
     # Allows user to input topic to restrict access to that topic
-    InpRestrictedTopic = str(input("Enter the topics you want to restrict:"))
     strRestrictedTopic = InpRestrictedTopic.strip().lower()
 
     # Checks to ensure topic is not empty
@@ -28,22 +27,19 @@ def create_post(Inptitle, Inpbody, Inptopics):
         "comments": [] 
     })
 
-def make_post():
+def make_post(Inptopics, Inptitle, Inpbody):
     # Allows users to input post information
     # Strips leading and starting white spaces and checks if user input is valid
-    Inptopics = str(input("Enter post topics:"))
     strtopics = Inptopics.strip().lower()
     if not strtopics:
         print("Please enter a valid topic.")
         return
     
-    Inptitle =  str(input("Enter post title:"))
     strtitle = Inptitle.strip()
     if not strtitle:
         print("Please enter a valid title.")
         return
     
-    Inpbody = str(input("Enter post body:"))
     strbody = Inpbody.strip()
     if not strbody:
         print("Please enter a valid body.")
@@ -52,9 +48,8 @@ def make_post():
     create_post(strtitle, strbody, strtopics)
     print("Post created successfully!")
 
-def make_comment():
+def make_comment(Inpcommenttopic, Inptitle, Inpcomment):
     # Allows user to input topic to comment on
-    Inpcommenttopic = str(input("Enter the topic you want to comment on:"))
     strcommenttopic = Inpcommenttopic.strip().lower()
 
     # Checks to ensure topic is not empty
@@ -67,13 +62,11 @@ def make_comment():
         print("No posts about this topic have been found.")
         return
 
-    Inptitle = str(input("Enter the title of the post you want to comment on:"))
     strtitle = Inptitle.strip().lower()
 
     post_found = False
     for single_posts in post[strcommenttopic]:
         if single_posts["title"].lower() == strtitle:
-            Inpcomment = str(input("Enter your comment:"))
             strcomment = Inpcomment.strip()
 
             if not strcomment:
@@ -88,10 +81,9 @@ def make_comment():
     if post_found == False:
         print("No post with the given title has been found.")
 
-def view_post():
+def view_post(Inpsingletopic):
     # Allows user to input topic to view the posts related to that topic
-    singletopic = str(input("Enter the topics you want to view:"))
-    strsingletopic = singletopic.strip()
+    strsingletopic = Inpsingletopic.strip()
     
     # Checks to ensure topic is not empty
     if not strsingletopic:

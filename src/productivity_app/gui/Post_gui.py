@@ -1,7 +1,6 @@
 from cProfile import label
 import random
 import sys
-from tkinter import font
 from PyQt6.QtCore import QSize, Qt
 from PyQt6.QtGui import QIcon, QFont
 from PyQt6.QtWidgets import (QApplication, QPushButton, QVBoxLayout, QWidget, 
@@ -134,9 +133,11 @@ forum_replies = [
 class PostWindow(QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
+        self.setWindowTitle("MAKE IT ALL - Forum Posts")
         font = QFont()
         font.setPointSize(20)
 
+    
         self.LeftWidget = QWidget()
         self.LeftVbox = QVBoxLayout()
         self.RightWidget = QWidget()
