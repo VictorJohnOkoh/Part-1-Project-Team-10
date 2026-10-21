@@ -5,3 +5,5 @@ username1:password1:2026-10-20T19-11-56
 myname:hello:2026-10-20T19-12-04
 notvalid:notvalid:2026-10-20T19-12-21
 john.smith@make-it-all.co.uk:invalid:2026-10-20T19-12-37
+username1:password1:2026-10-21T16-32-19
+sherlok.holmes@make-it-all.co.uk:hash:2026-10-21T16-32-40
