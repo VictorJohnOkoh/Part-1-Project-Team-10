@@ -131,7 +131,7 @@ forum_replies = [
 ]
 
 
-class Window(QWidget):
+class PostWindow(QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
         font = QFont()
@@ -246,9 +246,8 @@ class Window(QWidget):
         self.Hbox.addWidget(self.RightWidget)
         self.setLayout(self.Hbox)
 
-
-print('Program is Running!')
-app = QApplication(sys.argv)
-window = Window()
-window.show()
-sys.exit(app.exec())
+if __name__ == "__main__":
+    app = QApplication(sys.argv)
+    window = PostWindow()
+    window.show()
+    sys.exit(app.exec())
