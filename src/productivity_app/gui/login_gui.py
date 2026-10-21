@@ -67,10 +67,10 @@ class RegisterWindow(QWidget):
 
 
 class LoginWindow(QWidget):
-    def __init__(self, verify_login):
+    def __init__(self, switch_screen):
         super().__init__()
 
-        self.verify_login = verify_login
+        self.switch_screen = switch_screen
         self.setWindowTitle("MAKE IT ALL")
         self.resize(WIDTH, HEIGHT)
 
@@ -93,9 +93,9 @@ class LoginWindow(QWidget):
     def login(self):
         role = check_user(self.username.text(),self.password.text())
         if role == "team_leader":
-            QMessageBox.information(self,"Team Leader Screen","You are now on the team leader screen")
+            self.switch_screen(role, self.username.text())
         elif role == "team_member":
-            QMessageBox.information(self,"Team member","You are now on the team member screen")
+            self.switch_screen(role, self.username.text())
         else:
             QMessageBox.warning(self,"Login fail","Wrong username/password")
             self.password.clear()
