@@ -67,9 +67,10 @@ class RegisterWindow(QWidget):
 
 
 class LoginWindow(QWidget):
-    def __init__(self):
+    def __init__(self, verify_login):
         super().__init__()
 
+        self.verify_login = verify_login
         self.setWindowTitle("MAKE IT ALL")
         self.resize(WIDTH, HEIGHT)
 
@@ -90,15 +91,15 @@ class LoginWindow(QWidget):
         layout.addWidget(self.register_button)
 
     def login(self):
-        role = check_user(self.username.text(),self.password.text())
-        if role == "team_leader":
-            QMessageBox.information(self,"Team Leader Screen","You are now on the team leader screen")
-        elif role == "team_member":
-            QMessageBox.information(self,"Team member","You are now on the team member screen")
+        if check_user(self.username.text()) == LoginVerification.MANAGER and check_password(self.password.text()) == LoginVerification.MANAGER:
+            self.verify_login()
+        elif check_password(self.password.text()) and check_user(self.username.text()):
+            return "employee"
         else:
-            QMessageBox.warning(self,"Login fail","Wrong username/password")
-            self.password.clear()
+            self.show_error()
+            return None
 
-    def register(self):
-        self.register = RegisterWindow()
-        self.register.show()
+    def show_error(self):
+        QMessageBox.warning(self, "Error", "Invalid username or password")
+
+
