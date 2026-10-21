@@ -8,13 +8,6 @@
             "module": "productivity_app",
             "cwd": "${workspaceFolder}",
             "python": "${command:python.interpreterPath}"
-        },
-        {
-            "name": "Python Debugger: Python File",
-            "type": "debugpy",
-            "request": "launch",
-            "program": "${file}",
-            "python": "${command:python.interpreterPath}"
         }
     ]
 }
