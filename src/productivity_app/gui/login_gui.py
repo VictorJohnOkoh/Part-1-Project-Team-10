@@ -67,10 +67,10 @@ class RegisterWindow(QWidget):
 
 
 class LoginWindow(QWidget):
-    def __init__(self, verify_login):
+    def __init__(self, switch_screen):
         super().__init__()
 
-        self.verify_login = verify_login
+        self.switch_screen = switch_screen
         self.setWindowTitle("MAKE IT ALL")
         self.resize(WIDTH, HEIGHT)
 
@@ -91,10 +91,11 @@ class LoginWindow(QWidget):
         layout.addWidget(self.register_button)
 
     def login(self):
-        if check_user(self.username.text()) == LoginVerification.MANAGER and check_password(self.password.text()) == LoginVerification.MANAGER:
-            self.verify_login()
-        elif check_password(self.password.text()) and check_user(self.username.text()):
-            return "employee"
+        role = check_user(self.username.text(),self.password.text())
+        if role == "team_leader":
+            self.switch_screen(role, self.username.text())
+        elif role == "team_member":
+            self.switch_screen(role, self.username.text())
         else:
             self.show_error()
             return None
