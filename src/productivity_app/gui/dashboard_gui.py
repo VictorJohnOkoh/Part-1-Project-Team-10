@@ -36,7 +36,7 @@ class Dashboard(QtWidgets.QWidget):
         main_layout = QtWidgets.QVBoxLayout()
 
 #title at the top of the screen that says "Welcome, 67 Sahurr"
-        welcome_string = f"Welcome, {self.user.first_name}" 
+        welcome_string = f"Welcome, {self.user.get_first_name()}" 
         title_label = QtWidgets.QLabel(welcome_string)
         title_label.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         title_label.setFont(QtGui.QFont("Arial",22))
@@ -79,6 +79,15 @@ class Dashboard(QtWidgets.QWidget):
         task_box_1.addWidget(to_do_button,1)
         task_box_1.addWidget(post_button, 1)
         task_box_1.addWidget(tasks_button, 1)
+
+        # Hide these buttons if the user is not a manager
+        if type(self.user).__name__ == "Manager":
+
+            task_box_2.addWidget(training_button, 1)
+            task_box_2.addWidget(progress_button, 1)
+            task_box_2.addWidget(assign_tasks_button, 1)
+
+            task_box_3.addWidget(register_employee_button, 1)
         task_box_2.addWidget(training_button, 1)
 
 # only adding the register, project progress and assign task buttons if the user is of the manager class
