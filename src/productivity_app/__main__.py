@@ -1,15 +1,49 @@
 import sys
-from PyQt6.QtWidgets import QApplication
-from productivity_app.gui.login_gui import LoginWindow
+from PyQt6.QtWidgets import QApplication, QStackedWidget, QMainWindow
+from .gui.login_gui import LoginWindow
+from .gui.dashboard_gui import Dashboard
+from .users.Manager import Manager
+from .users.Employee import Employee
 
-def main():
-    app = QApplication(sys.argv)
+WIDTH, HEIGHT = 300, 300
 
-    window = LoginWindow()
-    window.show()
 
-    sys.exit(app.exec())
+class MainWindow(QMainWindow):
+    def __init__(self):
+        super().__init__()
+        self.setWindowTitle("MAKE-IT-ALL")
+        self.resize(WIDTH, HEIGHT)
+
+        self.stack = QStackedWidget()
+        self.setCentralWidget(self.stack)
+
+        self.login_window = LoginWindow(self.switch_screen)
+        self.dashboard_window = None
+
+        self.stack.addWidget(self.login_window)
+        self.stack.setCurrentWidget(self.login_window)
+
+    def switch_screen(self, role: str, username: str):
+        if self.dashboard_window is None and role == "team_leader":
+            self.dashboard_window = Dashboard(Manager(1234, 'John', 'Doe', 'johndoe@make-it-all.co.uk'))
+            self.stack.addWidget(self.dashboard_window)
+            self.stack.setCurrentWidget(self.dashboard_window)
+        elif self.dashboard_window is None and role == "team_member":
+            self.dashboard_window = Dashboard(Employee(5678, 'Jane', 'Smith', 'janesmith@make-it-all.co.uk'))
+            self.stack.addWidget(self.dashboard_window)
+            self.stack.setCurrentWidget(self.dashboard_window)
+        else:
+            self.stack.setCurrentWidget(self.dashboard_window)
+
+    def switch_to_login(self):
+        pass
+
+    def switch_to_user(self):
+        pass
 
 if __name__ == "__main__":
-    main()
+    app = QApplication(sys.argv)
+    window = MainWindow()
+    window.show()
+    sys.exit(app.exec())
 
