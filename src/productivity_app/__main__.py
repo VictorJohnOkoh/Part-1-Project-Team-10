@@ -3,6 +3,7 @@ from PyQt6.QtWidgets import QApplication, QStackedWidget, QMainWindow
 from .gui.login_gui import LoginWindow
 from .gui.dashboard_gui import Dashboard
 from .users.Manager import Manager
+from .users.Employee import Employee
 
 WIDTH, HEIGHT = 800, 600
 
