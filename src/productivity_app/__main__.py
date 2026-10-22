@@ -1,6 +1,6 @@
 import sys
 from PyQt6.QtWidgets import QApplication, QStackedWidget, QMainWindow
-from .gui.login_gui import LoginWindow
+from .gui.login_gui import LoginWindow, RegisterWindow
 from .gui.dashboard_gui import Dashboard
 from .gui.Post_gui import PostWindow
 from .users.Manager import Manager
@@ -18,10 +18,12 @@ class MainWindow(QMainWindow):
         self.stack = QStackedWidget()
         self.setCentralWidget(self.stack)
 
-        self.login_window = LoginWindow(self.switch_screen)
+        self.login_window = LoginWindow(self.switch_to_manager, self.switch_to_register)
         self.dashboard_window = None
+        self.register_window = RegisterWindow(self.switch_to_login)
 
         self.stack.addWidget(self.login_window)
+        self.stack.addWidget(self.register_window)
         self.stack.setCurrentWidget(self.login_window)
 
     def switch_screen(self, role: str, username: str):
@@ -36,8 +38,12 @@ class MainWindow(QMainWindow):
         else:
             self.stack.setCurrentWidget(self.dashboard_window)
 
+    def switch_to_register(self):
+        self.stack.setCurrentWidget(self.register_window)
+
     def switch_to_login(self):
-        pass
+        self.stack.setCurrentWidget(self.login_window)
+        #pass
 
     def switch_to_user(self):
         pass
