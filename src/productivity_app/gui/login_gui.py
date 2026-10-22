@@ -15,8 +15,9 @@ from productivity_app.services.login_verification import check_user
 WIDTH, HEIGHT = 300, 300
 
 class RegisterWindow(QWidget):
-    def __init__(self):
+    def __init__(self,on_back):
         super().__init__()
+        self.on_back = on_back
 
         self.resize(300,300)
         self.setWindowTitle("Register")
@@ -37,10 +38,11 @@ class RegisterWindow(QWidget):
         layout.addWidget(back_button)
 
     def go_back(self):
-        window = LoginWindow()
-        window.show()
+        #window = LoginWindow()
+        #window.show()
         #self.login_window.show()
-        self.close()
+        #self.close()
+        self.on_back()
 
 
     def register_account(self):
@@ -67,12 +69,13 @@ class RegisterWindow(QWidget):
 
 
 class LoginWindow(QWidget):
-    def __init__(self, verify_login):
+    def __init__(self, verify_login, on_register):
         super().__init__()
 
         self.verify_login = verify_login
         self.setWindowTitle("MAKE IT ALL")
         self.resize(WIDTH, HEIGHT)
+        self.on_register = on_register
 
         self.username = QLineEdit(placeholderText="Username")
         self.password = QLineEdit(placeholderText="Password", echoMode=QLineEdit.EchoMode.Password)
@@ -101,5 +104,6 @@ class LoginWindow(QWidget):
             self.password.clear()
 
     def register(self):
-        self.register = RegisterWindow()
-        self.register.show()
+        #self.register = RegisterWindow()
+        #self.register.show()
+        self.on_register()
