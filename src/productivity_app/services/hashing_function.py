@@ -15,3 +15,5 @@ def hash_password(password: str):
     print(bcrypt.hashpw(password.encode("utf-8"),bcrypt.gensalt()).decode("utf-8"))
 
 #hash_password("hash123")
+hash_password("hash2")
+hash_password("hash3")
