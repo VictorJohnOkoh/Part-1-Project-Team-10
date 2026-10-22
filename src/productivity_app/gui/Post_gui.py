@@ -25,7 +25,7 @@ class PostWindow(QWidget):
         self.Hbox = QHBoxLayout()
     
         Labels = [] # for the body text, not the replies to the questions
-
+        PostButtons = []
         ReplyLabels = [] # for the replies to the questions, not the body text
 
         ButtonNames_Indexes = [] # for the buttons that are generated, and their indexes
@@ -33,11 +33,11 @@ class PostWindow(QWidget):
         self.CurrentButtonIndex = 0
 
         def SubmitReplyButtonClicked():
-            if not self.current_topic or not self.current_title:
-                return
-
             comment_text = self.ReplyInput.text()
             if not comment_text.strip():
+                return
+
+            if not self.current_topic or not self.current_title:
                 return
 
             make_comment(self.current_topic, self.current_title, comment_text)
@@ -46,15 +46,36 @@ class PostWindow(QWidget):
             if hasattr(self, 'current_body_label') and self.current_body_label:
                 Label_Management(self.current_body_label, Labels, self.current_topic, self.current_title)
 
+        def SearchPost():
+            Topic = self.SearchInput.text()
+            strtopic = Topic.strip().lower()
+
+            for item in PostButtons:
+                if not strtopic:
+                    item['widget'].show()
+                elif item['topic'].lower() == strtopic:
+                    item['widget'].show()
+                else:
+                    item['widget'].hide()
+
         #Reply input and submit button
         self.ReplyInput = QLineEdit()
         self.ReplyInput.setFixedWidth(400)
-        SubmitReplyButton = QPushButton(text='Submit Reply')
+        SubmitReplyButton = QPushButton(text='Post Comment')
         SubmitReplyButton.setFixedSize(400,160)
         SubmitReplyButton.clicked.connect(SubmitReplyButtonClicked)
         self.RightVbox.addWidget(self.ReplyInput)
         self.RightVbox.addWidget(SubmitReplyButton)
 
+        self.SearchInput = QLineEdit()
+        self.SearchInput.setFixedWidth(400)
+        SubmitSearchButton = QPushButton(text='Search by topic')
+        SubmitSearchButton.setFixedSize(400,160)
+        SubmitSearchButton.clicked.connect(SearchPost)
+        self.RightVbox.addWidget(self.SearchInput)
+        self.RightVbox.addWidget(SubmitSearchButton)
+            
+            
 
         def Label_Management(CurrentLabel,Labels, current_topic, current_title):
             # For Questions in the Posts
@@ -111,7 +132,9 @@ class PostWindow(QWidget):
                         Label_Management(z, Labels, t, title)
                     ))
                     ButtonName.clicked.connect(self.ReplyInput.clear)
-                    self.LeftVbox.addWidget(ButtonName)  
+                    self.LeftVbox.addWidget(ButtonName) 
+
+                    PostButtons.append({'widget': ButtonName, 'topic': topics}) 
 
 
         #Scrolling bit
