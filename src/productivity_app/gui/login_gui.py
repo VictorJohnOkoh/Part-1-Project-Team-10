@@ -7,72 +7,134 @@ from PyQt6.QtWidgets import (
     QLabel,
     QLineEdit,
     QPushButton,
-    QMessageBox
+    QMessageBox,
 )
 import string
-from productivity_app.services.login_verification import check_user
-
+from productivity_app.services.login_verification import check_user, add_user, get_authorised, user_exist
+from PyQt6.QtCore import Qt
+import re
 WIDTH, HEIGHT = 300, 300
+maximum = 5
 
 class RegisterWindow(QWidget):
-    def __init__(self):
+    def __init__(self,on_back):
         super().__init__()
+        self.on_back = on_back
 
         self.resize(300,300)
         self.setWindowTitle("Register")
         self.email = QLineEdit(placeholderText="Email")
-        self.password = QLineEdit(placeholderText="Password")
+        self.password = QLineEdit(placeholderText="Password",echoMode=QLineEdit.EchoMode.Password)
         
-        button = QPushButton("create account")
+        button = QPushButton("Create Account")
         button.clicked.connect(self.register_account)
 
         back_button = QPushButton("Back to login")
         back_button.clicked.connect(self.go_back)
+        title = QLabel("MAKE-IT-ALL")
+        font = title.font()
+        font.setBold(True)
+        font.setPointSize(22)
+        title.setFont(font)
+        title.setAlignment(Qt.AlignmentFlag.AlignCenter)
+
+        heading = QLabel("Register")
+        heading_font = heading.font()
+        heading_font.setBold(True)
+        heading_font.setPointSize(16)
+        heading.setFont(heading_font)
+        heading.setAlignment(Qt.AlignmentFlag.AlignCenter)
+
+        self.email.setMinimumHeight(40)
+        self.password.setMinimumHeight(40)
+        button.setMinimumHeight(40)
+        back_button.setMinimumHeight(40)
+        
 
         layout = QVBoxLayout(self)
 
+        #layout.addWidget(QLabel("Register"))
+        layout.addStretch()
+        layout.addWidget(title)
+        layout.addWidget(heading)
         layout.addWidget(self.email)
         layout.addWidget(self.password)
         layout.addWidget(button)
         layout.addWidget(back_button)
 
     def go_back(self):
-        window = LoginWindow()
-        window.show()
+        #window = LoginWindow()
+        #window.show()
         #self.login_window.show()
-        self.close()
+        #self.close()
+        self.on_back()
 
 
     def register_account(self):
             email = self.email.text().strip()
             password = self.password.text()
+            self.check_email(email)
             error = self.check_valid_password(password)
+            role = get_authorised(email)
+            if role is None:
+                QMessageBox.warning(self,"Not authorised","this email is not auuthorised")
+                return
+            if user_exist(email):
+                QMessageBox.warning(self,"Account exists", "This account already exists")
+                return            
+            if error:
+                QMessageBox.warning(self,"Password too weak", error)
+            #role = get_authorised(email)
+            
+
+            add_user(email,password,role)
+            QMessageBox.information(self,"success","account created")
+
+ 
+
+    def check_email(self, email):
+        email = email.lower()
+        if not re.search(r"^[^@\s]+@make-it-all\.co\.uk$",email): # one or more character no @ or space efore the @ in the email. 
+            QMessageBox.warning(self,"invalide email", "email must be name@make-it-all.co.uk")
+            return 
+
 
     def check_valid_password(self,password):
+        reject = []
         if len(password) < 8:
-            print("password needs to be atleast 8 character long")
+
+            reject.append("atleast 8 charactrs")
         lower =  any(c.islower() for c in password)
         upper = any(c.upper() for c in password)
         special = any(c in string.punctuation for c in password)
         digit = any(c.isdigit() for c in password)
         if not lower:
-            print("password must contain a lower case character")
+
+            reject.append("a lowercase letter")
         if not upper:
-            print("password must contain an upper case character")
+
+            reject.append("upper case letter")
         if not special:
-            print("password must contain a special character")
+
+            reject.append("special character")
         if not digit:
-            print("password must contain a digit ")
+
+            reject.append("a digit")
+        if reject:
+            return "password needs:\n- "+"\n-".join(reject)
+        return None
         
 
 
 class LoginWindow(QWidget):
-    def __init__(self, switch_screen):
+    def __init__(self, verify_login, on_register):
         super().__init__()
 
-        self.switch_screen = switch_screen
+        self.verify_login = verify_login
         self.setWindowTitle("MAKE IT ALL")
         self.resize(WIDTH, HEIGHT)
+        self.attempts = 0
+        self.on_register = on_register
 
         self.username = QLineEdit(placeholderText="Username")
         self.password = QLineEdit(placeholderText="Password", echoMode=QLineEdit.EchoMode.Password)
@@ -83,23 +145,55 @@ class LoginWindow(QWidget):
         self.register_button = QPushButton("Register")
         self.register_button.clicked.connect(self.register)
 
+        title = QLabel("MAKE-IT-ALL")
+        font = title.font()
+        font.setBold(True)
+        font.setPointSize(22)
+        title.setFont(font)
+        title.setAlignment(Qt.AlignmentFlag.AlignCenter)
+
+        heading = QLabel("Login")
+        heading_font = heading.font()
+        heading_font.setBold(True)
+        heading_font.setPointSize(16)
+        heading.setFont(heading_font)
+        heading.setAlignment(Qt.AlignmentFlag.AlignCenter)
+
+        self.username.setMinimumHeight(40)
+        self.password.setMinimumHeight(40)
+        self.login_button.setMinimumHeight(40)
+        self.register_button.setMinimumHeight(40)
+
         layout = QVBoxLayout(self)
-        layout.addWidget(QLabel("LOGIN MENU"))
+        #layout.addWidget(QLabel("Login"))
+        layout.addStretch()
+        layout.addWidget(title)
+        layout.addWidget(heading)
         layout.addWidget(self.username)
         layout.addWidget(self.password)
         layout.addWidget(self.login_button)
         layout.addWidget(self.register_button)
 
+
     def login(self):
         role = check_user(self.username.text(),self.password.text())
         if role == "team_leader":
-            self.switch_screen(role, self.username.text())
+            QMessageBox.information(self,"Team Leader Screen","You are now on the team leader screen")
         elif role == "team_member":
-            self.switch_screen(role, self.username.text())
+            QMessageBox.information(self,"Team member","You are now on the team member screen")
         else:
-            QMessageBox.warning(self,"Login fail","Wrong username/password")
+            self.attempts += 1
+            remaining = maximum - self.attempts
             self.password.clear()
+            if remaining > 0:
+                QMessageBox.warning(self,"Login fail","Wrong username/password")
+            else:
+                self.lock_out()
+
+    def lock_out(self):
+        QMessageBox.critical(self,"Locked out", "Too many failed attempts")
 
     def register(self):
-        self.register = RegisterWindow()
-        self.register.show()
+        #self.register = RegisterWindow()
+        #self.register.show()
+        self.on_register()
