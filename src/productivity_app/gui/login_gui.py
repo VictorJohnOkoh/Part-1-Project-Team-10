@@ -9,7 +9,7 @@ from PyQt6.QtWidgets import (
 from productivity_app.services.login_verification import LoginVerification
 from productivity_app.services import check_user, check_password
 
-WIDTH, HEIGHT = 800, 600
+WIDTH, HEIGHT = 300, 300
 
 class LoginWindow(QWidget):
     def __init__(self, verify_login):
