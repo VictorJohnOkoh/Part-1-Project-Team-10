@@ -5,7 +5,7 @@ from .gui.dashboard_gui import Dashboard
 from .users.Manager import Manager
 from .users.Employee import Employee
 
-WIDTH, HEIGHT = 800, 600
+WIDTH, HEIGHT = 300, 300
 
 
 class MainWindow(QMainWindow):
@@ -17,15 +17,19 @@ class MainWindow(QMainWindow):
         self.stack = QStackedWidget()
         self.setCentralWidget(self.stack)
 
-        self.login_window = LoginWindow(self.switch_to_manager)
+        self.login_window = LoginWindow(self.switch_screen)
         self.dashboard_window = None
 
         self.stack.addWidget(self.login_window)
         self.stack.setCurrentWidget(self.login_window)
 
-    def switch_to_manager(self):
-        if self.dashboard_window is None:
+    def switch_screen(self, role: str, username: str):
+        if self.dashboard_window is None and role == "team_leader":
             self.dashboard_window = Dashboard(Manager(1234, 'John', 'Doe', 'johndoe@make-it-all.co.uk'))
+            self.stack.addWidget(self.dashboard_window)
+            self.stack.setCurrentWidget(self.dashboard_window)
+        elif self.dashboard_window is None and role == "team_member":
+            self.dashboard_window = Dashboard(Employee(5678, 'Jane', 'Smith', 'janesmith@make-it-all.co.uk'))
             self.stack.addWidget(self.dashboard_window)
             self.stack.setCurrentWidget(self.dashboard_window)
         else:
