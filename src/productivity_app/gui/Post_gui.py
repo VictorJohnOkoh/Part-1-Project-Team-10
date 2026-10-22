@@ -58,6 +58,43 @@ class PostWindow(QWidget):
                 else:
                     item['widget'].hide()
 
+        def SubmitNewPost():
+            Topic = self.TopicInput.text().strip().lower()
+            Title = self.TitleInput.text().strip().lower()
+            Body = self.BodyInput.text().strip().lower()
+
+            if not Topic or not Title or not Body:
+                print("Please type valid inputs")
+                return
+
+            make_post(Topic, Title, Body)
+
+            self.TopicInput.clear()
+            self.TitleInput.clear()
+            self.BodyInput.clear()
+
+            ButtonLabel_Post = QLabel(text=Body)
+            self.RightVbox.addWidget(ButtonLabel_Post)
+            ButtonLabel_Post.hide()
+            Labels.append(ButtonLabel_Post)
+
+            ButtonName = QPushButton(text=Title)
+            ButtonName.setFixedSize(400, 160)
+            ButtonName.setFont(font)
+
+            ButtonName.clicked.connect(lambda checked, z=ButtonLabel_Post, t=Topic, title=Title: (
+                setattr(self, 'current_topic', t),
+                setattr(self, 'current_title', title),
+                setattr(self, 'current_body_label', z),
+                Label_Management(z, Labels, t, title)
+            ))
+            ButtonName.clicked.connect(self.ReplyInput.clear)
+
+            self.LeftVbox.addWidget(ButtonName)
+            PostButtons.append({'widget': ButtonName, 'topic': Topic})
+            
+
+
         #Reply input and submit button
         self.ReplyInput = QLineEdit()
         self.ReplyInput.setFixedWidth(400)
@@ -74,6 +111,20 @@ class PostWindow(QWidget):
         SubmitSearchButton.clicked.connect(SearchPost)
         self.RightVbox.addWidget(self.SearchInput)
         self.RightVbox.addWidget(SubmitSearchButton)
+
+        self.TopicInput = QLineEdit()
+        self.TitleInput = QLineEdit()
+        self.BodyInput = QLineEdit()
+        self.TopicInput.setFixedWidth(400)
+        self.TitleInput.setFixedWidth(400)
+        self.BodyInput.setFixedWidth(400)
+        SubmitPostButton = QPushButton(text='Make new post')
+        SubmitPostButton.setFixedSize(400,160)
+        SubmitPostButton.clicked.connect(SubmitNewPost)
+        self.RightVbox.addWidget(self.TopicInput)
+        self.RightVbox.addWidget(self.TitleInput)
+        self.RightVbox.addWidget(self.BodyInput)
+        self.RightVbox.addWidget(SubmitPostButton)
             
             
 
