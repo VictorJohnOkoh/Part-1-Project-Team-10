@@ -5,7 +5,7 @@ from PyQt6.QtCore import QSize, Qt
 from PyQt6.QtGui import QIcon, QFont
 from PyQt6.QtWidgets import (QApplication, QPushButton, QVBoxLayout, QWidget, 
                              QLabel, QScrollArea, QMainWindow, QSlider,
-                             QLineEdit, QHBoxLayout, QWidget, QLineEdit)
+                             QLineEdit, QHBoxLayout, QGridLayout)
 from productivity_app.services.Post_Functions import post, create_post, make_comment, RestrictedTopics, view_post, make_post
 #from profiling.tracing import label
 
@@ -26,9 +26,6 @@ class PostWindow(QWidget):
     
         Labels = [] # for the body text, not the replies to the questions
         PostButtons = []
-        ReplyLabels = [] # for the replies to the questions, not the body text
-
-        ButtonNames_Indexes = [] # for the buttons that are generated, and their indexes
 
         self.CurrentButtonIndex = 0
 
@@ -99,7 +96,7 @@ class PostWindow(QWidget):
         self.ReplyInput = QLineEdit()
         self.ReplyInput.setFixedWidth(400)
         SubmitReplyButton = QPushButton(text='Post Comment')
-        SubmitReplyButton.setFixedSize(400,160)
+        SubmitReplyButton.setFixedSize(400,80)
         SubmitReplyButton.clicked.connect(SubmitReplyButtonClicked)
         self.RightVbox.addWidget(self.ReplyInput)
         self.RightVbox.addWidget(SubmitReplyButton)
@@ -107,7 +104,7 @@ class PostWindow(QWidget):
         self.SearchInput = QLineEdit()
         self.SearchInput.setFixedWidth(400)
         SubmitSearchButton = QPushButton(text='Search by topic')
-        SubmitSearchButton.setFixedSize(400,160)
+        SubmitSearchButton.setFixedSize(400,80)
         SubmitSearchButton.clicked.connect(SearchPost)
         self.RightVbox.addWidget(self.SearchInput)
         self.RightVbox.addWidget(SubmitSearchButton)
@@ -119,7 +116,7 @@ class PostWindow(QWidget):
         self.TitleInput.setFixedWidth(400)
         self.BodyInput.setFixedWidth(400)
         SubmitPostButton = QPushButton(text='Make new post')
-        SubmitPostButton.setFixedSize(400,160)
+        SubmitPostButton.setFixedSize(400,80)
         SubmitPostButton.clicked.connect(SubmitNewPost)
         self.RightVbox.addWidget(self.TopicInput)
         self.RightVbox.addWidget(self.TitleInput)
