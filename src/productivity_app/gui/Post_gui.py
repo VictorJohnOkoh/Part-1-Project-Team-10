@@ -71,7 +71,7 @@ class PostWindow(QWidget):
             self.BodyInput.clear()
 
             ButtonLabel_Post = QLabel(text=Body)
-            self.RightVbox.addWidget(ButtonLabel_Post)
+            self.RightVbox.insertWidget(8, ButtonLabel_Post)
             ButtonLabel_Post.hide()
             Labels.append(ButtonLabel_Post)
 
