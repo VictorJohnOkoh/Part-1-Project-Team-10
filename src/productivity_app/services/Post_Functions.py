@@ -1,5 +1,17 @@
 # Stores all posts in dictionary
-post = {}
+post = {"general": [
+        {
+            "title": "Welcome Test Post",
+            "body": "This is a dummy post to verify the GUI and functions are working.",
+            "comments": ["This is a test comment!"]
+        }],
+        "cs": [
+        {
+            "title": "I hate cs",
+            "body": "Cs is really tiring.",
+            "comments": ["No I certainly disagree", "Yep ;("]
+        }
+    ]}
 RestrictedTopics = {}
 
 def RestrictTopics(InpRestrictedTopic):
@@ -76,10 +88,12 @@ def make_comment(Inpcommenttopic, Inptitle, Inpcomment):
             single_posts["comments"].append(strcomment)
             post_found = True
             print("Comment added successfully!")
+            return True
             break
 
     if post_found == False:
         print("No post with the given title has been found.")
+        return False
 
 def view_post(Inpsingletopic):
     # Allows user to input topic to view the posts related to that topic
