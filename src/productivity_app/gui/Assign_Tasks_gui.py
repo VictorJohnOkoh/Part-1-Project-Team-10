@@ -23,12 +23,16 @@ class AssignWindow(QWidget):
 
         #Assign Button with Textboxes
         self.TaskNameInput = QLineEdit()
+        self.TaskNameInput.setPlaceholderText('Name of task')
         self.TaskNameInput.setFixedWidth(400)
 
         self.TaskDescriptionInput = QLineEdit()
+        self.TaskDescriptionInput.setPlaceholderText('Describe what needs to be done to finish the task')
         self.TaskDescriptionInput.setFixedWidth(400)
+        self.TaskDescriptionInput.setFixedHeight(200)
 
         self.EmployeeNameInput = QLineEdit()
+        self.EmployeeNameInput.setPlaceholderText('Employee Name')
         self.EmployeeNameInput.setFixedWidth(400)
 
         # setting up the deadline chooser for the managers/ team leaders
@@ -56,6 +60,4 @@ app = QApplication(sys.argv)
 window = AssignWindow()
 window.show()
 sys.exit(app.exec())
-
-
 
