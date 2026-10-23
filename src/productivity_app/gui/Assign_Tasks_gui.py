@@ -37,12 +37,15 @@ class AssignWindow(QWidget):
 
         # setting up the deadline chooser for the managers/ team leaders
         self.Deadline = ''
+
+        self.GuideToDeadLineSelection = QLabel(text='Use the down arrow below to select a deadline from the calendar.')
+        self.SecondGuideToDeadlineSelection = QLabel(text='Once chosen, use the arrows to make any necessary final adjustments.')
             
         self.ChosenDateAndTime = QDateTimeEdit()
         self.ChosenDateAndTime.setCalendarPopup(True)
         self.ChosenDateAndTime.setDateTime(QDateTime.currentDateTime())
 
-        DeadlineSelector = QPushButton(text='Choose Deadline')
+        DeadlineSelector = QPushButton(text='Assign Task')
         DeadlineSelector.setFixedSize(400,60)
         DeadlineSelector.clicked.connect(self.DeadlineSelector_clicked)
 
@@ -50,6 +53,8 @@ class AssignWindow(QWidget):
         self.AssignVbox.addWidget(self.TaskNameInput)
         self.AssignVbox.addWidget(self.TaskDescriptionInput)
         self.AssignVbox.addWidget(self.EmployeeNameInput)
+        self.AssignVbox.addWidget(self.GuideToDeadLineSelection)
+        self.AssignVbox.addWidget(self.SecondGuideToDeadlineSelection)
         self.AssignVbox.addWidget(self.ChosenDateAndTime)
         self.AssignVbox.addWidget(DeadlineSelector)
 
