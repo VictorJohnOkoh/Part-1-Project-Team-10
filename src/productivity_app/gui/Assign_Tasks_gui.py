@@ -9,6 +9,8 @@ from PyQt6.QtWidgets import (QApplication, QPushButton, QVBoxLayout, QWidget,
 
 class AssignWindow(QWidget):
 
+    Assignments = []
+
     Is_Format_Correct = False
     def Is_Format_Correct_Message(self):
         Message = QMessageBox()
@@ -20,6 +22,7 @@ class AssignWindow(QWidget):
         if self.Is_Format_Correct == True:
             Message.setText('Task successfully Assigned!')
             Message.setIcon(QMessageBox.Icon.Information)
+            print(self.Assignments)
         else:
              Message.setText('Insufficient Data provided!')
              Message.setInformativeText('Please try again.')
@@ -44,7 +47,7 @@ class AssignWindow(QWidget):
 
                 if len(TaskName) != 0 and len(TaskDesc) != 0 and len(EmpName) != 0:
                     print('message assigned!')
-                    print(TaskName + '|' + TaskDesc + '|' + EmpName + '|' + Deadline)
+                    self.Assignments.append([TaskName,TaskDesc,EmpName,ChosenDeadline.toString('dd-MM-yyyy HH:mm')])
                     self.Is_Format_Correct = True
                 else:
                     print('Incorrect, try again!')
