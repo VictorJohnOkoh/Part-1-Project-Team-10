@@ -5,7 +5,7 @@ from PyQt6.QtCore import QSize, Qt, QDateTime
 from PyQt6.QtGui import QIcon
 from PyQt6.QtWidgets import (QApplication, QPushButton, QVBoxLayout, QWidget, 
                              QLabel, QScrollArea, QMainWindow, QSlider,
-                             QHBoxLayout, QLineEdit,QDateTimeEdit)
+                             QHBoxLayout, QLineEdit,QDateTimeEdit, QTextEdit)
 
 class AssignWindow(QWidget):
 
@@ -26,7 +26,7 @@ class AssignWindow(QWidget):
         self.TaskNameInput.setPlaceholderText('Name of task')
         self.TaskNameInput.setFixedWidth(400)
 
-        self.TaskDescriptionInput = QLineEdit()
+        self.TaskDescriptionInput = QTextEdit()
         self.TaskDescriptionInput.setPlaceholderText('Describe what needs to be done to finish the task')
         self.TaskDescriptionInput.setFixedWidth(400)
         self.TaskDescriptionInput.setFixedHeight(200)
