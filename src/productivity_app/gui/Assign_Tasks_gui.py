@@ -9,11 +9,16 @@ from PyQt6.QtWidgets import (QApplication, QPushButton, QVBoxLayout, QWidget,
 
 class AssignWindow(QWidget):
 
-    def DeadlineSelector_clicked(self):
+    def TaskAssignerSubmitButton_clicked(self):
+                TaskName = self.TaskNameInput.text()
+                TaskDesc = self.TaskDescriptionInput.toPlainText()
+                EmpName = self.EmployeeNameInput.text()
+
+                
                 ChosenDeadline = self.ChosenDateAndTime.dateTime()
                 ChosenDeadline_Formatted = ChosenDeadline.toString('dd-MM-yyyy HH:mm')
                 Deadline = ChosenDeadline_Formatted
-                print(Deadline)
+                print(TaskName + '|' + TaskDesc + '|' + EmpName + '|' + Deadline)
 
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -45,9 +50,9 @@ class AssignWindow(QWidget):
         self.ChosenDateAndTime.setCalendarPopup(True)
         self.ChosenDateAndTime.setDateTime(QDateTime.currentDateTime())
 
-        DeadlineSelector = QPushButton(text='Assign Task')
-        DeadlineSelector.setFixedSize(400,60)
-        DeadlineSelector.clicked.connect(self.DeadlineSelector_clicked)
+        TaskAssignerSubmitButton = QPushButton(text='Assign Task')
+        TaskAssignerSubmitButton.setFixedSize(400,60)
+        TaskAssignerSubmitButton.clicked.connect(self.TaskAssignerSubmitButton_clicked)
 
 
         self.AssignVbox.addWidget(self.TaskNameInput)
@@ -56,7 +61,7 @@ class AssignWindow(QWidget):
         self.AssignVbox.addWidget(self.GuideToDeadLineSelection)
         self.AssignVbox.addWidget(self.SecondGuideToDeadlineSelection)
         self.AssignVbox.addWidget(self.ChosenDateAndTime)
-        self.AssignVbox.addWidget(DeadlineSelector)
+        self.AssignVbox.addWidget(TaskAssignerSubmitButton)
 
         self.setLayout(self.AssignVbox)
 
@@ -65,4 +70,3 @@ app = QApplication(sys.argv)
 window = AssignWindow()
 window.show()
 sys.exit(app.exec())
-
