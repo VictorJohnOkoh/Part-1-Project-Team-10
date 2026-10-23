@@ -5,21 +5,51 @@ from PyQt6.QtCore import QSize, Qt, QDateTime
 from PyQt6.QtGui import QIcon
 from PyQt6.QtWidgets import (QApplication, QPushButton, QVBoxLayout, QWidget, 
                              QLabel, QScrollArea, QMainWindow, QSlider,
-                             QHBoxLayout, QLineEdit,QDateTimeEdit, QTextEdit)
+                             QHBoxLayout, QLineEdit,QDateTimeEdit, QTextEdit, QMessageBox)
 
 class AssignWindow(QWidget):
 
+    Is_Format_Correct = False
+    def Is_Format_Correct_Message(self):
+        Message = QMessageBox()
+        Message.setWindowTitle('Task Assignment')
+        OK_Button = Message.addButton('Ok',QMessageBox.ButtonRole.AcceptRole)
+        if Message.clickedButton() == OK_Button:
+            print('hehe')
+
+        if self.Is_Format_Correct == True:
+            Message.setText('Task successfully Assigned!')
+            Message.setIcon(QMessageBox.Icon.Information)
+        else:
+             Message.setText('Insufficient Data provided!')
+             Message.setInformativeText('Please try again.')
+             Message.setIcon(QMessageBox.Icon.Critical)
+        Message.exec()
+        
+
+
     def TaskAssignerSubmitButton_clicked(self):
+                self.Is_Format_Correct = False
                 TaskName = self.TaskNameInput.text()
                 TaskDesc = self.TaskDescriptionInput.toPlainText()
                 EmpName = self.EmployeeNameInput.text()
-
-                
                 ChosenDeadline = self.ChosenDateAndTime.dateTime()
                 ChosenDeadline_Formatted = ChosenDeadline.toString('dd-MM-yyyy HH:mm')
                 Deadline = ChosenDeadline_Formatted
-                print(TaskName + '|' + TaskDesc + '|' + EmpName + '|' + Deadline)
 
+                self.TaskNameInput.clear()
+                self.TaskDescriptionInput.clear()
+                self.EmployeeNameInput.clear()
+                self.ChosenDateAndTime.setDateTime(QDateTime.currentDateTime())
+
+                if len(TaskName) != 0 and len(TaskDesc) != 0 and len(EmpName) != 0:
+                    print('message assigned!')
+                    print(TaskName + '|' + TaskDesc + '|' + EmpName + '|' + Deadline)
+                    self.Is_Format_Correct = True
+                else:
+                    print('Incorrect, try again!')
+                self.Is_Format_Correct_Message()
+                
     def __init__(self, parent=None):
         super().__init__(parent)
 
