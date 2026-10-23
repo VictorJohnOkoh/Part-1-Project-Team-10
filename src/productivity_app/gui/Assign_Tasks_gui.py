@@ -43,7 +43,7 @@ class AssignWindow(QWidget):
         self.ChosenDateAndTime.setDateTime(QDateTime.currentDateTime())
 
         DeadlineSelector = QPushButton(text='Choose Deadline')
-        DeadlineSelector.setFixedSize(400,160)
+        DeadlineSelector.setFixedSize(400,60)
         DeadlineSelector.clicked.connect(self.DeadlineSelector_clicked)
 
 
