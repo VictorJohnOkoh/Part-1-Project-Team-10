@@ -27,6 +27,7 @@ class MainWindow(QMainWindow):
 
     def switch_to_manager(self):
         if self.dashboard_window is None:
+            #instead of hardcoding the names we should work out a way to strip the name from the username used
             self.dashboard_window = Dashboard(Manager(1234, 'John', 'Doe', 'johndoe@make-it-all.co.uk'))
             self.stack.addWidget(self.dashboard_window)
             self.stack.setCurrentWidget(self.dashboard_window)
