@@ -1,7 +1,8 @@
 from productivity_app.users.Project import Project
+from .Task import Task
 
 class Employee:
-    def __init__(self, id: int, first_name: str, last_name: str, email: str, tasks: list[Project]|None = None):
+    def __init__(self, id: int, first_name: str, last_name: str, email: str, tasks: list[Task]|None = None):
         self.__id = id
         self.__first_name = first_name
         self.__last_name = last_name
@@ -23,7 +24,7 @@ class Employee:
     def get_last_name(self) -> str:
         return self.__last_name
 
-    def get_tasks(self) -> list[Project]:
+    def get_tasks(self) -> list[Task]:
         return self.__tasks
 
     def add_task(self, task) -> None:
