@@ -136,3 +136,10 @@ class Dashboard(QtWidgets.QWidget):
 
     def register_employee_clicked(self):
         print("register employee clicked")
+
+if __name__ == "__main__":
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    window = Dashboard(Manager(1234, 'John', 'Doe', 'john.doe@example.com'))
+    window.show()
+    sys.exit(app.exec())
