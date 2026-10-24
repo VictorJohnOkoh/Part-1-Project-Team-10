@@ -8,8 +8,6 @@ from .users.Manager import Manager
 from .users.Employee import Employee
 
 WIDTH, HEIGHT = 300, 300
-WIDTH, HEIGHT = 300, 300
-
 
 class MainWindow(QMainWindow):
     def __init__(self):
