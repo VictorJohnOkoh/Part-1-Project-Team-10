@@ -56,7 +56,7 @@ class RegisterWindow(QWidget):
 
     def check_email(self, email):
         email = email.lower()
-        if not re.search(r"^[^@\s]+@make-it-all\.co\.uk",email): # one or more character no @ or space efore the @ in the email. 
+        if not re.search(r"^[^@\s]+@make-it-all\.co\.uk$",email): # one or more character no @ or space efore the @ in the email. 
             QMessageBox.warning(self,"invalide email", "email must be name@make-it-all.co.uk")
             return 
 
