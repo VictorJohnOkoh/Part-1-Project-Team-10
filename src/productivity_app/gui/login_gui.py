@@ -11,8 +11,9 @@ from PyQt6.QtWidgets import (
 )
 import string
 from productivity_app.services.login_verification import check_user
-
+import re
 WIDTH, HEIGHT = 300, 300
+maximum = 5
 
 class RegisterWindow(QWidget):
     def __init__(self,on_back):
@@ -22,7 +23,7 @@ class RegisterWindow(QWidget):
         self.resize(300,300)
         self.setWindowTitle("Register")
         self.email = QLineEdit(placeholderText="Email")
-        self.password = QLineEdit(placeholderText="Password")
+        self.password = QLineEdit(placeholderText="Password",echoMode=QLineEdit.EchoMode.Password)
         
         button = QPushButton("create account")
         button.clicked.connect(self.register_account)
@@ -48,23 +49,42 @@ class RegisterWindow(QWidget):
     def register_account(self):
             email = self.email.text().strip()
             password = self.password.text()
+            self.check_email(email)
             error = self.check_valid_password(password)
+            if error:
+                QMessageBox.warning(self,"Password too weak", error)
+
+    def check_email(self, email):
+        email = email.lower()
+        if not re.search(r"^[^@\s]+@make-it-all\.co\.uk",email): # one or more character no @ or space efore the @ in the email. 
+            QMessageBox.warning(self,"invalide email", "email must be name@make-it-all.co.uk")
+            return 
+
 
     def check_valid_password(self,password):
+        reject = []
         if len(password) < 8:
-            print("password needs to be atleast 8 character long")
+
+            reject.append("atleast 8 charactrs")
         lower =  any(c.islower() for c in password)
         upper = any(c.upper() for c in password)
         special = any(c in string.punctuation for c in password)
         digit = any(c.isdigit() for c in password)
         if not lower:
-            print("password must contain a lower case character")
+
+            reject.append("a lowercase letter")
         if not upper:
-            print("password must contain an upper case character")
+
+            reject.append("upper case letter")
         if not special:
-            print("password must contain a special character")
+
+            reject.append("special character")
         if not digit:
-            print("password must contain a digit ")
+
+            reject.append("a digit")
+        if reject:
+            return "password needs:\n- "+"\n-".join(reject)
+        return None
         
 
 
@@ -75,6 +95,7 @@ class LoginWindow(QWidget):
         self.verify_login = verify_login
         self.setWindowTitle("MAKE IT ALL")
         self.resize(WIDTH, HEIGHT)
+        self.attempts = 0
         self.on_register = on_register
 
         self.username = QLineEdit(placeholderText="Username")
@@ -100,8 +121,16 @@ class LoginWindow(QWidget):
         elif role == "team_member":
             QMessageBox.information(self,"Team member","You are now on the team member screen")
         else:
-            QMessageBox.warning(self,"Login fail","Wrong username/password")
+            self.attempts += 1
+            remaining = maximum - self.attempts
             self.password.clear()
+            if remaining > 0:
+                QMessageBox.warning(self,"Login fail","Wrong username/password")
+            else:
+                self.lock_out()
+
+    def lock_out(self):
+        QMessageBox.critical(self,"Locked out", "Too many failed attempts")
 
     def register(self):
         #self.register = RegisterWindow()
