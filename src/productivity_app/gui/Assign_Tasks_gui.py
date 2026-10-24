@@ -98,8 +98,15 @@ class AssignWindow(QWidget):
 
         self.setLayout(self.AssignVbox)
 
-print('Program is Running!')
+
+"""print('Program is Running!')
 app = QApplication(sys.argv)
 window = AssignWindow()
 window.show()
-sys.exit(app.exec())
+sys.exit(app.exec())"""
+
+if __name__ == "__main__":
+     app = QApplication(sys.argv)
+     window = AssignWindow()
+     window.show()
+     sys.exit(app.exec())
