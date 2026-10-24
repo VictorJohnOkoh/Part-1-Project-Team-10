@@ -22,19 +22,19 @@ def tracker(username,password):
 
 #function used to check if the username and password exist in the file
 def check_credentials(username,password):
-    USERS_FILE = Path(__file__).parent.parent / "users" / "test_users.txt"
+    USERS_FILE = Path(__file__).parent.parent / "users" / "valid_users.txt"
     with open(USERS_FILE,"r") as user_file:
         for line in user_file:
             current_line = line.strip().split(":")
             if current_line[0] == username and verify_password(password,current_line[1]):
                 #only returns the role if the credentials exist in the file
                 return current_line[2]
-            elif current_line[0] == username and current_line[1] != password:
+            elif current_line[0] == username and not verify_password(password,current_line[1]):
                 return None
 
 #used to check if the username is correct
 def check_user(username: str, password: str):
-    if re.search("@make-it-all.co.uk",username):
+    if re.search(r"^[^@\s]+@make-it-all\.co\.uk$",username):
 
         #call function to hash password entered
         role = check_credentials(username,password) 
