@@ -10,7 +10,7 @@ class ViewerForTasks(QWidget):
     
     Tasks = [['Taking a big dump', 'Going to the toilet and wait for the chaos to begin', 'Jacob', '31-10-2026 20:20'],
               ['Making meal prep', 'Following the instructions, and putting in the ingredients', 'Jacob', '03-11-2026 20:20'],
-                ['Going to Work', 'Getting in the car and driving straight there!', 'Jacob', '25-10-2026 08:22']]
+                ['Going to Work', 'Getting in the car and driving straight there!', 'Jacob', '28-10-2026 08:22']]
 
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -68,25 +68,27 @@ class ViewerForTasks(QWidget):
                 RemainingDeadline = QLabel(text=str(Months) + ' Months ' + str(Days) + ' Days ' + str(Hours) + ' Hours ' + str(Minutes) + ' Minutes')            
     
                 DeadlineLabels.append([RemainingDeadline,GivenTask[3]])
+
+                ActionButton = QPushButton(text='Start Task')
+                ActionButton.setFixedSize(400,60)
     
                 self.TaskStatus = 'Incomplete'
                 RemainingTime = RemainingDeadline.text()
                 def ActionButton_clicked(self):
                     if self.TaskStatus == 'Incomplete':
-                        TaskStatus = 'In progress'
+                        self.TaskStatus = 'In progress'
                         ActionButton.setText('Finish')
                     elif self.TaskStatus == 'In progress':
-                        TaskStatus = 'Complete'
+                        self.TaskStatus = 'Complete'
                         if RemainingTime !=  '0 Months 0 Days 0 Hours 0 Minutes':
                             ActionButton.setText('Edit')
                         else:
                             ActionButton.hide()
                     elif self.TaskStatus == 'Complete':
-                        TaskStatus == 'In Progress'
+                        self.TaskStatus == 'In Progress'
                         ActionButton.setText('Finish')
                         
-                ActionButton = QPushButton(text='Start Task')
-                ActionButton.setFixedSize(400,60)
+                
                 ActionButton.clicked.connect(ActionButton_clicked)
     
                 SlotWidget = QWidget()
