@@ -2,6 +2,7 @@ from PyQt6 import QtWidgets
 from PyQt6 import QtCore
 from PyQt6 import QtGui
 from ..users.Manager import Manager
+from .Post_gui import PostWindow
 from ..users.Employee import Employee
 
 #(Are yet to be attached)
@@ -112,6 +113,8 @@ class Dashboard(QtWidgets.QWidget):
         print("todo clicked")
 
     def post_clicked(self):
+        self.post_window = PostWindow()
+        self.post_window.show()
         print("post clicked")
 
     def tasks_clicked(self):
