@@ -10,7 +10,8 @@ from PyQt6.QtWidgets import (
     QMessageBox
 )
 import string
-from productivity_app.services.login_verification import check_user
+from productivity_app.services.login_verification import check_user, add_user, get_authorised
+
 import re
 WIDTH, HEIGHT = 300, 300
 maximum = 5
@@ -33,6 +34,7 @@ class RegisterWindow(QWidget):
 
         layout = QVBoxLayout(self)
 
+        layout.addWidget(QLabel("Register"))
         layout.addWidget(self.email)
         layout.addWidget(self.password)
         layout.addWidget(button)
@@ -53,6 +55,15 @@ class RegisterWindow(QWidget):
             error = self.check_valid_password(password)
             if error:
                 QMessageBox.warning(self,"Password too weak", error)
+            role = get_authorised(email)
+            if role is None:
+                QMessageBox.warning(self,"Not authorised","this email is not auuthorised")
+                return
+
+            add_user(email,password,role)
+            QMessageBox.information(self,"success","account created")
+
+ 
 
     def check_email(self, email):
         email = email.lower()
@@ -108,7 +119,7 @@ class LoginWindow(QWidget):
         self.register_button.clicked.connect(self.register)
 
         layout = QVBoxLayout(self)
-        layout.addWidget(QLabel("LOGIN MENU"))
+        layout.addWidget(QLabel("Login"))
         layout.addWidget(self.username)
         layout.addWidget(self.password)
         layout.addWidget(self.login_button)
