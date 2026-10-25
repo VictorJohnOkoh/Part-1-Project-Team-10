@@ -71,25 +71,28 @@ class ViewerForTasks(QWidget):
 
                 ActionButton = QPushButton(text='Start Task')
                 ActionButton.setFixedSize(400,60)
+
+                
     
-                self.TaskStatus = 'Incomplete'
+                ActionButton.TaskStatus = 'Incomplete'
                 RemainingTime = RemainingDeadline.text()
-                def ActionButton_clicked(self):
-                    if self.TaskStatus == 'Incomplete':
-                        self.TaskStatus = 'In progress'
-                        ActionButton.setText('Finish')
-                    elif self.TaskStatus == 'In progress':
-                        self.TaskStatus = 'Complete'
-                        if RemainingTime !=  '0 Months 0 Days 0 Hours 0 Minutes':
-                            ActionButton.setText('Edit')
+
+                def ActionButton_clicked(Button, TimeText):
+                    if Button.TaskStatus == 'Incomplete':
+                        Button.TaskStatus = 'In progress'
+                        Button.setText('Finish')
+                    elif Button.TaskStatus == 'In progress':
+                        Button.TaskStatus = 'Complete'
+                        if TimeText !=  '0 Months 0 Days 0 Hours 0 Minutes':
+                            Button.setText('Edit')
                         else:
-                            ActionButton.hide()
-                    elif self.TaskStatus == 'Complete':
-                        self.TaskStatus == 'In Progress'
-                        ActionButton.setText('Finish')
+                            Button.hide()
+                    elif Button.TaskStatus == 'Complete':
+                        Button.TaskStatus == 'In Progress'
+                        Button.setText('Finish')
                         
                 
-                ActionButton.clicked.connect(ActionButton_clicked)
+                ActionButton.clicked.connect(lambda checked, b = ActionButton, t = RemainingTime: ActionButton_clicked(b,t))
     
                 SlotWidget = QWidget()
                 Slot = QVBoxLayout()
