@@ -6,18 +6,17 @@ from PyQt6.QtWidgets import (QApplication, QPushButton, QVBoxLayout, QWidget,
                              QLabel, QScrollArea, QMainWindow, QSlider,
                              QLineEdit, QHBoxLayout, QWidget, QLineEdit)
 
-
-
 class ViewerForTasks(QWidget):
     
-    Tasks = []
-
+    Tasks = [['Taking a big dump', 'Going to the toilet and wait for the chaos to begin', 'Jacob', '31-10-2026 20:20'],
+              ['Making meal prep', 'Following the instructions, and putting in the ingredients', 'Jacob', '03-11-2026 20:20'],
+                ['Going to Work', 'Getting in the car and driving straight there!', 'Jacob', '25-10-2026 08:22']]
 
     def __init__(self, parent=None):
         super().__init__(parent)
-        ClockTimer = QTimer()
-        ClockTimer.start(60000)
-        ClockTimer.timeout.connect(Update_Deadlines)
+        # ClockTimer = QTimer()
+        # ClockTimer.start(60000)
+        # ClockTimer.timeout.connect(Update_Deadlines())
 
         SlotContainers = []
 
@@ -50,6 +49,7 @@ class ViewerForTasks(QWidget):
             for task in AssignedTasks:
                 if task[2] == Username:
                     SuitableTasks.append(task)
+                    print('Correcto')
     
             for GivenTask in SuitableTasks:
                 NameOfTask = QLabel(text=GivenTask[0])
@@ -95,26 +95,27 @@ class ViewerForTasks(QWidget):
                 Slot.addWidget(DescOfTask)
                 Slot.addWidget(RemainingDeadline)
                 Slot.addWidget(ActionButton)
-                SlotContainers.append(Slot)
+                SlotWidget.setLayout(Slot)
+                SlotContainers.append(SlotWidget)
 
-
+        # ClockTimer = QTimer()
+        # ClockTimer.start(60000)
+        # ClockTimer.timeout.connect(Update_Deadlines())
 
 
 
         #Scrolling bit
-        TaskDisplayer('John',self.Tasks)
+        TaskDisplayer('Jacob',self.Tasks)
         self.AllWidgets = QWidget()
         self.AllWidgetsVbox = QVBoxLayout()
         for container in SlotContainers:
-            self.AllWidgets.addWidget(container)
+            self.AllWidgetsVbox.addWidget(container)
         self.AllWidgets.setLayout(self.AllWidgetsVbox)
         scroll = QScrollArea(self)
         scroll.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOn)
         scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
         scroll.setWidgetResizable(True)
         scroll.setWidget(self.AllWidgets)
-    
-
 
 print('Program is Running!')
 app = QApplication(sys.argv)
