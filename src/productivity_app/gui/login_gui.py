@@ -100,7 +100,11 @@ class LoginWindow(QWidget):
             self.show_error()
             return None
 
-    def show_error(self):
-        QMessageBox.warning(self, "Error", "Invalid username or password")
+if __name__ == "__main__":
+    import sys
+    from PyQt6.QtWidgets import QApplication
 
-
+    app = QApplication(sys.argv)
+    window = LoginWindow()
+    window.show()
+    sys.exit(app.exec())
