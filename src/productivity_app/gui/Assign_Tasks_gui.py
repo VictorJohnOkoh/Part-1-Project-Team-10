@@ -97,9 +97,14 @@ class AssignWindow(QWidget):
         self.AssignVbox.addWidget(TaskAssignerSubmitButton)
 
         self.setLayout(self.AssignVbox)
-if __name__ == '__main__':
-    print('Program is Running!')
-    app = QApplication(sys.argv)
-    window = AssignWindow()
-    window.show()
-    sys.exit(app.exec())
+# if __name__ == '__main__':
+#     print('Program is Running!')
+#     app = QApplication(sys.argv)
+#     window = AssignWindow()
+#     window.show()
+#     sys.exit(app.exec())
+print('Program is Running!')
+app = QApplication(sys.argv)
+window = AssignWindow()
+window.show()
+sys.exit(app.exec())

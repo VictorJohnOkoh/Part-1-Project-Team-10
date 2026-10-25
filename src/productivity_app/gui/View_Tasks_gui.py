@@ -9,7 +9,7 @@ from PyQt6.QtWidgets import (QApplication, QPushButton, QVBoxLayout, QWidget,
 class ViewerForTasks(QWidget):
     
     Tasks = [['Taking a big dump', 'Going to the toilet and wait for the chaos to begin', 'Jacob', '31-10-2026 20:20'],
-              ['Making meal prep', 'Following the instructions, and putting in the ingredients', 'Jacob', '03-11-2026 20:20'],
+              ['Making meal prep', 'Following the instructions, and putting in the ingredients', 'Jacob', '03-11-2026 19:28'],
                 ['Going to Work', 'Getting in the car and driving straight there!', 'Jacob', '28-10-2026 08:22']]
 
     def __init__(self, parent=None):
@@ -32,14 +32,17 @@ class ViewerForTasks(QWidget):
             HoursRemainder = DaysRemainder % 3600
             Minutes = HoursRemainder // 60
             #RemainingDeadline = QLabel(text=str(Months) + ' Months ' + str(Days) + ' Days ' + str(Hours) + ' Hours ' + str(Minutes) + ' Minutes')
-            LabelGiven.setText(text=str(Months) + ' Months ' + str(Days) + ' Days ' + str(Hours) + ' Hours ' + str(Minutes) + ' Minutes')
+            LabelGiven.setText(str(Months) + ' Months ' + str(Days) + ' Days ' + str(Hours) + ' Hours ' + str(Minutes) + ' Minutes')
             return LabelGiven
 
-        def Update_Deadlines():
-            for Deadline, Label in DeadlineLabels:
+        def Update_Deadlines(Deadline_Labels):
+            print('checking da labels')
+            for Label, Deadline in Deadline_Labels:
                 NewLabel = DeadlineCreation(Deadline,Label)
-                DeadlineLabels.remove([Deadline,Label])
-                DeadlineLabels.append([Deadline,NewLabel])
+                Deadline_Labels.remove([Label,Deadline])
+                Deadline_Labels.append([NewLabel,Deadline])
+                print('now check if there is a difference')
+            return Deadline_Labels
 
     
         def TaskDisplayer(Username,AssignedTasks):
@@ -103,9 +106,9 @@ class ViewerForTasks(QWidget):
                 SlotWidget.setLayout(Slot)
                 SlotContainers.append(SlotWidget)
 
-        # ClockTimer = QTimer()
-        # ClockTimer.start(60000)
-        # ClockTimer.timeout.connect(Update_Deadlines())
+        self.ClockTimer = QTimer()
+        self.ClockTimer.start(60000)
+        self.ClockTimer.timeout.connect(lambda l = DeadlineLabels: Update_Deadlines(l))
 
 
 
