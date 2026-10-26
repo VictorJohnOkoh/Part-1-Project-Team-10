@@ -31,15 +31,14 @@ class ViewerForTasks(QWidget):
             Hours = (DaysRemainder // 3600)
             HoursRemainder = DaysRemainder % 3600
             Minutes = HoursRemainder // 60
-            #RemainingDeadline = QLabel(text=str(Months) + ' Months ' + str(Days) + ' Days ' + str(Hours) + ' Hours ' + str(Minutes) + ' Minutes')
             LabelGiven.setText(str(Months) + ' Months ' + str(Days) + ' Days ' + str(Hours) + ' Hours ' + str(Minutes) + ' Minutes')
             return LabelGiven
 
         def Update_Deadlines(Deadline_Labels):
-            print('checking da labels')
+            print('Entered Update_Deadlines()')
             for Label, Deadline in Deadline_Labels:
                 DeadlineCreation(Deadline,Label)
-                print('now check if there is a difference')
+                print('Deadlines Updated!')
             return Deadline_Labels
 
     
@@ -50,7 +49,7 @@ class ViewerForTasks(QWidget):
             for task in AssignedTasks:
                 if task[2] == Username:
                     SuitableTasks.append(task)
-                    print('Correcto')
+                    print('Going through tasks...')
     
             for GivenTask in SuitableTasks:
                 NameOfTask = QLabel(text=GivenTask[0])
