@@ -1,11 +1,10 @@
 from .Employee import Employee
 from .Team import Team
 
-# a team leader owns one or more teams and can assign tasks to team members and review their progress. 
-# a team leader is also an employee, so they inherit the properties of an employee.
-# 
 
 class Team_Leader(Employee):
+    """A team leader owns one or more teams and can assign tasks to team members and review their progress."""
+
     def __init__(self, id, fname, lname, email, teams: list[Team]):
         super().__init__(id, fname, lname, email, tasks=[])
         self.teams = teams
