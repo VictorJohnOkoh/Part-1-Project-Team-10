@@ -41,6 +41,14 @@ def get_authorised(email):
                 return parts[2]
     return None
 
+def user_exist(email):
+    USERS_FILE = Path(__file__).parent.parent / "users" / "valid_users.txt"
+    with open(USERS_FILE, "r") as f:
+        for line in f:
+            if line.strip().split(":")[0].lower() == email.lower():
+                return True
+    return False
+
 def add_user(username,password,role):
     hashed = hash_password(password)
     USERS_FILE = Path(__file__).parent.parent / "users" / "valid_users.txt"
