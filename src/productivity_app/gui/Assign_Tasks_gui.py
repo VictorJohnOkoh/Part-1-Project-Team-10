@@ -104,7 +104,17 @@ class AssignWindow(QWidget):
 #     window.show()
 #     sys.exit(app.exec())
 print('Program is Running!')
+
+
+"""print('Program is Running!')
+>>>>>>> b353ea9844baeaa639631c3ea9944b86ab04550a
 app = QApplication(sys.argv)
 window = AssignWindow()
 window.show()
-sys.exit(app.exec())
+sys.exit(app.exec())"""
+
+if __name__ == "__main__":
+     app = QApplication(sys.argv)
+     window = AssignWindow()
+     window.show()
+     sys.exit(app.exec())
