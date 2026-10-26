@@ -5,19 +5,22 @@ from PyQt6.QtCore import QSize, Qt, QDateTime
 from PyQt6.QtGui import QIcon
 from PyQt6.QtWidgets import (QApplication, QPushButton, QVBoxLayout, QWidget, 
                              QLabel, QScrollArea, QMainWindow, QSlider,
-                             QHBoxLayout, QLineEdit,QDateTimeEdit, QTextEdit, QMessageBox)
+                             QHBoxLayout, QLineEdit,QDateTimeEdit, QTextEdit, QMessageBox, QStackedWidget, QDialog)
 
 class AssignWindow(QWidget):
 
     Assignments = []
 
+    ProjectNames = []
+
+
     Is_Format_Correct = False
     def Is_Format_Correct_Message(self):
         Message = QMessageBox()
         Message.setWindowTitle('Task Assignment')
-        OK_Button = Message.addButton('Ok',QMessageBox.ButtonRole.AcceptRole)
-        if Message.clickedButton() == OK_Button:
-            print('hehe')
+        # OK_Button = Message.addButton('Ok',QMessageBox.ButtonRole.AcceptRole)
+        # if Message.clickedButton() == OK_Button:
+        #     print('hehe')
 
         if self.Is_Format_Correct == True:
             Message.setText('Task successfully Assigned!')
@@ -27,8 +30,6 @@ class AssignWindow(QWidget):
              Message.setText('Insufficient Data provided!')
              Message.setInformativeText('Please try again.')
              Message.setIcon(QMessageBox.Icon.Critical)
-        Message.exec()
-        
 
 
     def TaskAssignerSubmitButton_clicked(self):
@@ -38,7 +39,6 @@ class AssignWindow(QWidget):
                 EmpName = self.EmployeeNameInput.text()
                 ChosenDeadline = self.ChosenDateAndTime.dateTime()
                 ChosenDeadline_Formatted = ChosenDeadline.toString('dd-MM-yyyy HH:mm')
-                Deadline = ChosenDeadline_Formatted
 
                 self.TaskNameInput.clear()
                 self.TaskDescriptionInput.clear()
@@ -52,12 +52,33 @@ class AssignWindow(QWidget):
                 else:
                     print('Incorrect, try again!')
                 self.Is_Format_Correct_Message()
+
+    def AddProject(self):
+                dialog = QDialog(self)
+                dialog.setFixedSize(220,150)
+    
+                AddProject_Layout = QVBoxLayout(dialog)
+    
+                ProjectName_TextboxInput = QLineEdit()
+                ProjectName_TextboxInput.setPlaceholderText('Enter the Project name below:')
+                ProjectName_TextboxInput.setFixedSize(200,60)
+        
+                AddProjectSubmitButton = QPushButton(text='Submit')
+                AddProjectSubmitButton.setFixedSize(200,60)
+    
+                AddProject_Layout.addWidget(ProjectName_TextboxInput)
+                AddProject_Layout.addWidget(AddProjectSubmitButton)
+    
+                AddProjectSubmitButton.clicked.connect(dialog.accept)
+                if dialog.exec():
+                    self.ProjectNames.append(ProjectName_TextboxInput.text())
                 
     def __init__(self, parent=None):
         super().__init__(parent)
 
+
         self.AssignWidget = QWidget()
-        self.AssignVbox = QVBoxLayout()
+        self.AssignVbox = QVBoxLayout(self.AssignWidget)
 
         #Assign Button with Textboxes
         self.TaskNameInput = QLineEdit()
@@ -73,8 +94,15 @@ class AssignWindow(QWidget):
         self.EmployeeNameInput.setPlaceholderText('Employee Name')
         self.EmployeeNameInput.setFixedWidth(400)
 
+        self.ProjectNameInput = QLineEdit()
+        self.ProjectNameInput.setPlaceholderText('Project Name')
+        self.ProjectNameInput.setFixedWidth(400)
+
+        AddProjectButton = QPushButton(text=' Add Project')
+        AddProjectButton.setFixedSize(400,60)
+        AddProjectButton.clicked.connect(self.AddProject)
         # setting up the deadline chooser for the managers/ team leaders
-        self.Deadline = ''
+
 
         self.GuideToDeadLineSelection = QLabel(text='Use the down arrow below to select a deadline from the calendar.')
         self.SecondGuideToDeadlineSelection = QLabel(text='Once chosen, use the arrows to make any necessary final adjustments.')
@@ -91,12 +119,16 @@ class AssignWindow(QWidget):
         self.AssignVbox.addWidget(self.TaskNameInput)
         self.AssignVbox.addWidget(self.TaskDescriptionInput)
         self.AssignVbox.addWidget(self.EmployeeNameInput)
+        self.AssignVbox.addWidget(self.ProjectNameInput)
+        self.AssignVbox.addWidget(AddProjectButton)
         self.AssignVbox.addWidget(self.GuideToDeadLineSelection)
         self.AssignVbox.addWidget(self.SecondGuideToDeadlineSelection)
         self.AssignVbox.addWidget(self.ChosenDateAndTime)
         self.AssignVbox.addWidget(TaskAssignerSubmitButton)
 
         self.setLayout(self.AssignVbox)
+
+
 # if __name__ == '__main__':
 #     print('Program is Running!')
 #     app = QApplication(sys.argv)
@@ -113,8 +145,8 @@ window = AssignWindow()
 window.show()
 sys.exit(app.exec())"""
 
-if __name__ == "__main__":
-     app = QApplication(sys.argv)
-     window = AssignWindow()
-     window.show()
-     sys.exit(app.exec())
+#if __name__ == "__main__":
+app = QApplication(sys.argv)
+window = AssignWindow()
+window.show()
+sys.exit(app.exec())
