@@ -38,9 +38,7 @@ class ViewerForTasks(QWidget):
         def Update_Deadlines(Deadline_Labels):
             print('checking da labels')
             for Label, Deadline in Deadline_Labels:
-                NewLabel = DeadlineCreation(Deadline,Label)
-                Deadline_Labels.remove([Label,Deadline])
-                Deadline_Labels.append([NewLabel,Deadline])
+                DeadlineCreation(Deadline,Label)
                 print('now check if there is a difference')
             return Deadline_Labels
 
@@ -124,6 +122,7 @@ class ViewerForTasks(QWidget):
         scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
         scroll.setWidgetResizable(True)
         scroll.setWidget(self.AllWidgets)
+        scroll.setMinimumSize(450,400)
 
 print('Program is Running!')
 app = QApplication(sys.argv)
