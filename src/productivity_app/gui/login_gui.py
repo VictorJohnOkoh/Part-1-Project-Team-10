@@ -177,18 +177,7 @@ class LoginWindow(QWidget):
 
     def login(self):
         role = check_user(self.username.text(),self.password.text())
-        if role == "team_leader":
-            QMessageBox.information(self,"Team Leader Screen","You are now on the team leader screen")
-        elif role == "team_member":
-            QMessageBox.information(self,"Team member","You are now on the team member screen")
-        else:
-            self.attempts += 1
-            remaining = maximum - self.attempts
-            self.password.clear()
-            if remaining > 0:
-                QMessageBox.warning(self,"Login fail","Wrong username/password")
-            else:
-                self.lock_out()
+        self.verify_login(role, self.username.text())
 
     def lock_out(self):
         QMessageBox.critical(self,"Locked out", "Too many failed attempts")

@@ -20,8 +20,8 @@ class MainWindow(QMainWindow):
         self.stack = QStackedWidget()
         self.setCentralWidget(self.stack)
 
-        self.login_window = LoginWindow(self.switch_to_manager, self.switch_to_register)
-        self.login_window = LoginWindow(self.switch_to_manager, self.switch_to_register)
+        self.login_window = LoginWindow(self.switch_screen, self.switch_to_register)
+        self.login_window = LoginWindow(self.switch_screen, self.switch_to_register)
         self.dashboard_window = None
         self.register_window = RegisterWindow(self.switch_to_login)
         self.register_window = RegisterWindow(self.switch_to_login)
