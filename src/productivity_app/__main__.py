@@ -1,11 +1,13 @@
 import sys
 from PyQt6.QtWidgets import QApplication, QStackedWidget, QMainWindow
 from .gui.login_gui import LoginWindow, RegisterWindow
+from .gui.login_gui import LoginWindow, RegisterWindow
 from .gui.dashboard_gui import Dashboard
 from .gui.Post_gui import PostWindow
 from .users.Manager import Manager
 from .users.Employee import Employee
 
+WIDTH, HEIGHT = 300, 300
 WIDTH, HEIGHT = 300, 300
 
 
@@ -19,10 +21,13 @@ class MainWindow(QMainWindow):
         self.setCentralWidget(self.stack)
 
         self.login_window = LoginWindow(self.switch_to_manager, self.switch_to_register)
+        self.login_window = LoginWindow(self.switch_to_manager, self.switch_to_register)
         self.dashboard_window = None
+        self.register_window = RegisterWindow(self.switch_to_login)
         self.register_window = RegisterWindow(self.switch_to_login)
 
         self.stack.addWidget(self.login_window)
+        self.stack.addWidget(self.register_window)
         self.stack.addWidget(self.register_window)
         self.stack.setCurrentWidget(self.login_window)
 
@@ -41,7 +46,12 @@ class MainWindow(QMainWindow):
     def switch_to_register(self):
         self.stack.setCurrentWidget(self.register_window)
 
+    def switch_to_register(self):
+        self.stack.setCurrentWidget(self.register_window)
+
     def switch_to_login(self):
+        self.stack.setCurrentWidget(self.login_window)
+        #pass
         self.stack.setCurrentWidget(self.login_window)
         #pass
 
