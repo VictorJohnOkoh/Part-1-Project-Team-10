@@ -1,8 +1,11 @@
 [project]
 name = "part-1-project-team-10"
 version = "0.1.0"
-requires-python = ">=3.11"
-dependencies = ["PyQt6"]
+requires-python = ">=3.13"
+dependencies = [
+    "bcrypt>=5.0.0",
+    "PyQt6",
+]
 
 [build-system]
 requires = ["hatchling"]
