@@ -16,3 +16,6 @@ class Task:
 
     def get_deadline(self) -> datetime.datetime:
         return self.__deadline
+
+def placeholder_task(name: str) -> Task:
+    return Task(name, '', datetime.datetime(year=2027, month=1, day=25))
