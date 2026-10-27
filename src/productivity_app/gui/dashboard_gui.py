@@ -23,7 +23,7 @@ from .View_Tasks_gui import ViewerForTasks
 class Dashboard(QtWidgets.QWidget):
 
 # Runs automatically when someone writes Dashboard()
-    def __init__(self,user):
+    def __init__(self, user, logout_service):
 # Let QWidget do its own setup first, otherwise Qt breaks
         super().__init__()
 
@@ -32,6 +32,7 @@ class Dashboard(QtWidgets.QWidget):
         self.resize(800, 600)
 
         self.user = user
+        self.logout = logout_service
 
 # Build everything that goes inside the window
         self.build_ui()
@@ -59,6 +60,7 @@ class Dashboard(QtWidgets.QWidget):
         progress_button = QtWidgets.QPushButton("Project Progress")
         assign_tasks_button = QtWidgets.QPushButton("Assign Tasks")
         register_employee_button = QtWidgets.QPushButton("Register employee")
+        logout_button = QtWidgets.QPushButton("Logout")
 
 # connected the buttons to their functions (the functions that call their gui to pop up)
         to_do_button.clicked.connect(self.to_do_clicked)
@@ -68,6 +70,7 @@ class Dashboard(QtWidgets.QWidget):
         progress_button.clicked.connect(self.progress_clicked)
         assign_tasks_button.clicked.connect(self.assign_tasks_clicked)
         register_employee_button.clicked.connect(self.register_employee_clicked)
+        logout_button.clicked.connect(self.logout)
 
 
         all_buttons = [to_do_button, post_button, tasks_button, training_button, progress_button, assign_tasks_button, register_employee_button]
@@ -98,6 +101,7 @@ class Dashboard(QtWidgets.QWidget):
         else:
             pass
 
+        task_box_3.addWidget(logout_button, 1)
         # Attach the layout to this window, so Qt actually displays it
         self.setLayout(main_layout)
 
