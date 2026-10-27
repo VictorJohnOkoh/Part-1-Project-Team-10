@@ -21,7 +21,7 @@ class RegisterWindow(QWidget):
         super().__init__()
         self.on_back = on_back
 
-        self.resize(300,300)
+        self.resize(WIDTH, HEIGHT)
         self.setWindowTitle("Register")
         self.email = QLineEdit(placeholderText="Email")
         self.password = QLineEdit(placeholderText="Password",echoMode=QLineEdit.EchoMode.Password)
@@ -130,7 +130,9 @@ class LoginWindow(QWidget):
     def __init__(self, verify_login, on_register):
         super().__init__()
 
-        self.verify_login = verify_login
+        self.resize(WIDTH, HEIGHT)
+
+        self.switch_screen = switch_screen
         self.setWindowTitle("MAKE IT ALL")
         self.resize(WIDTH, HEIGHT)
         self.attempts = 0
@@ -177,10 +179,17 @@ class LoginWindow(QWidget):
 
     def login(self):
         role = check_user(self.username.text(),self.password.text())
-        self.verify_login(role, self.username.text())
-
-    def lock_out(self):
-        QMessageBox.critical(self,"Locked out", "Too many failed attempts")
+        if role == "team_leader":
+            self.username.clear()
+            self.password.clear()
+            self.switch_screen(role, self.username.text())
+        elif role == "team_member":
+            self.username.clear()
+            self.password.clear()
+            self.switch_screen(role, self.username.text())
+        else:
+            QMessageBox.warning(self,"Login fail","Wrong username/password")
+            self.password.clear()
 
     def register(self):
         #self.register = RegisterWindow()
