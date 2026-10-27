@@ -7,7 +7,7 @@ Projects = {"Project_A":
                     "Employee": "Bob",
                     "Deadline": "02/30/2020", 
                     "Status": "In Progress", 
-                    "Estimated_hours": 5}]},
+                    "Estimated_hours": 100}]},
 
             "Project_B": 
             {"teamLead": "Tracy", 
@@ -18,14 +18,30 @@ Projects = {"Project_A":
                     "Employee": "John", 
                     "Deadline": "02/30/2050", 
                     "Status": "In Progress", 
-                    "Estimated_hours": 6},
+                    "Estimated_hours": 225},
 
                     {"taskName": "TestTask2",
                     "Employee": "Mikolaj", 
                     "Deadline": "02/30/2028", 
                     "Status": "Complete", 
-                    "Estimated_hours": 10
-}]}}
+                    "Estimated_hours": 75}]},
+            "Project_C": 
+            {"teamLead": "Hubert", 
+             "Deadline": "12/05/29", 
+             "Estimated_hours": 50, 
+             "tasks": [{
+                    "taskName": "Test3",
+                    "Employee": "Macbeth", 
+                    "Deadline": "02/30/2050", 
+                    "Status": "In Progress", 
+                    "Estimated_hours": 10},
+
+                    {"taskName": "TestTask3",
+                    "Employee": "Duncan", 
+                    "Deadline": "02/30/2099", 
+                    "Status": "Complete", 
+                    "Estimated_hours": 40}]}
+}
 
 #Note for actual function simply return details found and use the loop below in the gui to show visually
 def Search_Project_Details():
