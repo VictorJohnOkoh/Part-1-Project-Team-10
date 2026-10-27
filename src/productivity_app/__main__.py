@@ -1,10 +1,10 @@
 import sys
 from PyQt6.QtWidgets import QApplication, QStackedWidget, QMainWindow
 from PyQt6.QtCore import QTimer
-from .gui.login_gui import LoginWindow
-from .gui.dashboard_gui import Dashboard
-from .users.Manager import Manager
-from .users.Employee import Employee
+from productivity_app.gui.login_gui import LoginWindow
+from productivity_app.gui.dashboard_gui import Dashboard
+from productivity_app.users.Manager import Manager
+from productivity_app.users.Employee import Employee
 
 
 WIDTH, HEIGHT = 300, 300
