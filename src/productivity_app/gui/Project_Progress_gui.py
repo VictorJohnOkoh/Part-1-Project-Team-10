@@ -1,5 +1,10 @@
 import sys
 from PyQt6 import QtWidgets, QtCore, QtGui
+from PyQt6.QtCore import QSize, Qt
+from PyQt6.QtGui import QIcon, QFont
+from PyQt6.QtWidgets import (QApplication, QPushButton, QVBoxLayout, QWidget, 
+                             QLabel, QScrollArea, QMainWindow, QSlider,
+                             QLineEdit, QHBoxLayout, QGridLayout)
 from productivity_app.services.Project_Progress_Functions import Projects, Search_Project_Details
 
 class ProgressWindow(QtWidgets.QWidget):
@@ -11,6 +16,7 @@ class ProgressWindow(QtWidgets.QWidget):
 
     def User_Interface_Values(self):
         main_layout = QtWidgets.QVBoxLayout()
+
         for Single_Project in Projects:
             tasks = []
             project_name = Single_Project
@@ -23,6 +29,7 @@ class ProgressWindow(QtWidgets.QWidget):
         self.setLayout(main_layout)
 
     def Build_UI(self, project_name, Team_Leader, Deadline, Estimated_hours, tasks, main_layout):
+
         Project_Name_label = QtWidgets.QLabel(project_name)
         Project_Name_label.setFont(QtGui.QFont("Arial", 20, QtGui.QFont.Weight.Bold))
         Project_Name_label.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
