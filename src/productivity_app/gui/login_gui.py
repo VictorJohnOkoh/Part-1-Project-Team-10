@@ -18,7 +18,7 @@ class RegisterWindow(QWidget):
     def __init__(self):
         super().__init__()
 
-        self.resize(300,300)
+        self.resize(WIDTH, HEIGHT)
         self.setWindowTitle("Register")
         self.email = QLineEdit(placeholderText="Email")
         self.password = QLineEdit(placeholderText="Password")
@@ -70,6 +70,8 @@ class LoginWindow(QWidget):
     def __init__(self, switch_screen):
         super().__init__()
 
+        self.resize(WIDTH, HEIGHT)
+
         self.switch_screen = switch_screen
         self.setWindowTitle("MAKE IT ALL")
         self.resize(WIDTH, HEIGHT)
@@ -93,8 +95,12 @@ class LoginWindow(QWidget):
     def login(self):
         role = check_user(self.username.text(),self.password.text())
         if role == "team_leader":
+            self.username.clear()
+            self.password.clear()
             self.switch_screen(role, self.username.text())
         elif role == "team_member":
+            self.username.clear()
+            self.password.clear()
             self.switch_screen(role, self.username.text())
         else:
             QMessageBox.warning(self,"Login fail","Wrong username/password")
