@@ -18,7 +18,10 @@ class AssignWindow(QWidget):
 
     Assignments = []
 
-    ProjectNames = []
+    ProjectNames = ['Team 1', 'Team 2', 'Team 3', 'Team 4', 'Team 5', 'Team 6',
+ 'Team 7', 'Team 8', 'Team 9', 'Team 10', 'Team 11', 'Team 12',
+ 'Team 13', 'Team 14', 'Team 15', 'Team 16', 'Team 17', 'Team 18',
+ 'Team 19', 'Team 20', 'Team 21', 'Team 22']
 
 
     Is_Format_Correct = False
@@ -44,42 +47,21 @@ class AssignWindow(QWidget):
                 TaskName = self.TaskNameInput.text()
                 TaskDesc = self.TaskDescriptionInput.toPlainText()
                 EmpName = self.EmployeeNameInput.text()
+                EstimatedTime = self.TaskEstimatedTimeInput.text()
                 ChosenDeadline = self.ChosenDateAndTime.dateTime()
-                ChosenDeadline_Formatted = ChosenDeadline.toString('dd-MM-yyyy HH:mm')
 
                 self.TaskNameInput.clear()
                 self.TaskDescriptionInput.clear()
                 self.EmployeeNameInput.clear()
                 self.ChosenDateAndTime.setDateTime(QDateTime.currentDateTime())
 
-                if len(TaskName) != 0 and len(TaskDesc) != 0 and len(EmpName) != 0:
+                if len(TaskName) != 0 and len(TaskDesc) != 0 and len(EstimatedTime) != 0:
                     print('message assigned!')
-                    self.Assignments.append([TaskName,TaskDesc,EmpName,ChosenDeadline.toString('dd-MM-yyyy HH:mm')])
+                    self.Assignments.append([TaskName,TaskDesc,EmpName,ChosenDeadline.toString('dd-MM-yyyy HH:mm'),EstimatedTime,'Incomplete'])
                     self.Is_Format_Correct = True
                 else:
                     print('Incorrect, try again!')
                 self.Is_Format_Correct_Message()
-
-    def AddProject(self):
-        dialog = QDialog(self)
-        dialog.setFixedSize(220,150)
-
-        AddProject_Layout = QVBoxLayout(dialog)
-
-        ProjectName_TextboxInput = QLineEdit()
-        ProjectName_TextboxInput.setPlaceholderText('Enter the Project name below:')
-        ProjectName_TextboxInput.setFixedSize(200,60)
-
-        AddProjectSubmitButton = QPushButton(text='Submit')
-        AddProjectSubmitButton.setFixedSize(200,60)
-
-        AddProject_Layout.addWidget(ProjectName_TextboxInput)
-        AddProject_Layout.addWidget(AddProjectSubmitButton)
-
-        AddProjectSubmitButton.clicked.connect(dialog.accept)
-        if dialog.exec():
-            self.ProjectNameInput.addItem(ProjectName_TextboxInput.text())
-            #self.ProjectNames.append(ProjectName_TextboxInput.text())
                 
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -98,6 +80,10 @@ class AssignWindow(QWidget):
         self.TaskDescriptionInput.setFixedWidth(400)
         self.TaskDescriptionInput.setFixedHeight(200)
 
+        self.TaskEstimatedTimeInput = QLineEdit()
+        self.TaskEstimatedTimeInput.setPlaceholderText('Enter the estimated time required for this task.')
+        self.TaskEstimatedTimeInput.setFixedWidth(400)
+
         self.EmployeeNameInput = QComboBox()
         with open(FilePath,'r') as Users:
             for UserLine in Users:
@@ -108,11 +94,9 @@ class AssignWindow(QWidget):
 
 
         self.ProjectNameInput = QComboBox()
+        for project in self.ProjectNames:
+            self.ProjectNameInput.addItem(project)
         self.ProjectNameInput.setFixedWidth(400)
-
-        AddProjectButton = QPushButton(text=' Add Project')
-        AddProjectButton.setFixedSize(400,60)
-        AddProjectButton.clicked.connect(self.AddProject)
         # setting up the deadline chooser for the managers/ team leaders
 
 
@@ -130,9 +114,9 @@ class AssignWindow(QWidget):
 
         self.AssignVbox.addWidget(self.TaskNameInput)
         self.AssignVbox.addWidget(self.TaskDescriptionInput)
+        self.AssignVbox.addWidget(self.TaskEstimatedTimeInput)
         self.AssignVbox.addWidget(self.EmployeeNameInput)
         self.AssignVbox.addWidget(self.ProjectNameInput)
-        self.AssignVbox.addWidget(AddProjectButton)
         self.AssignVbox.addWidget(self.GuideToDeadLineSelection)
         self.AssignVbox.addWidget(self.SecondGuideToDeadlineSelection)
         self.AssignVbox.addWidget(self.ChosenDateAndTime)
