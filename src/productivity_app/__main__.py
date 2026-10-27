@@ -4,11 +4,20 @@ from PyQt6.QtCore import QTimer
 from productivity_app.gui.login_gui import LoginWindow
 from productivity_app.gui.dashboard_gui import Dashboard
 from productivity_app.users.Manager import Manager
-from productivity_app.users.Employee import Employee
-
+from productivity_app.users.Employee import build_employee
+from productivity_app.services.find_employeee import get_employee
+from productivity_app.users.TeamLead import Team_Leader
+from productivity_app.users.Project import proj1
+from productivity_app.users.Team import Team
 
 WIDTH, HEIGHT = 300, 300
+employees = build_employee()
+manager1 = Manager(4444, 'Anakin', 'Skywaler', 'anakin.skywalker@make-it-all.co.uk')
+leader1 = Team_Leader(1111, 'John', 'Smith', 'john.smith@make-it-all.co.uk')
+team1 = Team(proj1, employees, leader1)
 
+for employee in employees:
+    print(employee.__str__())
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -27,11 +36,12 @@ class MainWindow(QMainWindow):
 
     def switch_screen(self, role: str, username: str):
         if self.dashboard_window is None and role == "team_leader":
-            self.dashboard_window = Dashboard(Manager(1234, 'John', 'Doe', 'johndoe@make-it-all.co.uk'), self.logout)
+            self.dashboard_window = Dashboard(leader1, self.logout)
             self.stack.addWidget(self.dashboard_window)
             self.stack.setCurrentWidget(self.dashboard_window)
         elif self.dashboard_window is None and role == "team_member":
-            self.dashboard_window = Dashboard(Employee(5678, 'Jane', 'Smith', 'janesmith@make-it-all.co.uk'), self.logout)
+            employee = get_employee(employees, username)
+            self.dashboard_window = Dashboard(employee, self.logout)
             self.stack.addWidget(self.dashboard_window)
             self.stack.setCurrentWidget(self.dashboard_window)
         else:

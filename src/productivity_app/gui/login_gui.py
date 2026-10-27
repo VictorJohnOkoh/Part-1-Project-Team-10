@@ -95,13 +95,15 @@ class LoginWindow(QWidget):
     def login(self):
         role = check_user(self.username.text(),self.password.text())
         if role == "team_leader":
+            username = self.username.text()
             self.username.clear()
             self.password.clear()
-            self.switch_screen(role, self.username.text())
+            self.switch_screen(role, username)
         elif role == "team_member":
+            username = self.username.text()
             self.username.clear()
             self.password.clear()
-            self.switch_screen(role, self.username.text())
+            self.switch_screen(role, username)
         else:
             self.show_error()
             return None

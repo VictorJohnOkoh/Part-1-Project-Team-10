@@ -21,3 +21,5 @@ class Project:
 
     def get_project_deadline(self) -> datetime | None:
         return self.deadline
+
+proj1 = Project('Example', datetime(day=25, month=1, year=2026), 'Complete the demo', datetime(day=25, month=1, year=2027))
