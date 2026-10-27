@@ -4,6 +4,7 @@ from PyQt6 import QtGui
 from ..users.Manager import Manager
 from .Post_gui import PostWindow
 from ..users.Employee import Employee
+from .training import Training
 
 #(Are yet to be attached)
 #from .gui.to_do_gui import to_do
@@ -113,6 +114,8 @@ class Dashboard(QtWidgets.QWidget):
         print("tasks clicked")
 
     def training_clicked(self):
+        self.training = Training(self.user)
+        self.training.show()
         print("training clicked")
 
     def progress_clicked(self):
