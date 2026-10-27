@@ -26,7 +26,7 @@ class RegisterWindow(QWidget):
         self.email = QLineEdit(placeholderText="Email")
         self.password = QLineEdit(placeholderText="Password",echoMode=QLineEdit.EchoMode.Password)
         
-        button = QPushButton("create account")
+        button = QPushButton("Create Account")
         button.clicked.connect(self.register_account)
 
         back_button = QPushButton("Back to login")
