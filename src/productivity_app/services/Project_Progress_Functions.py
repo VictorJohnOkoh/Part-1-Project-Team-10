@@ -1,15 +1,16 @@
 Projects = {"Project_A": 
-            {"teamLead": ["Alice"],
+            {"teamLead": "Alice",
             "Deadline": "24/10/26",
             "Estimated_hours": 100,
             "tasks": [{
                     "taskName": "TempTest",
-                    "Employee": "Bob", 
+                    "Employee": "Bob",
+                    "Deadline": "02/30/2020", 
                     "Status": "In Progress", 
                     "Estimated_hours": 5}]},
 
             "Project_B": 
-            {"teamLead": ["Tracy"], 
+            {"teamLead": "Tracy", 
              "Deadline": "12/05/29", 
              "Estimated_hours": 300, 
              "tasks": [{
