@@ -5,7 +5,7 @@ from .gui.dashboard_gui import Dashboard
 from .users.Manager import Manager
 from .users.Employee import Employee
 
-WIDTH, HEIGHT = 800, 600
+WIDTH, HEIGHT = 300, 300
 
 
 class MainWindow(QMainWindow):
