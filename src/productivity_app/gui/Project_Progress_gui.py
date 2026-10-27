@@ -15,7 +15,13 @@ class ProgressWindow(QtWidgets.QWidget):
         self.User_Interface_Values()
 
     def User_Interface_Values(self):
-        main_layout = QtWidgets.QVBoxLayout()
+        Scroll_Content = QWidget()
+        main_layout = QVBoxLayout(self)
+
+        scroll = QScrollArea()
+        scroll.setWidgetResizable(True)
+
+        Content_Layout = QVBoxLayout(Scroll_Content)
 
         for Single_Project in Projects:
             tasks = []
@@ -25,8 +31,12 @@ class ProgressWindow(QtWidgets.QWidget):
             Deadline = Details_Found["Deadline"]
             Estimated_hours = Details_Found["Estimated_hours"]
             tasks = Details_Found["tasks"]
-            self.Build_UI(project_name, Team_Leader, Deadline, Estimated_hours, tasks, main_layout)
-        self.setLayout(main_layout)
+            self.Build_UI(project_name, Team_Leader, Deadline, Estimated_hours, tasks, Content_Layout)
+
+        Content_Layout.addStretch()
+        Content_Layout.setSizeConstraint(QtWidgets.QLayout.SizeConstraint.SetMinimumSize)
+        scroll.setWidget(Scroll_Content)
+        main_layout.addWidget(scroll)
 
     def Build_UI(self, project_name, Team_Leader, Deadline, Estimated_hours, tasks, main_layout):
 
@@ -64,6 +74,13 @@ class ProgressWindow(QtWidgets.QWidget):
             table.setItem(count, 4, QtWidgets.QTableWidgetItem(single_task["Status"]))
             count += 1
 
+        total_height = table.horizontalHeader().height() + 2
+
+        for i in range(table.rowCount()):
+            total_height += table.rowHeight(i)
+        
+        table.setFixedHeight(total_height)
+        table.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
         main_layout.addWidget(table)
 
 # The execution guard so you can test it directly!
