@@ -25,5 +25,4 @@ class Team_Leader(Employee):
     def review_progress(self, team: Team):
         print(f"Reviewing progress for team members: {[member.get_full_name() for member in team.get_members()]}\n")
 
-    def get_role(self):
-        return 'Team Leader'
+lead1 = Team_Leader(id=1111, fname='John', lname='Smith', email='john.smith@make-it-all.co.uk')
