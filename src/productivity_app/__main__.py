@@ -2,6 +2,7 @@ import sys
 from PyQt6.QtWidgets import QApplication, QStackedWidget, QMainWindow
 from .gui.login_gui import LoginWindow, RegisterWindow
 from .gui.dashboard_gui import Dashboard
+from .gui.Post_gui import PostWindow
 from .users.Manager import Manager
 from .users.Employee import Employee
 
@@ -29,6 +30,10 @@ class MainWindow(QMainWindow):
         if self.dashboard_window is None:
             #instead of hardcoding the names we should work out a way to strip the name from the username used
             self.dashboard_window = Dashboard(Manager(1234, 'John', 'Doe', 'johndoe@make-it-all.co.uk'))
+            self.stack.addWidget(self.dashboard_window)
+            self.stack.setCurrentWidget(self.dashboard_window)
+        elif self.dashboard_window is None and role == "team_member":
+            self.dashboard_window = Dashboard(Employee(5678, 'Jane', 'Smith', 'janesmith@make-it-all.co.uk'))
             self.stack.addWidget(self.dashboard_window)
             self.stack.setCurrentWidget(self.dashboard_window)
         else:

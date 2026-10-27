@@ -26,7 +26,7 @@ class RegisterWindow(QWidget):
         self.email = QLineEdit(placeholderText="Email")
         self.password = QLineEdit(placeholderText="Password",echoMode=QLineEdit.EchoMode.Password)
         
-        button = QPushButton("create account")
+        button = QPushButton("Create Account")
         button.clicked.connect(self.register_account)
 
         back_button = QPushButton("Back to login")
@@ -176,10 +176,11 @@ class LoginWindow(QWidget):
 
 
     def login(self):
-        if check_user(self.username.text()) == LoginVerification.MANAGER and check_password(self.password.text()) == LoginVerification.MANAGER:
-            self.verify_login()
-        elif check_password(self.password.text()) and check_user(self.username.text()):
-            return "employee"
+        role = check_user(self.username.text(),self.password.text())
+        if role == "team_leader":
+            QMessageBox.information(self,"Team Leader Screen","You are now on the team leader screen")
+        elif role == "team_member":
+            QMessageBox.information(self,"Team member","You are now on the team member screen")
         else:
             self.attempts += 1
             remaining = maximum - self.attempts
