@@ -1,0 +1,11 @@
+username:hash:role
+john.smith@make-it-all.co.uk:$2b$12$rou9khT6AXeX9ZLqUSi2B.puIg6zQehiX5hKxGTzdtEmLoSlZkbEe:team_leader
+bilbo.baggins@make-it-all.co.uk:$2b$12$5vYInzBb9NuulY8vufAGTu9x8ULeK9tf3ez7lNMdeGEhi6.zfNE3q:team_member
+sherlok.holmes@make-it-all.co.uk:$2b$12$ZQAYRyUFqihDerrecx7Edu/ne7a4B5LgZM.5NQbF8OCpfy7ZzKEwS:team_member
+qui-gon.jinn@make-it-all.co.uk:$2b$12$/z8up2/SGLrfP3z/zPlQwuTqxRRwA68iQnELAELNavEoanCrjbBtS:team_member
+randy.marsh@make-it-all.co.uk:$2b$12$7C64LWlrjKhUJucZrP6yW.ZI5dUL2IClgIxHZq7p0So9SfDqcPRYy:team_member
+anakin.skywalker@make-it-all.co.uk:$2b$12$8mGBWbnbCcCaowGdLIx.cufO7hVkIrZUgh90icxVbcZ9UaQ3Www8G:team_member
+jake.peralta@make-it-all.co.uk:$2b$12$IELMuI8yrkfYcV4sKskYD.c7yUEBXViqDxfdDbqeYR3ryBqEdisAa:team_member
+jim.halpert@make-it-all.co.uk:$2b$12$0Au0r6RUfzt1En1wfYJrYeLGrhq2HMbBzR.OiDDa//Itr46uq4qma:team_membermichael.scott@make-it-all-co.uk:$2b$12$v2zxHd/GBxzPN.oixmfdeefG/OIArCzv3Wo9TVlYbBTgEAXMjtb6G:team_leader
+michael.scott@make-it-all-co.uk:$2b$12$3DrNVunh.Vz7wTu2tH9Iy.SB2TBpKq25N7ENhAHvh0.C.Qf7ZlRXi:team_leader
+michael.scott@make-it-all.co.uk:$2b$12$7iSAxdHmyOF0te27CiKnVugNrveMShyfOMWSDgzKXr6CewJgqfr0G:team_leader

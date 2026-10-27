@@ -1,4 +1,0 @@
-username:hash:role
-john.smith@make-it-all.co.uk:$2b$12$rou9khT6AXeX9ZLqUSi2B.puIg6zQehiX5hKxGTzdtEmLoSlZkbEe:team_leader
-bilbo.baggins@make-it-all.co.uk:$2b$12$5vYInzBb9NuulY8vufAGTu9x8ULeK9tf3ez7lNMdeGEhi6.zfNE3q:team_member
-sherlok.holmes@make-it-all.co.uk:$2b$12$ZQAYRyUFqihDerrecx7Edu/ne7a4B5LgZM.5NQbF8OCpfy7ZzKEwS:team_member
