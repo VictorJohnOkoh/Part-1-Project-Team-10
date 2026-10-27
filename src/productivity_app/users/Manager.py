@@ -23,3 +23,5 @@ class Manager(Employee):
 
     def __str__(self) -> str:
         return super().__str__()
+    
+manager1 = Manager(4444, 'Anakin', 'Skywaler', 'anakin.skywalker@make-it-all.co.uk')
