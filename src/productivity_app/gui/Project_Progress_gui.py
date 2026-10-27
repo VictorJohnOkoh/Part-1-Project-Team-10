@@ -28,15 +28,26 @@ class ProgressWindow(QtWidgets.QWidget):
         Project_Name_label.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         main_layout.addWidget(Project_Name_label)
 
-        Project_Info_label = QtWidgets.QLabel(f"Team Leader Name: {Team_Leader} - Deadline: {Deadline} - Estimated Hours: {Estimated_hours}")
+        Project_Info_label = QtWidgets.QLabel(f"Team Leader Name: {Team_Leader} - Deadline: {Deadline} - Total Estimated Hours: {Estimated_hours}")
         Project_Info_label.setFont(QtGui.QFont("Arial", 12))
         Project_Info_label.setAlignment(QtCore.Qt.AlignmentFlag.AlignLeft)
         main_layout.addWidget(Project_Info_label)
 
+        Progress_Bar = QtWidgets.QProgressBar()
+        completed_hours = 0
+        for single_task in tasks:
+            if single_task["Status"].strip() == "Complete":
+                completed_hours += single_task["Estimated_hours"]
+        
+        percent_complete = (completed_hours/Estimated_hours) * 100
+        Progress_Bar.setValue(int(percent_complete))
+        Progress_Bar.setFixedHeight(25)
+        main_layout.addWidget(Progress_Bar)
+
         table = QtWidgets.QTableWidget(len(tasks), 5)
         table.setHorizontalHeaderLabels(["Task Name", "Employee", "Deadline", "Estimated_hours", "Status"])
         table.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeMode.Stretch)
-
+        table.setEditTriggers(QtWidgets.QAbstractItemView.EditTrigger.NoEditTriggers)
         count = 0
         for single_task in tasks:
             table.setItem(count, 0, QtWidgets.QTableWidgetItem(single_task["taskName"]))
