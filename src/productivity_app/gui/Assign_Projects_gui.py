@@ -14,7 +14,7 @@ Directory = os.path.dirname(os.path.abspath(__file__))
 
 FilePath = os.path.join(Directory, "..", "users", "test_users.txt")
 
-class AssignWindow(QWidget):
+class AssignProjectsWindow(QWidget):
 
     Projects = []
 
@@ -89,8 +89,8 @@ class AssignWindow(QWidget):
 
         self.setLayout(self.AssignVbox)
 
-#if __name__ == "__main__":
-app = QApplication(sys.argv)
-window = AssignWindow()
-window.show()
-sys.exit(app.exec())
+if __name__ == "__main__":
+    app = QApplication(sys.argv)
+    window = AssignProjectsWindow()
+    window.show()
+    sys.exit(app.exec())

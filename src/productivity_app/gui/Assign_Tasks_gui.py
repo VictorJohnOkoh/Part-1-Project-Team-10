@@ -14,7 +14,7 @@ Directory = os.path.dirname(os.path.abspath(__file__))
 
 FilePath = os.path.join(Directory, "..", "users", "test_users.txt")
 
-class AssignWindow(QWidget):
+class AssignTasksWindow(QWidget):
 
     Assignments = []
 
@@ -132,7 +132,7 @@ class AssignWindow(QWidget):
 if __name__ == '__main__':
     print('Program is Running!')
     app = QApplication(sys.argv)
-    window = AssignWindow()
+    window = AssignTasksWindow()
     window.show()
     sys.exit(app.exec())
     print('Program is Running!')
