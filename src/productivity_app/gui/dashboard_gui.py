@@ -4,7 +4,8 @@ from PyQt6 import QtGui
 from ..users.Manager import Manager
 from .Post_gui import PostWindow
 from ..users.Employee import Employee
-
+from .Assign_Tasks_gui import AssignTasksWindow
+from .View_Tasks_gui import ViewerForTasks
 
 #(Are yet to be attached)
 #from .gui.to_do_gui import to_do
@@ -120,6 +121,8 @@ class Dashboard(QtWidgets.QWidget):
 
     def tasks_clicked(self):
         print("tasks clicked")
+        self.ViewTasksWindow = ViewerForTasks()
+        self.ViewTasksWindow.show()
 
     def training_clicked(self):
         print("training clicked")
@@ -129,7 +132,8 @@ class Dashboard(QtWidgets.QWidget):
 
     def assign_tasks_clicked(self):
         print("assign tasks clicked")
-        
+        self.AssignTasksWindow = AssignTasksWindow()
+        self.AssignTasksWindow.show()
 
     def register_employee_clicked(self):
         print("register employee clicked")

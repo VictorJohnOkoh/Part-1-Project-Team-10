@@ -23,8 +23,9 @@ class AssignTasksWindow(QWidget):
  'Team 13', 'Team 14', 'Team 15', 'Team 16', 'Team 17', 'Team 18',
  'Team 19', 'Team 20', 'Team 21', 'Team 22']
 
-    def GiveAssignments(self):
-        return self.Assignments
+    @staticmethod
+    def GiveAssignments():
+        return AssignTasksWindow.Assignments
 
 
     Is_Format_Correct = False
