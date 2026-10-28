@@ -5,7 +5,7 @@ from PyQt6.QtGui import QIcon, QFont
 from PyQt6.QtWidgets import (QApplication, QPushButton, QVBoxLayout, QWidget, 
                              QLabel, QScrollArea, QMainWindow, QSlider,
                              QLineEdit, QHBoxLayout, QWidget, QLineEdit)
-from productivity_app import Assign_Tasks_gui
+from productivity_app.gui import Assign_Tasks_gui
 
 class ViewerForTasks(QWidget):
 
