@@ -17,3 +17,9 @@ username1:password1:2026-10-23T14-36-02
 username1:password1:2026-10-23T14-36-43
 username1:password1:2026-10-23T14-38-45
 username1:password1:2026-10-23T14-50-40
+username1:password1:2026-10-28T21-46-54
+john.smith@make-it-all.co.uk:john.smith@make-it-all.co.uk:2026-10-28T21-47-38
+username1:password1:2026-10-28T21-50-11
+john.smith@make-it-all.co.uk:$2b$12$rou9khT6AXeX9ZLqUSi2B.puIg6zQehiX5hKxGTzdtEmLoSlZkbEe:2026-10-28T21-50-46
+john.smith@make-it-all.co.uk:john:2026-10-28T21-50-58
+john.smith@make-it-all.co.uk:admin:2026-10-28T21-51-03
