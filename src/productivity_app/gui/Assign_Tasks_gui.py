@@ -23,6 +23,9 @@ class AssignWindow(QWidget):
  'Team 13', 'Team 14', 'Team 15', 'Team 16', 'Team 17', 'Team 18',
  'Team 19', 'Team 20', 'Team 21', 'Team 22']
 
+    def GiveAssignments(self):
+        return self.Assignments
+
 
     Is_Format_Correct = False
     def Is_Format_Correct_Message(self):
@@ -46,7 +49,8 @@ class AssignWindow(QWidget):
                 self.Is_Format_Correct = False
                 TaskName = self.TaskNameInput.text()
                 TaskDesc = self.TaskDescriptionInput.toPlainText()
-                EmpName = self.EmployeeNameInput.text()
+                EmpName = self.EmployeeNameInput.currentText()
+                Team = self.ProjectNameInput.currentText()
                 EstimatedTime = self.TaskEstimatedTimeInput.text()
                 ChosenDeadline = self.ChosenDateAndTime.dateTime()
 
@@ -57,7 +61,7 @@ class AssignWindow(QWidget):
 
                 if len(TaskName) != 0 and len(TaskDesc) != 0 and len(EstimatedTime) != 0:
                     print('message assigned!')
-                    self.Assignments.append([TaskName,TaskDesc,EmpName,ChosenDeadline.toString('dd-MM-yyyy HH:mm'),EstimatedTime,'Incomplete'])
+                    self.Assignments.append([TaskName,TaskDesc,EmpName,Team,ChosenDeadline.toString('dd-MM-yyyy HH:mm'),EstimatedTime,'Incomplete'])
                     self.Is_Format_Correct = True
                 else:
                     print('Incorrect, try again!')
@@ -81,7 +85,7 @@ class AssignWindow(QWidget):
         self.TaskDescriptionInput.setFixedHeight(200)
 
         self.TaskEstimatedTimeInput = QLineEdit()
-        self.TaskEstimatedTimeInput.setPlaceholderText('Enter the estimated time required for this task.')
+        self.TaskEstimatedTimeInput.setPlaceholderText('Enter the estimated time required for this task. (in hours)')
         self.TaskEstimatedTimeInput.setFixedWidth(400)
 
         self.EmployeeNameInput = QComboBox()
@@ -125,13 +129,13 @@ class AssignWindow(QWidget):
         self.setLayout(self.AssignVbox)
 
 
-# if __name__ == '__main__':
-#     print('Program is Running!')
-#     app = QApplication(sys.argv)
-#     window = AssignWindow()
-#     window.show()
-#     sys.exit(app.exec())
-print('Program is Running!')
+if __name__ == '__main__':
+    print('Program is Running!')
+    app = QApplication(sys.argv)
+    window = AssignWindow()
+    window.show()
+    sys.exit(app.exec())
+    print('Program is Running!')
 
 
 """print('Program is Running!')
@@ -142,7 +146,7 @@ window.show()
 sys.exit(app.exec())"""
 
 #if __name__ == "__main__":
-app = QApplication(sys.argv)
-window = AssignWindow()
-window.show()
-sys.exit(app.exec())
+# app = QApplication(sys.argv)
+# window = AssignWindow()
+# window.show()
+# sys.exit(app.exec())
