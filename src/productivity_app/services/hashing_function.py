@@ -12,8 +12,10 @@ def verify_password(password: str, stored_hash: str):
 
 #this is a function to convert all of the all password to hashes
 def hash_password(password: str):
-    print(bcrypt.hashpw(password.encode("utf-8"),bcrypt.gensalt()).decode("utf-8"))
+    return (bcrypt.hashpw(password.encode("utf-8"),bcrypt.gensalt()).decode("utf-8"))
 
 #hash_password("hash123")
-hash_password("hash2")
-hash_password("hash3")
+#hash_password("hash2")
+#hash_password("hash3")
+
+hash_password("hash11")
