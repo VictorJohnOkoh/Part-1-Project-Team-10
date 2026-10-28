@@ -7,16 +7,14 @@ from PyQt6.QtWidgets import (QApplication, QPushButton, QVBoxLayout, QWidget,
                              QLineEdit, QHBoxLayout, QWidget, QLineEdit)
 
 class ViewerForTasks(QWidget):
+
     
-    Tasks = [['Taking a big dump', 'Going to the toilet and wait for the chaos to begin', 'Jacob', '31-10-2026 20:20',20,'Incomplete'],
-              ['Making meal prep', 'Following the instructions, and putting in the ingredients', 'Jacob', '03-11-2026 19:28',30,'Incomplete'],
-                ['Going to Work', 'Getting in the car and driving straight there!', 'Jacob', '28-10-2026 08:22',13,'Incomplete']]
+    Tasks = [['Taking a big dump', 'Going to the toilet and wait for the chaos to begin', 'Jacob','Team 3', '31-10-2026 20:20',20,'Incomplete'],
+              ['Making meal prep', 'Following the instructions, and putting in the ingredients', 'Jacob', 'Team 4', '03-11-2026 19:28',30,'Incomplete'],
+                ['Going to Work', 'Getting in the car and driving straight there!', 'Jacob', 'Team 10', '28-10-2026 08:22',13,'Incomplete']]
 
     def __init__(self, parent=None):
         super().__init__(parent)
-        # ClockTimer = QTimer()
-        # ClockTimer.start(60000)
-        # ClockTimer.timeout.connect(Update_Deadlines())
 
         SlotContainers = []
 
@@ -67,7 +65,7 @@ class ViewerForTasks(QWidget):
                 Minutes = HoursRemainder // 60
                 RemainingDeadline = QLabel(text=str(Months) + ' Months ' + str(Days) + ' Days ' + str(Hours) + ' Hours ' + str(Minutes) + ' Minutes')            
     
-                DeadlineLabels.append([RemainingDeadline,GivenTask[3]])
+                DeadlineLabels.append([RemainingDeadline,GivenTask[4]])
 
                 ActionButton = QPushButton(text='Start Task')
                 ActionButton.setFixedSize(400,60)
@@ -85,7 +83,7 @@ class ViewerForTasks(QWidget):
                         Button.TaskStatus = 'Complete'
                         if TimeText ==  '0 Months 0 Days 0 Hours 0 Minutes':
                             Button.TaskStatus = 'Finished Late'
-                    GivenTask[5] = Button.TaskStatus
+                    GivenTask[6] = Button.TaskStatus
                     print(GivenTask)
 
                         
