@@ -8,9 +8,9 @@ from PyQt6.QtWidgets import (QApplication, QPushButton, QVBoxLayout, QWidget,
 
 class ViewerForTasks(QWidget):
     
-    Tasks = [['Taking a big dump', 'Going to the toilet and wait for the chaos to begin', 'Jacob', '31-10-2026 20:20'],
-              ['Making meal prep', 'Following the instructions, and putting in the ingredients', 'Jacob', '03-11-2026 19:28'],
-                ['Going to Work', 'Getting in the car and driving straight there!', 'Jacob', '28-10-2026 08:22']]
+    Tasks = [['Taking a big dump', 'Going to the toilet and wait for the chaos to begin', 'Jacob', '31-10-2026 20:20',20,'Incomplete'],
+              ['Making meal prep', 'Following the instructions, and putting in the ingredients', 'Jacob', '03-11-2026 19:28',30,'Incomplete'],
+                ['Going to Work', 'Getting in the car and driving straight there!', 'Jacob', '28-10-2026 08:22',13,'Incomplete']]
 
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -83,13 +83,11 @@ class ViewerForTasks(QWidget):
                         Button.setText('Finish')
                     elif Button.TaskStatus == 'In progress':
                         Button.TaskStatus = 'Complete'
-                        if TimeText !=  '0 Months 0 Days 0 Hours 0 Minutes':
-                            Button.setText('Edit')
-                        else:
-                            Button.hide()
-                    elif Button.TaskStatus == 'Complete':
-                        Button.TaskStatus == 'In Progress'
-                        Button.setText('Finish')
+                        if TimeText ==  '0 Months 0 Days 0 Hours 0 Minutes':
+                            Button.TaskStatus = 'Finished Late'
+                    GivenTask[5] = Button.TaskStatus
+                    print(GivenTask)
+
                         
                 
                 ActionButton.clicked.connect(lambda checked, b = ActionButton, t = RemainingTime: ActionButton_clicked(b,t))
