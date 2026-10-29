@@ -34,8 +34,11 @@ class Employee:
     def remove_task(self, task) -> None:
         self.__tasks.remove(task)
 
+    def get_role(self):
+        return 'Employee'
+
     def __str__(self) -> str:
-        return f"Employee ID: {self.__id}, Name: {self.__first_name} {self.__last_name}, Email: {self.__email}, Tasks: {[task.get_name() for task in self.__tasks]}"
+        return f"Employee ID: {self.__id}, Name: {self.__first_name} {self.__last_name}, Email: {self.__email}, Role: {self.get_role()}, Tasks: {[task.get_name() for task in self.__tasks]}"
     
 def build_employee() -> list[Employee]:
     with open('user_data.txt', 'r') as f:
@@ -49,3 +52,6 @@ def build_employee() -> list[Employee]:
             tasks = placeholder_task(line[4])
             employees.append(Employee(id, f_name, l_name, email, [tasks]))
         return employees
+
+employees1 = [Employee(2222, 'Bilbo', 'Baggins', 'bilbo.baggins@make-it-all.co.uk'), placeholder_task('Buy printing paper'), Employee(3333, 'Sherlok', 'Holmes', 'sherlok.holmes@make-it-all.co.uk'), placeholder_task('Write a book')]
+employees2 = [Employee(5555, 'Jake', 'Peralta', 'jake.peralta@make-it-all.co.uk'), placeholder_task('Wrestle a lot'), Employee(6666, 'Randy', 'Marsh', 'randy.marsh@make-it-all.co.uk'), placeholder_task('Refill printer ink')]

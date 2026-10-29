@@ -2,7 +2,7 @@ from PyQt6 import QtWidgets
 from PyQt6 import QtCore
 from PyQt6 import QtGui
 from productivity_app.users.Manager import Manager
-from productivity_app.users.Employee import Employee
+from productivity_app.users.TeamLead import Team_Leader
 
 #(Are yet to be attached)
 #from .gui.to_do_gui import to_do
@@ -85,7 +85,7 @@ class Dashboard(QtWidgets.QWidget):
 
 
 # only adding the register, project progress and assign task buttons if the user is of the manager class
-        if isinstance(self.user, Manager):
+        if isinstance(self.user, Manager) or isinstance(self.user, Team_Leader):
             task_box_3.addWidget(register_employee_button, 1)
             task_box_2.addWidget(progress_button, 1)
             task_box_2.addWidget(assign_tasks_button, 1)
