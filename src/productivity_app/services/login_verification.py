@@ -7,7 +7,7 @@ from PyQt6.QtWidgets import (
     )
 from datetime import datetime
 from pathlib import Path
-from productivity_app.services.hashing_function import verify_password
+from productivity_app.services.hashing_function import verify_password, hash_password
 
 """
 The test_users.txt is just to test the functionality of the password verification
@@ -22,19 +22,42 @@ def tracker(username,password):
 
 #function used to check if the username and password exist in the file
 def check_credentials(username,password):
-    USERS_FILE = Path(__file__).parent.parent / "users" / "test_users.txt"
+    USERS_FILE = Path(__file__).parent.parent / "users" / "valid_users.txt"
     with open(USERS_FILE,"r") as user_file:
         for line in user_file:
             current_line = line.strip().split(":")
             if current_line[0] == username and verify_password(password,current_line[1]):
                 #only returns the role if the credentials exist in the file
                 return current_line[2]
-            elif current_line[0] == username and current_line[1] != password:
+            elif current_line[0] == username and not verify_password(password,current_line[1]):
                 return None
+
+def get_authorised(email):
+    authorised_file = Path(__file__).parent.parent / "users" / "authorised_users.txt"
+    with open (authorised_file,"r") as authorised:
+        for line in authorised:
+            parts = line.strip().split(":")
+            if len(parts) == 3 and parts[0].lower() == email:
+                return parts[2]
+    return None
+
+def user_exist(email):
+    USERS_FILE = Path(__file__).parent.parent / "users" / "valid_users.txt"
+    with open(USERS_FILE, "r") as f:
+        for line in f:
+            if line.strip().split(":")[0].lower() == email.lower():
+                return True
+    return False
+
+def add_user(username,password,role):
+    hashed = hash_password(password)
+    USERS_FILE = Path(__file__).parent.parent / "users" / "valid_users.txt"
+    with open(USERS_FILE,"a") as f:
+        f.write(f"{username}:{hashed}:{role}\n")
 
 #used to check if the username is correct
 def check_user(username: str, password: str):
-    if re.search("@make-it-all.co.uk",username):
+    if re.search(r"^[^@\s]+@make-it-all\.co\.uk$",username):
 
         #call function to hash password entered
         role = check_credentials(username,password) 
