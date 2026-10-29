@@ -25,7 +25,3 @@ class Team:
 
     def get_members_count(self) -> int:
         return len(self.__members)
-    
-def parse_members(data: str) -> tuple[list, str]:
-    mydict = dict((v.strip(), k.strip()) for k, v in (item.split(':') for item in data.split(',')))
-    return list(mydict['member']), mydict['leader']
