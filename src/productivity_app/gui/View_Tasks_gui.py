@@ -9,10 +9,10 @@ from productivity_app.gui import Assign_Tasks_gui
 
 class ViewerForTasks(QWidget):
 
-    Tasks = Assign_Tasks_gui.GiveAssignments()
-   # Tasks = [['Taking a big dump', 'Going to the toilet and wait for the chaos to begin', 'Jacob','Team 3', '31-10-2026 20:20',20,'Incomplete'],
-    #          ['Making meal prep', 'Following the instructions, and putting in the ingredients', 'Jacob', 'Team 4', '03-11-2026 19:28',30,'Incomplete'],
-     #           ['Going to Work', 'Getting in the car and driving straight there!', 'Jacob', 'Team 10', '28-10-2026 08:22',13,'Incomplete']]
+    #Tasks = Assign_Tasks_gui.AssignTasksWindow.GiveAssignments()
+    Tasks = [['Taking a big dump', 'Going to the toilet and wait for the chaos to begin', 'Jacob','Team 3', '31-10-2026 20:20',20,'Incomplete'],
+             ['Making meal prep', 'Following the instructions, and putting in the ingredients', 'Jacob', 'Team 4', '03-11-2026 19:28',30,'Incomplete'],
+               ['Going to Work', 'Getting in the car and driving straight there!', 'Jacob', 'Team 10', '28-10-2026 08:22',13,'Incomplete']]
 
     def __init__(self, parent=None):
         super().__init__(parent)
