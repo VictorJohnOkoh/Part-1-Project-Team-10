@@ -92,7 +92,7 @@ class Dashboard(QtWidgets.QWidget):
 
 
 # only adding the register, project progress and assign task buttons if the user is of the manager class
-        if isinstance(self.user, Manager):
+        if isinstance(self.user, Manager) or isinstance(self.user, Team_Leader):
             task_box_3.addWidget(register_employee_button, 1)
             task_box_2.addWidget(progress_button, 1)
             task_box_2.addWidget(assign_tasks_button, 1)

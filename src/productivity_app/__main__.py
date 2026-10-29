@@ -6,17 +6,20 @@ from productivity_app.gui.login_gui import LoginWindow
 from productivity_app.gui.dashboard_gui import Dashboard
 from productivity_app.gui.Post_gui import PostWindow
 from productivity_app.users.Manager import Manager
-from productivity_app.users.Employee import build_employee
-from productivity_app.services.find_employeee import get_employee
+from productivity_app.users.Employee import employees1, employees2
 from productivity_app.users.TeamLead import Team_Leader
-from productivity_app.users.Project import proj1
+from productivity_app.users.Project import proj1, proj2
 from productivity_app.users.Team import Team
+from productivity_app.services.find_employeee import get_employee
 
 WIDTH, HEIGHT = 300, 300
-employees = build_employee()
 manager1 = Manager(4444, 'Anakin', 'Skywaler', 'anakin.skywalker@make-it-all.co.uk')
 leader1 = Team_Leader(1111, 'John', 'Smith', 'john.smith@make-it-all.co.uk')
-team1 = Team(proj1, employees, leader1)
+leader2 = Team_Leader(4444, 'Michael', 'Scott', 'michael.scott@make-it-all-co.uk')
+team1 = Team(proj1, employees1, leader1)
+team2 = Team(proj2, employees2, leader2)
+
+employees = employees1 + employees2 + [manager1, leader1, leader2]
 
 class MainWindow(QMainWindow):
     def __init__(self):
