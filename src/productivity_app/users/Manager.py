@@ -20,6 +20,9 @@ class Manager(Employee):
 
     def get_employee_details(self, employee: Employee):
         return employee.get_id(), employee.get_full_name(), employee.get_email(), employee.get_tasks()
+    
+    def get_role(self) -> str:
+        return 'Manager'
 
     def __str__(self) -> str:
         return super().__str__()

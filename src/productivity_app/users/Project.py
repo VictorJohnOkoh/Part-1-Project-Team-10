@@ -23,3 +23,4 @@ class Project:
         return self.deadline
 
 proj1 = Project('Example', datetime(day=25, month=1, year=2026), 'Complete the demo', datetime(day=25, month=1, year=2027))
+proj2 = Project('Example2', datetime(day=25, month=12, year=2026), 'Write up a the Q4 report', datetime(day=30, month=12, year=2026))
