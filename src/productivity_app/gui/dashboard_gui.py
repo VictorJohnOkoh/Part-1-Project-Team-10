@@ -4,7 +4,9 @@ from PyQt6 import QtGui
 from ..users.Manager import Manager
 from .Post_gui import PostWindow
 from ..users.Employee import Employee
+from .training import Training
 from .Assign_Tasks_gui import AssignTasksWindow
+from .Assign_Projects_gui import AssignProjectsWindow
 from .View_Tasks_gui import ViewerForTasks
 
 #(Are yet to be attached)
@@ -83,21 +85,13 @@ class Dashboard(QtWidgets.QWidget):
         task_box_1.addWidget(post_button, 1)
         task_box_1.addWidget(tasks_button, 1)
 
-        # Hide these buttons if the user is not a manager
-        if type(self.user).__name__ == "Manager":
-
-            task_box_2.addWidget(training_button, 1)
-            task_box_2.addWidget(progress_button, 1)
-            task_box_2.addWidget(assign_tasks_button, 1)
-
-            task_box_3.addWidget(register_employee_button, 1)
-        task_box_2.addWidget(training_button, 1)
 
 # only adding the register, project progress and assign task buttons if the user is of the manager class
         if isinstance(self.user, Manager):
             task_box_3.addWidget(register_employee_button, 1)
             task_box_2.addWidget(progress_button, 1)
             task_box_2.addWidget(assign_tasks_button, 1)
+            task_box_2.addWidget(training_button, 1)
         #elif isinstance(self.user, Team_Leader): this is for if they are team leader but remains unimplemented
         #this is for basic team members
         else:
@@ -125,6 +119,8 @@ class Dashboard(QtWidgets.QWidget):
         self.ViewTasksWindow.show()
 
     def training_clicked(self):
+        self.training = Training(self.user)
+        self.training.show()
         print("training clicked")
 
     def progress_clicked(self):
