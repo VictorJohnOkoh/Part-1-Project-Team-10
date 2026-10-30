@@ -47,29 +47,30 @@ class PostWindow(QWidget):
 
     def Button_Generator(self,font):
         for topics in post.keys():
-            posts_found = post[topics]
-            for single_posts in posts_found:
-                ButtonName = single_posts["title"]
-                ButtonLabel_Post = QLabel(text=single_posts["body"])
-                self.RightVbox.addWidget(ButtonLabel_Post)
-                ButtonLabel_Post.hide()
-                self.Labels.append(ButtonLabel_Post)
+            if topics not in RestrictedTopics:
+                posts_found = post[topics]
+                for single_posts in posts_found:
+                    ButtonName = single_posts["title"]
+                    ButtonLabel_Post = QLabel(text=single_posts["body"])
+                    self.RightVbox.addWidget(ButtonLabel_Post)
+                    ButtonLabel_Post.hide()
+                    self.Labels.append(ButtonLabel_Post)
 
-                #TempReplyLabelStorage = comment_finder(self, single_posts["comments"], ReplyLabels)
-                ButtonName = QPushButton(text=ButtonName)
-                ButtonName.setFixedSize(400,160)
-                ButtonName.setFont(font)
+                    #TempReplyLabelStorage = comment_finder(self, single_posts["comments"], ReplyLabels)
+                    ButtonName = QPushButton(text=ButtonName)
+                    ButtonName.setFixedSize(400,160)
+                    ButtonName.setFont(font)
 
-                ButtonName.clicked.connect(lambda checked, z=ButtonLabel_Post, t=topics, title=single_posts["title"]: (
-                    setattr(self, 'current_topic', t),
-                    setattr(self, 'current_title', title),
-                    setattr(self, 'current_body_label', z),
-                    self.Label_Management(z, self.Labels, t, title)
-                ))
-                ButtonName.clicked.connect(self.ReplyInput.clear)
-                self.LeftVbox.addWidget(ButtonName) 
+                    ButtonName.clicked.connect(lambda checked, z=ButtonLabel_Post, t=topics, title=single_posts["title"]: (
+                        setattr(self, 'current_topic', t),
+                        setattr(self, 'current_title', title),
+                        setattr(self, 'current_body_label', z),
+                        self.Label_Management(z, self.Labels, t, title)
+                    ))
+                    ButtonName.clicked.connect(self.ReplyInput.clear)
+                    self.LeftVbox.addWidget(ButtonName) 
 
-                self.PostButtons.append({'widget': ButtonName, 'topic': topics}) 
+                    self.PostButtons.append({'widget': ButtonName, 'topic': topics}) 
 
     def Create_New_Post(self):
         Add_New_Post_Window = QDialog(self)
@@ -158,12 +159,15 @@ class PostWindow(QWidget):
             strtopic = Topic.strip().lower()
 
             for item in self.PostButtons:
-                if not strtopic:
-                    item['widget'].show()
-                elif item['topic'].lower() == strtopic:
-                    item['widget'].show()
+                if strtopic not in RestrictedTopics:
+                    if not strtopic:
+                        item['widget'].show()
+                    elif item['topic'].lower() == strtopic:
+                        item['widget'].show()
+                    else:
+                        item['widget'].hide()
                 else:
-                    item['widget'].hide()
+                    print(strtopic, "is a restricted topic")
 
 
         self.SearchInput = QComboBox()
