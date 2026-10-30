@@ -13,7 +13,7 @@ from productivity_app.users.Team import Team
 from productivity_app.services.find_employeee import get_employee
 
 WIDTH, HEIGHT = 300, 300
-manager1 = Manager(4444, 'Anakin', 'Skywaler', 'anakin.skywalker@make-it-all.co.uk')
+manager1 = Manager(4444, 'Anakin', 'Skywalker', 'anakin.skywalker@make-it-all.co.uk')
 leader1 = Team_Leader(1111, 'John', 'Smith', 'john.smith@make-it-all.co.uk')
 leader2 = Team_Leader(4444, 'Michael', 'Scott', 'michael.scott@make-it-all-co.uk')
 team1 = Team(proj1, employees1, leader1)
