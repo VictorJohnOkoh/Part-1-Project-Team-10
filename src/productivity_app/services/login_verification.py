@@ -45,6 +45,8 @@ def check_user(username: str, password: str):
             #print("You will be taken to the team member screen")
             #function to take user to team member screen
             return "team_member"
+        elif role == "manager":
+            return 'manager'
         else:
             tracker(username,password)
             return "unauth_user"

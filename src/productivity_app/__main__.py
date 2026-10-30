@@ -11,7 +11,7 @@ from productivity_app.users.Team import Team
 from productivity_app.services.find_employeee import get_employee
 
 WIDTH, HEIGHT = 300, 300
-manager1 = Manager(4444, 'Anakin', 'Skywaler', 'anakin.skywalker@make-it-all.co.uk')
+manager1 = Manager(4444, 'Anakin', 'Skywalker', 'anakin.skywalker@make-it-all.co.uk')
 leader1 = Team_Leader(1111, 'John', 'Smith', 'john.smith@make-it-all.co.uk')
 leader2 = Team_Leader(4444, 'Michael', 'Scott', 'michael.scott@make-it-all-co.uk')
 team1 = Team(proj1, employees1, leader1)
@@ -19,8 +19,6 @@ team2 = Team(proj2, employees2, leader2)
 
 employees = employees1 + employees2 + [manager1, leader1, leader2]
 
-for employee in employees:
-    print(employee.__str__() + '\n')
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -57,8 +55,6 @@ class MainWindow(QMainWindow):
         
         QTimer.singleShot(0, lambda: self.resize(WIDTH, HEIGHT))
 
-    def switch_to_login(self):
-        pass
 
     def switch_to_user(self):
         pass

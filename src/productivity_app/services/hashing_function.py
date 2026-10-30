@@ -17,3 +17,4 @@ def hash_password(password: str):
 #hash_password("hash123")
 hash_password("hash2")
 hash_password("hash3")
+hash_password('manager1')
