@@ -18,4 +18,4 @@ class Task:
         return self.__deadline
 
 def placeholder_task(name: str) -> Task:
-    return Task(name, '', datetime.datetime(year=2027, month=1, day=25))
+    return Task(name, '', datetime.datetime(year=2027, month=1, day=25, hour=0, minute=0))
