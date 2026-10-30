@@ -205,12 +205,28 @@ class PostWindow(QWidget):
         self.CurrentButtonIndex = 0
 
         def SubmitReplyButtonClicked():
+            Message = QMessageBox()
             comment_text = self.ReplyInput.text()
             if not comment_text.strip():
                 return
 
+            if not hasattr(self, 'current_topic') or not hasattr(self, 'current_title'):
+                Message.setFixedSize(300, 100)
+                Message.setText("No Post selected")
+                Message.setInformativeText("Please click on a post to comment")
+                Message.setIcon(QMessageBox.Icon.Information)
+                Message.exec()
+                return
+
             if not self.current_topic or not self.current_title:
                 return
+
+            if self.current_topic in RestrictedTopics:
+                Message.setFixedSize(300, 100)
+                Message.setText("Post is restricted")
+                Message.setInformativeText("Please comment on another post")
+                Message.setIcon(QMessageBox.Icon.Information)
+                Message.exec()
 
             make_comment(self.current_topic, self.current_title, comment_text)
             self.ReplyInput.clear()
