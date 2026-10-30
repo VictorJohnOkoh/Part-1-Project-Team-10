@@ -1,4 +1,3 @@
-from asyncio import tasks
 import sys
 
 from productivity_app.gui.dashboard_gui import Dashboard
@@ -92,9 +91,6 @@ class ToDoListWindow(QWidget):
         input_row.addWidget(self.new_task)
         input_row.addWidget(button)
 
-        #call function to add hardcoded tasks in to-do list
-
-
         layout = QVBoxLayout(self)
         layout.addWidget(QLabel("TO-DO LIST"),alignment= Qt.AlignmentFlag.AlignTop | Qt.AlignmentFlag.AlignCenter)
         layout.addWidget(self.new_task)
@@ -118,10 +114,6 @@ class ToDoListWindow(QWidget):
             return
         self.tasks_layout.addWidget(TaskRow(text))
         self.new_task.clear()
-
-    def add_hardcoded_tasks(self):
-        self.tasks_layout.addWidget(hardcoded_tasks["task1"])
-        return
 
     #function to take the user to their dashboard
     def go_back(self):
