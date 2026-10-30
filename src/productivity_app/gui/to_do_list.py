@@ -1,6 +1,8 @@
 import sys
+#import may have to get removed because it creates a circular import 
+#because dashboard gui imports this file
 
-from productivity_app.gui.dashboard_gui import Dashboard
+#from productivity_app.gui.dashboard_gui import Dashboard
 from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import(
     QButtonGroup,
