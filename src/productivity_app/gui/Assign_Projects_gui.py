@@ -32,7 +32,7 @@ class AssignProjectsWindow(QWidget):
             Message.setIcon(QMessageBox.Icon.Information)
             print(self.Projects)
         else:
-             Message.setText('Insufficient Data provided!')
+             Message.setText('Insufficient data provided!')
              Message.setInformativeText('Please try again.')
              Message.setIcon(QMessageBox.Icon.Critical)
         Message.exec()
@@ -86,6 +86,8 @@ class AssignProjectsWindow(QWidget):
         self.AssignVbox.addWidget(self.EmployeeNameInput)
         self.AssignVbox.addWidget(self.ProjectNameInput)
         self.AssignVbox.addWidget(ProjectAssignerSubmitButton)
+
+        self.setWindowTitle('Project Assignment')
 
         self.setLayout(self.AssignVbox)
 
