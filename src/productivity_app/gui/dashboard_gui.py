@@ -104,7 +104,7 @@ class Dashboard(QtWidgets.QWidget):
     # its respective function is run so that the function may show the ui for the to-do functionality
 
     def to_do_clicked(self):
-        self.to_do_list = ToDoListWindow
+        self.to_do_list = ToDoListWindow()
         self.to_do_list.show()
         print("todo clicked")
 
