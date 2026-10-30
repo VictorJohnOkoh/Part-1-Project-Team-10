@@ -90,6 +90,10 @@ class PostWindow(QWidget):
                 Message.setInformativeText("Please choose a different topic")
                 Message.setIcon(QMessageBox.Icon.Information)
                 Message.exec()
+
+                self.TopicInput.clear()
+                self.TitleInput.clear()
+                self.BodyInput.clear()
                 return
 
             Title = self.TitleInput.text().strip().lower()
