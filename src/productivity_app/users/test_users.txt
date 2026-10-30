@@ -5,3 +5,4 @@ sherlok.holmes@make-it-all.co.uk:$2b$12$ZQAYRyUFqihDerrecx7Edu/ne7a4B5LgZM.5NQbF
 jake.peralta@make-it-all.co.uk:$2b$12$IELMuI8yrkfYcV4sKskYD.c7yUEBXViqDxfdDbqeYR3ryBqEdisAa:team_member
 michael.scott@make-it-all-co.uk:$2b$12$3DrNVunh.Vz7wTu2tH9Iy.SB2TBpKq25N7ENhAHvh0.C.Qf7ZlRXi:team_leader
 randy.marsh@make-it-all.co.uk:$2b$12$7C64LWlrjKhUJucZrP6yW.ZI5dUL2IClgIxHZq7p0So9SfDqcPRYy:team_member
+anakin.skywalker@make-it-all.co.uk:$2b$12$HCf2Oyjrugy/9O8oLQKVke/ZtbKWN2mDKtahHWEWHVHveUWjvVp3.:manager
