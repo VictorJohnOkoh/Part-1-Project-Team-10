@@ -109,7 +109,7 @@ class Dashboard(QtWidgets.QWidget):
         print("todo clicked")
 
     def post_clicked(self):
-        self.post_window = PostWindow()
+        self.post_window = PostWindow(self.user)
         self.post_window.show()
         print("post clicked")
 
