@@ -12,7 +12,7 @@ post = {"general": [
             "comments": ["No I certainly disagree", "Yep ;("]
         }
     ]}
-RestrictedTopics = {}
+RestrictedTopics = {"general"}
 
 def RestrictTopics(InpRestrictedTopic):
     # Allows user to input topic to restrict access to that topic
