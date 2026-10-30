@@ -1,6 +1,8 @@
 import sys
+#import may have to get removed because it creates a circular import 
+#because dashboard gui imports this file
 
-from productivity_app.gui.dashboard_gui import Dashboard
+#from productivity_app.gui.dashboard_gui import Dashboard
 from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import(
     QButtonGroup,
@@ -14,7 +16,11 @@ from PyQt6.QtWidgets import(
     QApplication
 )
 
-WIDTH, HEIGHT = 500,350
+WIDTH, HEIGHT = 800,450
+
+hardcoded_tasks = [("attend meeting","In Progress"),
+                   ("complete research","Not Started"),
+                   ("ask customer for clarification","Finished")]
 
 STATUS = ["Not Started","In Progress","Finished"]
 class TaskRow(QWidget):
@@ -97,6 +103,12 @@ class ToDoListWindow(QWidget):
         self.tasks_layout = QVBoxLayout()
         layout.addLayout(self.tasks_layout)
         #layout.addStretch()
+        
+        #adding hardcoded example tasks
+        for text,status in hardcoded_tasks:
+            row = TaskRow(text)
+            row.set_status(status)
+            self.tasks_layout.addWidget(row)
 
     def add_task(self):
         text = self.new_task.text().strip()
@@ -105,11 +117,9 @@ class ToDoListWindow(QWidget):
         self.tasks_layout.addWidget(TaskRow(text))
         self.new_task.clear()
 
-
     #function to take the user to their dashboard
     def go_back(self):
         print("Back button clicked")
-
 
 app = QApplication(sys.argv)
 window = ToDoListWindow()

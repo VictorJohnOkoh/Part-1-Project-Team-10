@@ -6,6 +6,7 @@ from .Post_gui import PostWindow
 from .Project_Progress_gui import ProgressWindow
 from ..users.Employee import Employee
 from .training import Training
+from .to_do_list import ToDoListWindow 
 from .Assign_Tasks_gui import AssignTasksWindow
 from .Assign_Projects_gui import AssignProjectsWindow
 from .View_Tasks_gui import ViewerForTasks
@@ -107,6 +108,8 @@ class Dashboard(QtWidgets.QWidget):
     # its respective function is run so that the function may show the ui for the to-do functionality
 
     def to_do_clicked(self):
+        self.to_do_list = ToDoListWindow()
+        self.to_do_list.show()
         print("todo clicked")
 
     def post_clicked(self):
