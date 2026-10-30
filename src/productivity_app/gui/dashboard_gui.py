@@ -3,7 +3,10 @@ from PyQt6 import QtCore
 from PyQt6 import QtGui
 from ..users.Manager import Manager
 from .Post_gui import PostWindow
+from .Project_Progress_gui import ProgressWindow
 from ..users.Employee import Employee
+from .Assign_Tasks_gui import AssignTasksWindow
+from .View_Tasks_gui import ViewerForTasks
 from .training import Training
 from .to_do_list import ToDoListWindow 
 
@@ -109,12 +112,14 @@ class Dashboard(QtWidgets.QWidget):
         print("todo clicked")
 
     def post_clicked(self):
-        self.post_window = PostWindow()
+        self.post_window = PostWindow(self.user)
         self.post_window.show()
         print("post clicked")
 
     def tasks_clicked(self):
         print("tasks clicked")
+        self.ViewTasksWindow = ViewerForTasks()
+        self.ViewTasksWindow.show()
 
     def training_clicked(self):
         self.training = Training(self.user)
@@ -122,10 +127,14 @@ class Dashboard(QtWidgets.QWidget):
         print("training clicked")
 
     def progress_clicked(self):
+        self.progress_window = ProgressWindow()
+        self.progress_window.show()
         print("progress clicked")
 
     def assign_tasks_clicked(self):
         print("assign tasks clicked")
+        self.AssignTasksWindow = AssignTasksWindow()
+        self.AssignTasksWindow.show()
 
     def register_employee_clicked(self):
         print("register employee clicked")
