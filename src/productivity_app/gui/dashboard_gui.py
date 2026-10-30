@@ -8,6 +8,7 @@ from ..users.Employee import Employee
 from .Assign_Tasks_gui import AssignTasksWindow
 from .View_Tasks_gui import ViewerForTasks
 from .training import Training
+from .to_do_list import ToDoListWindow 
 
 #(Are yet to be attached)
 #from .gui.to_do_gui import to_do
@@ -106,6 +107,8 @@ class Dashboard(QtWidgets.QWidget):
     # its respective function is run so that the function may show the ui for the to-do functionality
 
     def to_do_clicked(self):
+        self.to_do_list = ToDoListWindow()
+        self.to_do_list.show()
         print("todo clicked")
 
     def post_clicked(self):
