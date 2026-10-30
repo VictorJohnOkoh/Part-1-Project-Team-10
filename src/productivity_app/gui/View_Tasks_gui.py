@@ -131,7 +131,7 @@ class ViewerForTasks(QWidget):
         scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
         scroll.setWidgetResizable(True)
         scroll.setWidget(self.AllWidgets)
-        scroll.setMinimumSize(450,900)
+        scroll.setMinimumSize(1800,900)
 
 if __name__ == '__main__':
     print('Program is Running!')
