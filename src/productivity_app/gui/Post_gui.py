@@ -3,8 +3,8 @@ from PyQt6.QtCore import QSize, Qt
 from PyQt6.QtGui import QIcon, QFont
 from PyQt6.QtWidgets import (QApplication, QPushButton, QVBoxLayout, QWidget, 
                              QLabel, QScrollArea, QMainWindow, QSlider,
-                             QLineEdit, QHBoxLayout, QGridLayout, QTextEdit, QComboBox, QDialog)
-from productivity_app.services.Post_Functions import post, create_post, make_comment, RestrictedTopics, view_post, make_post
+                             QLineEdit, QHBoxLayout, QGridLayout, QTextEdit, QComboBox, QDialog, QMessageBox)
+from productivity_app.services.Post_Functions import post, create_post, make_comment, RestrictedTopics, view_post, make_post, RestrictTopics
 #from profiling.tracing import label
 
 class PostWindow(QWidget):
@@ -155,19 +155,25 @@ class PostWindow(QWidget):
         # PostButtons = []
 
         def SearchPost():
+            Message = QMessageBox()
             Topic = self.SearchInput.currentText()
             strtopic = Topic.strip().lower()
 
             for item in self.PostButtons:
-                if strtopic not in RestrictedTopics:
+                if strtopic not in RestrictedTopics and item['topic'] not in RestrictedTopics:
                     if not strtopic:
                         item['widget'].show()
                     elif item['topic'].lower() == strtopic:
                         item['widget'].show()
                     else:
                         item['widget'].hide()
-                else:
-                    print(strtopic, "is a restricted topic")
+                elif strtopic in RestrictedTopics and strtopic != "":
+                    Message.setFixedSize(300, 100)
+                    Message.setText("Topic is restricted")
+                    Message.setInformativeText("Please search for a different topic")
+                    Message.setIcon(QMessageBox.Icon.Information)
+                    Message.exec()
+                    return
 
 
         self.SearchInput = QComboBox()
@@ -198,11 +204,25 @@ class PostWindow(QWidget):
             if hasattr(self, 'current_body_label') and self.current_body_label:
                 self.Label_Management(self.current_body_label, self.Labels, self.current_topic, self.current_title)
 
+        def RestrictTopicButtonClicked():
+            InpRestrictedTopics = self.RestrictedTextBox.text()
+            RestrictTopics(InpRestrictedTopics)
+
+            strRestrictedTopic = InpRestrictedTopics.strip().lower()
+
+            for item in self.PostButtons:
+                if item["topic"].lower() == strRestrictedTopic:
+                    item["widget"].hide()
+
+            self.RestrictedTextBox.clear()
+
+
         self.RestrictedTextBox = QLineEdit()
         self.RestrictedTextBox.setPlaceholderText('Enter restricted topic here')
         self.RestrictedTextBox.setFixedWidth(400)
         RestrictedTopicsButton = QPushButton(text='Submit Restricted Topic')
         RestrictedTopicsButton.setFixedSize(400,40)
+        RestrictedTopicsButton.clicked.connect(RestrictTopicButtonClicked)
         self.RightVbox.addWidget(self.RestrictedTextBox)
         self.RightVbox.addWidget(RestrictedTopicsButton)
         
