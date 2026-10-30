@@ -5,6 +5,8 @@ from PyQt6.QtWidgets import (QApplication, QPushButton, QVBoxLayout, QWidget,
                              QLabel, QScrollArea, QMainWindow, QSlider,
                              QLineEdit, QHBoxLayout, QGridLayout, QTextEdit, QComboBox, QDialog, QMessageBox)
 from productivity_app.services.Post_Functions import post, create_post, make_comment, RestrictedTopics, view_post, make_post, RestrictTopics
+from ..users.Manager import Manager
+
 #from profiling.tracing import label
 
 class PostWindow(QWidget):
@@ -150,12 +152,12 @@ class PostWindow(QWidget):
         SubmitPostButton.clicked.connect(SubmitNewPost)
         Add_New_Post_Window.exec()
 
-    def __init__(self, parent=None):
+    def __init__(self, user, parent=None):
         super().__init__(parent)
         self.setWindowTitle("MAKE IT ALL - Forum Posts")
         font = QFont()
         font.setPointSize(20)
-
+        self.user = user
         
     
         self.LeftWidget = QWidget()
@@ -254,8 +256,10 @@ class PostWindow(QWidget):
         RestrictedTopicsButton = QPushButton(text='Submit Restricted Topic')
         RestrictedTopicsButton.setFixedSize(400,40)
         RestrictedTopicsButton.clicked.connect(RestrictTopicButtonClicked)
-        self.RightVbox.addWidget(self.RestrictedTextBox)
-        self.RightVbox.addWidget(RestrictedTopicsButton)
+
+        if isinstance(self.user, Manager):
+            self.RightVbox.addWidget(self.RestrictedTextBox)
+            self.RightVbox.addWidget(RestrictedTopicsButton)          
         
         self.ReplyInput = QLineEdit()
         self.ReplyInput.setPlaceholderText('Enter your comment here')
