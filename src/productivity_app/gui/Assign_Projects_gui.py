@@ -12,7 +12,7 @@ import os
 
 Directory = os.path.dirname(os.path.abspath(__file__))
 
-FilePath = os.path.join(Directory, "..", "users", "test_users.txt")
+FilePath = os.path.join(Directory, "..", "users", "valid_users.txt")
 
 class AssignProjectsWindow(QWidget):
 
