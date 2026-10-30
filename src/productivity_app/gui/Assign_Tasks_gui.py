@@ -35,7 +35,7 @@ class AssignTasksWindow(QWidget):
         # OK_Button = Message.addButton('Ok',QMessageBox.ButtonRole.AcceptRole)
         # if Message.clickedButton() == OK_Button:
         #     print('hehe')
-
+        print('test')
         if self.Is_Format_Correct == True:
             Message.setText('Task successfully Assigned!')
             Message.setIcon(QMessageBox.Icon.Information)
@@ -44,6 +44,7 @@ class AssignTasksWindow(QWidget):
              Message.setText('Insufficient Data provided!')
              Message.setInformativeText('Please try again.')
              Message.setIcon(QMessageBox.Icon.Critical)
+        Message.exec()
 
 
     def TaskAssignerSubmitButton_clicked(self):
