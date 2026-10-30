@@ -35,15 +35,16 @@ class AssignTasksWindow(QWidget):
         # OK_Button = Message.addButton('Ok',QMessageBox.ButtonRole.AcceptRole)
         # if Message.clickedButton() == OK_Button:
         #     print('hehe')
-
+        print('test')
         if self.Is_Format_Correct == True:
             Message.setText('Task successfully Assigned!')
             Message.setIcon(QMessageBox.Icon.Information)
             print(self.Assignments)
         else:
-             Message.setText('Insufficient Data provided!')
+             Message.setText('Insufficient data provided!')
              Message.setInformativeText('Please try again.')
              Message.setIcon(QMessageBox.Icon.Critical)
+        Message.exec()
 
 
     def TaskAssignerSubmitButton_clicked(self):
@@ -57,7 +58,7 @@ class AssignTasksWindow(QWidget):
 
                 self.TaskNameInput.clear()
                 self.TaskDescriptionInput.clear()
-                self.EmployeeNameInput.clear()
+                self.TaskEstimatedTimeInput.clear()
                 self.ChosenDateAndTime.setDateTime(QDateTime.currentDateTime())
 
                 if len(TaskName) != 0 and len(TaskDesc) != 0 and len(EstimatedTime) != 0:
@@ -126,6 +127,8 @@ class AssignTasksWindow(QWidget):
         self.AssignVbox.addWidget(self.SecondGuideToDeadlineSelection)
         self.AssignVbox.addWidget(self.ChosenDateAndTime)
         self.AssignVbox.addWidget(TaskAssignerSubmitButton)
+
+        self.setWindowTitle('Task Assignment')
 
         self.setLayout(self.AssignVbox)
 

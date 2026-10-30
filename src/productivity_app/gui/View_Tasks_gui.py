@@ -10,9 +10,20 @@ from productivity_app.gui import Assign_Tasks_gui
 class ViewerForTasks(QWidget):
 
     #Tasks = Assign_Tasks_gui.AssignTasksWindow.GiveAssignments()
-    Tasks = [['Taking a big dump', 'Going to the toilet and wait for the chaos to begin', 'Jacob','Team 3', '31-10-2026 20:20',20,'Incomplete'],
-             ['Making meal prep', 'Following the instructions, and putting in the ingredients', 'Jacob', 'Team 4', '03-11-2026 19:28',30,'Incomplete'],
-               ['Going to Work', 'Getting in the car and driving straight there!', 'Jacob', 'Team 10', '28-10-2026 08:22',13,'Incomplete']]
+    # Tasks = [['Taking a big dump', 'Going to the toilet and wait for the chaos to begin', 'Jacob','Team 3', '31-10-2026 20:20',20,'Incomplete'],
+    #          ['Making meal prep', 'Following the instructions, and putting in the ingredients', 'Jacob', 'Team 4', '03-11-2026 19:28',30,'Incomplete'],
+    #            ['Going to Work', 'Getting in the car and driving straight there!', 'Jacob', 'Team 10', '28-10-2026 08:22',13,'Incomplete']]
+
+
+    Tasks = [['Inspect Raw Materials', 'Check incoming raw materials for defects, damage and quality standards before approving them for production.', 'jake.peralta@make-it-all.co.uk', 'Team 1', '10-11-2026 08:30', 45, 'Incomplete'], 
+              ['Machine Component Production', 'Operate CNC machinery to manufacture metal components according to the specified engineering drawings and measurements.', 'jake.peralta@make-it-all.co.uk', 'Team 2', '11-11-2026 09:00', 120, 'Incomplete'], 
+              ['Assembly Line Preparation', 'Prepare the assembly workstation by organising tools, equipment and components required for the production run.', 'jake.peralta@make-it-all.co.uk', 'Team 3', '06-11-2026 07:40', 60, 'Incomplete'], 
+              ['Quality Control Inspection', 'Inspect finished products for manufacturing defects, dimensional accuracy and compliance with company quality standards.', 'jake.peralta@make-it-all.co.uk', 'Team 4', '05-11-2026 06:00', 90, 'Incomplete'], 
+              ['Equipment Maintenance', 'Carry out routine maintenance on manufacturing equipment, including lubrication, cleaning and checking mechanical components.', 'jake.peralta@make-it-all.co.uk', 'Team 5', '09-11-2026 08:00', 75, 'Incomplete'], 
+              ['Packaging Finished Products', 'Package completed products using the correct protective materials and ensure all packages are labelled correctly.', 'jake.peralta@make-it-all.co.uk', 'Team 6', '10-11-2026 13:30', 60, 'Incomplete'], 
+              ['Stock Inventory Update', 'Count available manufacturing components and update the inventory management system to reflect current stock levels.', 'jake.peralta@make-it-all.co.uk', 'Team 2', '12-11-2026 11:30', 45, 'Incomplete'], 
+              ['Production Line Monitoring', 'Monitor the production line to ensure machinery is operating efficiently and production targets are being achieved.', 'jake.peralta@make-it-all.co.uk', 'Team 3', '16-11-2026 14:00', 180, 'Incomplete'], 
+              ['Safety Equipment Inspection', 'Inspect workplace safety equipment, including emergency stops, protective guards and personal protective equipment.', 'jake.peralta@make-it-all.co.uk', 'Team 1', '06-11-2026 09:30', 60, 'Incomplete']]
 
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -51,11 +62,12 @@ class ViewerForTasks(QWidget):
                     print('Going through tasks...')
     
             for GivenTask in SuitableTasks:
+                TaskSeperator = QLabel(text='________________________________________________________________________________')
                 NameOfTask = QLabel(text=GivenTask[0])
                 DescOfTask = QLabel(text=GivenTask[1])
     
     
-                DeadlineGiven_InDateTime = QDateTime.fromString(GivenTask[3], 'dd-MM-yyyy HH:mm')
+                DeadlineGiven_InDateTime = QDateTime.fromString(GivenTask[4], 'dd-MM-yyyy HH:mm')
                 TimeToDeadline = QDateTime.currentDateTime().secsTo(DeadlineGiven_InDateTime)
                 Months = TimeToDeadline // 2419200
                 MonthsRemainder = TimeToDeadline % 2419200
@@ -97,6 +109,7 @@ class ViewerForTasks(QWidget):
                 Slot.addWidget(DescOfTask)
                 Slot.addWidget(RemainingDeadline)
                 Slot.addWidget(ActionButton)
+                Slot.addWidget(TaskSeperator)
                 SlotWidget.setLayout(Slot)
                 SlotContainers.append(SlotWidget)
 
@@ -107,7 +120,7 @@ class ViewerForTasks(QWidget):
 
 
         #Scrolling bit
-        TaskDisplayer('Jacob',self.Tasks)
+        TaskDisplayer('jake.peralta@make-it-all.co.uk',self.Tasks)
         self.AllWidgets = QWidget()
         self.AllWidgetsVbox = QVBoxLayout()
         for container in SlotContainers:
@@ -118,7 +131,7 @@ class ViewerForTasks(QWidget):
         scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
         scroll.setWidgetResizable(True)
         scroll.setWidget(self.AllWidgets)
-        scroll.setMinimumSize(450,400)
+        scroll.setMinimumSize(1800,900)
 
 if __name__ == '__main__':
     print('Program is Running!')
