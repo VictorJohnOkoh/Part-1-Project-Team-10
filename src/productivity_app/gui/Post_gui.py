@@ -1,12 +1,12 @@
-
-import random
 import sys
 from PyQt6.QtCore import QSize, Qt
 from PyQt6.QtGui import QIcon, QFont
 from PyQt6.QtWidgets import (QApplication, QPushButton, QVBoxLayout, QWidget, 
                              QLabel, QScrollArea, QMainWindow, QSlider,
-                             QLineEdit, QHBoxLayout, QGridLayout, QTextEdit, QComboBox, QDialog)
-from productivity_app.services.Post_Functions import post, create_post, make_comment, RestrictedTopics, view_post, make_post
+                             QLineEdit, QHBoxLayout, QGridLayout, QTextEdit, QComboBox, QDialog, QMessageBox)
+from productivity_app.services.Post_Functions import post, create_post, make_comment, RestrictedTopics, view_post, make_post, RestrictTopics
+from ..users.Manager import Manager
+
 #from profiling.tracing import label
 
 class PostWindow(QWidget):
@@ -49,31 +49,33 @@ class PostWindow(QWidget):
 
     def Button_Generator(self,font):
         for topics in post.keys():
-            posts_found = post[topics]
-            for single_posts in posts_found:
-                ButtonName = single_posts["title"]
-                ButtonLabel_Post = QLabel(text=single_posts["body"])
-                self.RightVbox.addWidget(ButtonLabel_Post)
-                ButtonLabel_Post.hide()
-                self.Labels.append(ButtonLabel_Post)
+            if topics not in RestrictedTopics:
+                posts_found = post[topics]
+                for single_posts in posts_found:
+                    ButtonName = single_posts["title"]
+                    ButtonLabel_Post = QLabel(text=single_posts["body"])
+                    self.RightVbox.addWidget(ButtonLabel_Post)
+                    ButtonLabel_Post.hide()
+                    self.Labels.append(ButtonLabel_Post)
 
-                #TempReplyLabelStorage = comment_finder(self, single_posts["comments"], ReplyLabels)
-                ButtonName = QPushButton(text=ButtonName)
-                ButtonName.setFixedSize(400,160)
-                ButtonName.setFont(font)
+                    #TempReplyLabelStorage = comment_finder(self, single_posts["comments"], ReplyLabels)
+                    ButtonName = QPushButton(text=ButtonName)
+                    ButtonName.setFixedSize(400,160)
+                    ButtonName.setFont(font)
 
-                ButtonName.clicked.connect(lambda checked, z=ButtonLabel_Post, t=topics, title=single_posts["title"]: (
-                    setattr(self, 'current_topic', t),
-                    setattr(self, 'current_title', title),
-                    setattr(self, 'current_body_label', z),
-                    self.Label_Management(z, self.Labels, t, title)
-                ))
-                ButtonName.clicked.connect(self.ReplyInput.clear)
-                self.LeftVbox.addWidget(ButtonName) 
+                    ButtonName.clicked.connect(lambda checked, z=ButtonLabel_Post, t=topics, title=single_posts["title"]: (
+                        setattr(self, 'current_topic', t),
+                        setattr(self, 'current_title', title),
+                        setattr(self, 'current_body_label', z),
+                        self.Label_Management(z, self.Labels, t, title)
+                    ))
+                    ButtonName.clicked.connect(self.ReplyInput.clear)
+                    self.LeftVbox.addWidget(ButtonName) 
 
-                self.PostButtons.append({'widget': ButtonName, 'topic': topics}) 
+                    self.PostButtons.append({'widget': ButtonName, 'topic': topics}) 
 
     def Create_New_Post(self):
+        Message = QMessageBox()
         Add_New_Post_Window = QDialog(self)
         Add_New_Post_Window.setFixedSize(430,250)
         Add_New_Post_Window_Layout = QVBoxLayout(Add_New_Post_Window)
@@ -84,6 +86,18 @@ class PostWindow(QWidget):
             font.setPointSize(20)
 
             Topic = self.TopicInput.text().strip().lower()
+            if Topic in RestrictedTopics:
+                Message.setFixedSize(300, 100)
+                Message.setText("Topic is restricted")
+                Message.setInformativeText("Please choose a different topic")
+                Message.setIcon(QMessageBox.Icon.Information)
+                Message.exec()
+
+                self.TopicInput.clear()
+                self.TitleInput.clear()
+                self.BodyInput.clear()
+                return
+
             Title = self.TitleInput.text().strip().lower()
             Body = self.BodyInput.toPlainText().strip().lower()
 
@@ -93,6 +107,7 @@ class PostWindow(QWidget):
 
             make_post(Topic, Title, Body)
             self.SearchInput.addItem(Topic)
+            self.RestrictedTextBox.addItem(Topic)
 
             self.TopicInput.clear()
             self.TitleInput.clear()
@@ -137,12 +152,12 @@ class PostWindow(QWidget):
         SubmitPostButton.clicked.connect(SubmitNewPost)
         Add_New_Post_Window.exec()
 
-    def __init__(self, parent=None):
+    def __init__(self, user, parent=None):
         super().__init__(parent)
         self.setWindowTitle("MAKE IT ALL - Forum Posts")
         font = QFont()
         font.setPointSize(20)
-
+        self.user = user
         
     
         self.LeftWidget = QWidget()
@@ -156,16 +171,25 @@ class PostWindow(QWidget):
         # PostButtons = []
 
         def SearchPost():
+            Message = QMessageBox()
             Topic = self.SearchInput.currentText()
             strtopic = Topic.strip().lower()
 
             for item in self.PostButtons:
-                if not strtopic:
-                    item['widget'].show()
-                elif item['topic'].lower() == strtopic:
-                    item['widget'].show()
-                else:
-                    item['widget'].hide()
+                if strtopic not in RestrictedTopics and item['topic'] not in RestrictedTopics:
+                    if not strtopic:
+                        item['widget'].show()
+                    elif item['topic'].lower() == strtopic:
+                        item['widget'].show()
+                    else:
+                        item['widget'].hide()
+                elif strtopic in RestrictedTopics and strtopic != "":
+                    Message.setFixedSize(300, 100)
+                    Message.setText("Topic is restricted")
+                    Message.setInformativeText("Please search for a different topic")
+                    Message.setIcon(QMessageBox.Icon.Information)
+                    Message.exec()
+                    return
 
 
         self.SearchInput = QComboBox()
@@ -183,12 +207,28 @@ class PostWindow(QWidget):
         self.CurrentButtonIndex = 0
 
         def SubmitReplyButtonClicked():
+            Message = QMessageBox()
             comment_text = self.ReplyInput.text()
             if not comment_text.strip():
                 return
 
+            if not hasattr(self, 'current_topic') or not hasattr(self, 'current_title'):
+                Message.setFixedSize(300, 100)
+                Message.setText("No Post selected")
+                Message.setInformativeText("Please click on a post to comment")
+                Message.setIcon(QMessageBox.Icon.Information)
+                Message.exec()
+                return
+
             if not self.current_topic or not self.current_title:
                 return
+
+            if self.current_topic in RestrictedTopics:
+                Message.setFixedSize(300, 100)
+                Message.setText("Post is restricted")
+                Message.setInformativeText("Please comment on another post")
+                Message.setIcon(QMessageBox.Icon.Information)
+                Message.exec()
 
             make_comment(self.current_topic, self.current_title, comment_text)
             self.ReplyInput.clear()
@@ -196,13 +236,30 @@ class PostWindow(QWidget):
             if hasattr(self, 'current_body_label') and self.current_body_label:
                 self.Label_Management(self.current_body_label, self.Labels, self.current_topic, self.current_title)
 
-        self.RestrictedTextBox = QLineEdit()
+        def RestrictTopicButtonClicked():
+            InpRestrictedTopics = self.RestrictedTextBox.currentText()
+            RestrictTopics(InpRestrictedTopics)
+
+            strRestrictedTopic = InpRestrictedTopics.strip().lower()
+
+            for item in self.PostButtons:
+                if item["topic"].lower() == strRestrictedTopic:
+                    item["widget"].hide()
+
+
+        self.RestrictedTextBox = QComboBox()
+        restricted_topics_combobox = post.keys()
+        for topic in restricted_topics_combobox:
+            self.RestrictedTextBox.addItem(topic)
         self.RestrictedTextBox.setPlaceholderText('Enter restricted topic here')
         self.RestrictedTextBox.setFixedWidth(400)
         RestrictedTopicsButton = QPushButton(text='Submit Restricted Topic')
         RestrictedTopicsButton.setFixedSize(400,40)
-        self.RightVbox.addWidget(self.RestrictedTextBox)
-        self.RightVbox.addWidget(RestrictedTopicsButton)
+        RestrictedTopicsButton.clicked.connect(RestrictTopicButtonClicked)
+
+        if isinstance(self.user, Manager):
+            self.RightVbox.addWidget(self.RestrictedTextBox)
+            self.RightVbox.addWidget(RestrictedTopicsButton)          
         
         self.ReplyInput = QLineEdit()
         self.ReplyInput.setPlaceholderText('Enter your comment here')
