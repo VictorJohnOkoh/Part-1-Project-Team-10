@@ -1,98 +1,98 @@
 Projects = {"Project_A": 
             {"teamLead": "John Smith",
-            "Deadline": "24/10/26",
+            "Deadline": "24/10/27",
             "Estimated_hours": 100,
             "tasks": [{
                     "taskName": "TestTask1",
                     "Employee": "Bilbo Baggins",
-                    "Deadline": "02/30/2020", 
+                    "Deadline": "24/10/2027", 
                     "Status": "In Progress", 
                     "Estimated_hours": 100}]},
 
             "Project_B": 
             {"teamLead": "John Smith", 
-             "Deadline": "12/05/29", 
+             "Deadline": "12/12/26", 
              "Estimated_hours": 300, 
              "tasks": [{
                     "taskName": "TestTask1",
                     "Employee": "Bilbo Baggins", 
-                    "Deadline": "02/30/2050", 
+                    "Deadline": "09/11/2026", 
                     "Status": "In Progress", 
                     "Estimated_hours": 225},
 
                     {"taskName": "TestTask2",
                     "Employee": "Sherlock Holmes", 
-                    "Deadline": "02/30/2028", 
+                    "Deadline": "30/10/2026", 
                     "Status": "Complete", 
                     "Estimated_hours": 75}]},
             "Project_C": 
             {"teamLead": "Michael Scott", 
-             "Deadline": "12/05/29", 
+             "Deadline": "30/12/26", 
              "Estimated_hours": 50, 
              "tasks": [{
                     "taskName": "TestTask1",
                     "Employee": "Qui-gon Jinn", 
-                    "Deadline": "02/30/2050", 
+                    "Deadline": "25/12/2026", 
                     "Status": "In Progress", 
                     "Estimated_hours": 10},
 
                     {"taskName": "TestTask2",
                     "Employee": "Randy Marsh", 
-                    "Deadline": "02/30/2099", 
+                    "Deadline": "02/09/2026", 
                     "Status": "Complete", 
                     "Estimated_hours": 5},
 
                     {"taskName": "TestTask3",
                     "Employee": "Anakin Skywalker", 
-                    "Deadline": "02/30/2099", 
+                    "Deadline": "10/09/2026", 
                     "Status": "Complete", 
                     "Estimated_hours": 3},
 
                     {"taskName": "TestTask4",
                     "Employee": "Jake Peralta", 
-                    "Deadline": "02/30/2099", 
+                    "Deadline": "22/10/2026", 
                     "Status": "Complete", 
                     "Estimated_hours": 2},
 
                     {"taskName": "TestTask5",
                     "Employee": "Jim Halpert", 
-                    "Deadline": "02/30/2099", 
+                    "Deadline": "14/11/2026", 
                     "Status": "Complete", 
                     "Estimated_hours": 30}
                     ]},
 
             "Project_D": 
             {"teamLead": "Michael Scott", 
-             "Deadline": "12/05/29", 
+             "Deadline": "29/11/2026", 
              "Estimated_hours": 90, 
              "tasks": [{
                     "taskName": "TestTask1",
                     "Employee": "Jake Peralta", 
-                    "Deadline": "02/30/2050", 
+                    "Deadline": "20/11/2026", 
                     "Status": "In Progress", 
                     "Estimated_hours": 10},
 
                     {"taskName": "TestTask2",
                     "Employee": "Anakin Skywalker", 
-                    "Deadline": "02/30/2099", 
+                    "Deadline": "15/09/2026", 
                     "Status": "Complete", 
                     "Estimated_hours": 40},
 
                     {"taskName": "TestTask3",
                     "Employee": "Jim Halpert", 
-                    "Deadline": "02/30/2099", 
+                    "Deadline": "30/08/2026", 
                     "Status": "Complete", 
                     "Estimated_hours": 2},
 
                     {"taskName": "TestTask4",
                     "Employee": "Qui-gon Jinn", 
-                    "Deadline": "02/30/2099", 
+                    "Deadline": "07/09/2026", 
                     "Status": "Complete", 
                     "Estimated_hours": 5},
 
                     {"taskName": "TestTask5",
                     "Employee": "Randy Marsh", 
-                    "Deadline": "02/30/2099", 
+                    "Deadline": "24/10/2026", 
                     "Status": "Complete", 
                     "Estimated_hours": 33}
                     ]}
