@@ -73,6 +73,7 @@ class PostWindow(QWidget):
                     self.PostButtons.append({'widget': ButtonName, 'topic': topics}) 
 
     def Create_New_Post(self):
+        Message = QMessageBox()
         Add_New_Post_Window = QDialog(self)
         Add_New_Post_Window.setFixedSize(430,250)
         Add_New_Post_Window_Layout = QVBoxLayout(Add_New_Post_Window)
@@ -83,6 +84,14 @@ class PostWindow(QWidget):
             font.setPointSize(20)
 
             Topic = self.TopicInput.text().strip().lower()
+            if Topic in RestrictedTopics:
+                Message.setFixedSize(300, 100)
+                Message.setText("Topic is restricted")
+                Message.setInformativeText("Please choose a different topic")
+                Message.setIcon(QMessageBox.Icon.Information)
+                Message.exec()
+                return
+
             Title = self.TitleInput.text().strip().lower()
             Body = self.BodyInput.toPlainText().strip().lower()
 
