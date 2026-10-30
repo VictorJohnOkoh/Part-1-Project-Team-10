@@ -10,6 +10,7 @@ from .to_do_list_gui import ToDoListWindow
 from .Assign_Tasks_gui import AssignTasksWindow
 from .Assign_Projects_gui import AssignProjectsWindow
 from .View_Tasks_gui import ViewerForTasks
+from ..users.TeamLead import Team_Leader
 
 #(Are yet to be attached)
 #from .gui.to_do_gui import to_do

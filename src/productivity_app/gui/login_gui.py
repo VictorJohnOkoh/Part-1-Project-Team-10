@@ -132,7 +132,7 @@ class LoginWindow(QWidget):
 
         self.resize(WIDTH, HEIGHT)
 
-        self.switch_screen = switch_screen
+        self.switch_screen = verify_login
         self.setWindowTitle("MAKE IT ALL")
         self.resize(WIDTH, HEIGHT)
         self.attempts = 0

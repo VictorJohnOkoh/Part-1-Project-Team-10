@@ -31,9 +31,7 @@ class MainWindow(QMainWindow):
         self.setCentralWidget(self.stack)
 
         self.login_window = LoginWindow(self.switch_screen, self.switch_to_register)
-        self.login_window = LoginWindow(self.switch_screen, self.switch_to_register)
         self.dashboard_window = None
-        self.register_window = RegisterWindow(self.switch_to_login)
         self.register_window = RegisterWindow(self.switch_to_login)
 
         self.stack.addWidget(self.login_window)
