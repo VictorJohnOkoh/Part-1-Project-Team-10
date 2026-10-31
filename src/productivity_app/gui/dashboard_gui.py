@@ -5,10 +5,11 @@ from ..users.Manager import Manager
 from .Post_gui import PostWindow
 from .Project_Progress_gui import ProgressWindow
 from ..users.Employee import Employee
-from .Assign_Tasks_gui import AssignTasksWindow
-from .View_Tasks_gui import ViewerForTasks
 from .training import Training
-from .to_do_list import ToDoListWindow 
+from .to_do_list_gui import ToDoListWindow 
+from .Assign_Tasks_gui import AssignTasksWindow
+from .Assign_Projects_gui import AssignProjectsWindow
+from .View_Tasks_gui import ViewerForTasks
 
 #(Are yet to be attached)
 #from .gui.to_do_gui import to_do
