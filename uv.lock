@@ -102,7 +102,6 @@ wheels = [
 name = "part-1-project-team-10"
 version = "0.1.0"
 source = { editable = "." }
-source = { editable = "." }
 dependencies = [
     { name = "bcrypt" },
     { name = "pyqt6" },
