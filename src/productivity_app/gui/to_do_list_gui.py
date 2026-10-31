@@ -119,9 +119,4 @@ class ToDoListWindow(QWidget):
 
     #function to take the user to their dashboard
     def go_back(self):
-        print("Back button clicked")
-
-app = QApplication(sys.argv)
-window = ToDoListWindow()
-window.show()
-sys.exit(app.exec())
+        self.close()
