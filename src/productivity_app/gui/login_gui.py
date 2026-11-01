@@ -88,9 +88,8 @@ class RegisterWindow(QWidget):
             
 
             
-            if role and not error:
-                add_user(email,password,role)
-                QMessageBox.information(self,"success","account created")
+            add_user(email,password,role)
+            QMessageBox.information(self,"success","account created")
 
  
 
