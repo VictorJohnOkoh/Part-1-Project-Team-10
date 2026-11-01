@@ -130,7 +130,7 @@ class Dashboard(QtWidgets.QWidget):
         print("training clicked")
 
     def progress_clicked(self):
-        self.progress_window = ProgressWindow()
+        self.progress_window = ProgressWindow(self.user)
         self.progress_window.show()
         print("progress clicked")
 
