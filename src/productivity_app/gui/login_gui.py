@@ -189,6 +189,11 @@ class LoginWindow(QWidget):
             self.username.clear()
             self.password.clear()
             self.switch_screen(role, username)
+        elif role == "manager":
+            username = self.username.text()
+            self.username.clear()
+            self.password.clear()
+            self.switch_screen(role, username)
         else:
             QMessageBox.warning(self,"Login fail","Wrong username/password")
             self.password.clear()
