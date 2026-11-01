@@ -49,6 +49,10 @@ class MainWindow(QMainWindow):
             self.dashboard_window = Dashboard(employee, self.logout)
             self.stack.addWidget(self.dashboard_window)
             self.stack.setCurrentWidget(self.dashboard_window)
+        elif self.dashboard_window is None and role == "manager":
+            self.dashboard_window = Dashboard(manager1, self.logout)
+            self.stack.addWidget(self.dashboard_window)
+            self.stack.setCurrentWidget(self.dashboard_window)
         else:
             self.stack.setCurrentWidget(self.dashboard_window)
 
