@@ -8,7 +8,8 @@ from PyQt6.QtWidgets import (QApplication, QPushButton, QVBoxLayout, QWidget,
 from productivity_app.gui import Assign_Tasks_gui
 from ..users.Manager import Manager
 from ..users.Employee import Employee
-from ..users.TeamLead import TeamLead
+from ..users.TeamLead import Team_Leader
+
 
 
 class ViewerForTasks(QWidget):
@@ -45,49 +46,17 @@ class ViewerForTasks(QWidget):
               ['Stock Inventory Update', 'Count available manufacturing components and update the inventory management system to reflect current stock levels.', 'jim.halpert@make-it-all.co.uk', 'Team 4', '26-11-2026 11:30', 45, 'Incomplete'], 
               ['Production Line Monitoring', 'Monitor the production line to ensure machinery is operating efficiently and production targets are being achieved.', 'jim.halpert@make-it-all.co.uk', 'Team 3', '30-11-2026 14:00', 180, 'Incomplete']]
 
-    def __init__(self, parent=None):
+    def __init__(self,user, parent=None):
         super().__init__(parent)
+        self.user = user
 
-        SlotContainers = []
-
-        DeadlineLabels = []
-        def DeadlineCreation(DeadlineGiven,LabelGiven):
-            DeadlineGiven_InDateTime = QDateTime.fromString(DeadlineGiven, 'dd-MM-yyyy HH:mm')
-            TimeToDeadline = QDateTime.currentDateTime().secsTo(DeadlineGiven_InDateTime)
-            Months = TimeToDeadline // 2419200
-            MonthsRemainder = TimeToDeadline % 2419200
-            Days = MonthsRemainder // 86400
-            DaysRemainder = MonthsRemainder % 86400
-            Hours = (DaysRemainder // 3600)
-            HoursRemainder = DaysRemainder % 3600
-            Minutes = HoursRemainder // 60
-            LabelGiven.setText(str(Months) + ' Months ' + str(Days) + ' Days ' + str(Hours) + ' Hours ' + str(Minutes) + ' Minutes')
-            return LabelGiven
-
-        def Update_Deadlines(Deadline_Labels):
-            print('Entered Update_Deadlines()')
-            for Label, Deadline in Deadline_Labels:
-                DeadlineCreation(Deadline,Label)
-                print('Deadlines Updated!')
-            return Deadline_Labels
-
-    
-        def TaskDisplayer(Username,AssignedTasks):
-    
-            SuitableTasks = []
-    
-            for task in AssignedTasks:
-                if task[2] == Username:
-                    SuitableTasks.append(task)
-                    print('Going through tasks...')
-    
-            for GivenTask in SuitableTasks:
-                TaskSeperator = QLabel(text='________________________________________________________________________________')
-                NameOfTask = QLabel(text=GivenTask[0])
-                DescOfTask = QLabel(text=GivenTask[1])
-    
-    
-                DeadlineGiven_InDateTime = QDateTime.fromString(GivenTask[4], 'dd-MM-yyyy HH:mm')
+        if isinstance(self.user, Team_Leader):
+        
+            SlotContainers = []
+                        
+            DeadlineLabels = []
+            def DeadlineCreation(DeadlineGiven,LabelGiven):
+                DeadlineGiven_InDateTime = QDateTime.fromString(DeadlineGiven, 'dd-MM-yyyy HH:mm')
                 TimeToDeadline = QDateTime.currentDateTime().secsTo(DeadlineGiven_InDateTime)
                 Months = TimeToDeadline // 2419200
                 MonthsRemainder = TimeToDeadline % 2419200
@@ -96,61 +65,370 @@ class ViewerForTasks(QWidget):
                 Hours = (DaysRemainder // 3600)
                 HoursRemainder = DaysRemainder % 3600
                 Minutes = HoursRemainder // 60
-                RemainingDeadline = QLabel(text=str(Months) + ' Months ' + str(Days) + ' Days ' + str(Hours) + ' Hours ' + str(Minutes) + ' Minutes')            
+                LabelGiven.setText(str(Months) + ' Months ' + str(Days) + ' Days ' + str(Hours) + ' Hours ' + str(Minutes) + ' Minutes')
+                return LabelGiven
     
-                DeadlineLabels.append([RemainingDeadline,GivenTask[4]])
+            def Update_Deadlines(Deadline_Labels):
+                print('Entered Update_Deadlines()')
+                for Label, Deadline in Deadline_Labels:
+                    DeadlineCreation(Deadline,Label)
+                    print('Deadlines Updated!')
+                return Deadline_Labels
+    
+        
+            def TaskDisplayer(TeamName,AssignedTasks):
+        
+                SuitableTasks = []
+        
+                for task in AssignedTasks:
+                    if task[3] == TeamName:
+                        SuitableTasks.append(task)
+                        print('Going through tasks...')
+        
+                for GivenTask in SuitableTasks:
+                    TaskSeperator = QLabel(text='________________________________________________________________________________')
+                    NameOfTask = QLabel(text=GivenTask[0])
+                    DescOfTask = QLabel(text=GivenTask[1])
+        
+        
+                    DeadlineGiven_InDateTime = QDateTime.fromString(GivenTask[4], 'dd-MM-yyyy HH:mm')
+                    TimeToDeadline = QDateTime.currentDateTime().secsTo(DeadlineGiven_InDateTime)
+                    Months = TimeToDeadline // 2419200
+                    MonthsRemainder = TimeToDeadline % 2419200
+                    Days = MonthsRemainder // 86400
+                    DaysRemainder = MonthsRemainder % 86400
+                    Hours = (DaysRemainder // 3600)
+                    HoursRemainder = DaysRemainder % 3600
+                    Minutes = HoursRemainder // 60
+                    RemainingDeadline = QLabel(text=str(Months) + ' Months ' + str(Days) + ' Days ' + str(Hours) + ' Hours ' + str(Minutes) + ' Minutes')            
+        
+                    DeadlineLabels.append([RemainingDeadline,GivenTask[4]])
+    
+                    UsernameOfTeamMember = QLabel(text=GivenTask[2])                             
+            
+                    SlotWidget = QWidget()
+                    Slot = QVBoxLayout()
+                    Slot.addWidget(NameOfTask)
+                    Slot.addWidget(DescOfTask)
+                    Slot.addWidget(RemainingDeadline)
+                    Slot.addWidget(UsernameOfTeamMember)
+                    Slot.addWidget(TaskSeperator)
+                    SlotWidget.setLayout(Slot)
+                    SlotContainers.append(SlotWidget)
+    
+            self.ClockTimer = QTimer()
+            self.ClockTimer.start(60000)
+            self.ClockTimer.timeout.connect(lambda l = DeadlineLabels: Update_Deadlines(l))
+    
+            #Scrolling bit
+            TaskDisplayer('Team 1',self.Tasks)
 
-                ActionButton = QPushButton(text='Start Task')
-                ActionButton.setFixedSize(400,60)
+            self.AllWidgets = QWidget()
+            self.AllWidgetsVbox = QVBoxLayout()
+            for container in SlotContainers:
+                self.AllWidgetsVbox.addWidget(container)
+            self.AllWidgets.setLayout(self.AllWidgetsVbox)
+            scroll = QScrollArea(self)
+            scroll.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOn)
+            scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
+            scroll.setWidgetResizable(True)
+            scroll.setWidget(self.AllWidgets)
+            scroll.setMinimumSize(1800,900)
+
+        elif isinstance(self.user, Employee):
+
+            SlotContainers = []
+            
+            DeadlineLabels = []
+            def DeadlineCreation(DeadlineGiven,LabelGiven):
+                DeadlineGiven_InDateTime = QDateTime.fromString(DeadlineGiven, 'dd-MM-yyyy HH:mm')
+                TimeToDeadline = QDateTime.currentDateTime().secsTo(DeadlineGiven_InDateTime)
+                Months = TimeToDeadline // 2419200
+                MonthsRemainder = TimeToDeadline % 2419200
+                Days = MonthsRemainder // 86400
+                DaysRemainder = MonthsRemainder % 86400
+                Hours = (DaysRemainder // 3600)
+                HoursRemainder = DaysRemainder % 3600
+                Minutes = HoursRemainder // 60
+                LabelGiven.setText(str(Months) + ' Months ' + str(Days) + ' Days ' + str(Hours) + ' Hours ' + str(Minutes) + ' Minutes')
+                return LabelGiven
+    
+            def Update_Deadlines(Deadline_Labels):
+                print('Entered Update_Deadlines()')
+                for Label, Deadline in Deadline_Labels:
+                    DeadlineCreation(Deadline,Label)
+                    print('Deadlines Updated!')
+                return Deadline_Labels
+    
+        
+            def TaskDisplayer(Username,AssignedTasks):
+        
+                SuitableTasks = []
+        
+                for task in AssignedTasks:
+                    if task[2] == Username:
+                        SuitableTasks.append(task)
+                        print('Going through tasks...')
+        
+                for GivenTask in SuitableTasks:
+                    TaskSeperator = QLabel(text='________________________________________________________________________________')
+                    NameOfTask = QLabel(text=GivenTask[0])
+                    DescOfTask = QLabel(text=GivenTask[1])
+        
+        
+                    DeadlineGiven_InDateTime = QDateTime.fromString(GivenTask[4], 'dd-MM-yyyy HH:mm')
+                    TimeToDeadline = QDateTime.currentDateTime().secsTo(DeadlineGiven_InDateTime)
+                    Months = TimeToDeadline // 2419200
+                    MonthsRemainder = TimeToDeadline % 2419200
+                    Days = MonthsRemainder // 86400
+                    DaysRemainder = MonthsRemainder % 86400
+                    Hours = (DaysRemainder // 3600)
+                    HoursRemainder = DaysRemainder % 3600
+                    Minutes = HoursRemainder // 60
+                    RemainingDeadline = QLabel(text=str(Months) + ' Months ' + str(Days) + ' Days ' + str(Hours) + ' Hours ' + str(Minutes) + ' Minutes')            
+        
+                    DeadlineLabels.append([RemainingDeadline,GivenTask[4]])
+    
+                    ActionButton = QPushButton(text='Start Task')
+                    ActionButton.setFixedSize(400,60)
+    
+                    
+        
+                    ActionButton.TaskStatus = 'Incomplete'
+                    RemainingTime = RemainingDeadline.text()
+    
+                    def ActionButton_clicked(Button, TimeText):
+                        if Button.TaskStatus == 'Incomplete':
+                            Button.TaskStatus = 'In progress'
+                            Button.setText('Finish')
+                        elif Button.TaskStatus == 'In progress':
+                            Button.TaskStatus = 'Complete'
+                            if TimeText ==  '0 Months 0 Days 0 Hours 0 Minutes':
+                                Button.TaskStatus = 'Finished Late'
+                        GivenTask[6] = Button.TaskStatus
+                        print(GivenTask)
+    
+                            
+                    
+                    ActionButton.clicked.connect(lambda checked, b = ActionButton, t = RemainingTime: ActionButton_clicked(b,t))
+        
+                    SlotWidget = QWidget()
+                    Slot = QVBoxLayout()
+                    Slot.addWidget(NameOfTask)
+                    Slot.addWidget(DescOfTask)
+                    Slot.addWidget(RemainingDeadline)
+                    Slot.addWidget(ActionButton)
+                    Slot.addWidget(TaskSeperator)
+                    SlotWidget.setLayout(Slot)
+                    SlotContainers.append(SlotWidget)
+    
+            self.ClockTimer = QTimer()
+            self.ClockTimer.start(60000)
+            self.ClockTimer.timeout.connect(lambda l = DeadlineLabels: Update_Deadlines(l))
+    
+            #Scrolling bit
+            TaskDisplayer('bilbo.baggins@make-it-all.co.uk',self.Tasks)
+            self.AllWidgets = QWidget()
+            self.AllWidgetsVbox = QVBoxLayout()
+            for container in SlotContainers:
+                self.AllWidgetsVbox.addWidget(container)
+            self.AllWidgets.setLayout(self.AllWidgetsVbox)
+            scroll = QScrollArea(self)
+            scroll.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOn)
+            scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
+            scroll.setWidgetResizable(True)
+            scroll.setWidget(self.AllWidgets)
+            scroll.setMinimumSize(1800,900)
+
+        elif isinstance(self.user, Manager):
+
+            SlotContainers = []
+            
+            DeadlineLabels = []
+            def DeadlineCreation(DeadlineGiven,LabelGiven):
+                DeadlineGiven_InDateTime = QDateTime.fromString(DeadlineGiven, 'dd-MM-yyyy HH:mm')
+                TimeToDeadline = QDateTime.currentDateTime().secsTo(DeadlineGiven_InDateTime)
+                Months = TimeToDeadline // 2419200
+                MonthsRemainder = TimeToDeadline % 2419200
+                Days = MonthsRemainder // 86400
+                DaysRemainder = MonthsRemainder % 86400
+                Hours = (DaysRemainder // 3600)
+                HoursRemainder = DaysRemainder % 3600
+                Minutes = HoursRemainder // 60
+                LabelGiven.setText(str(Months) + ' Months ' + str(Days) + ' Days ' + str(Hours) + ' Hours ' + str(Minutes) + ' Minutes')
+                return LabelGiven
+    
+            def Update_Deadlines(Deadline_Labels):
+                print('Entered Update_Deadlines()')
+                for Label, Deadline in Deadline_Labels:
+                    DeadlineCreation(Deadline,Label)
+                    print('Deadlines Updated!')
+                return Deadline_Labels
+    
+        
+            def TaskDisplayer(Username,AssignedTasks):
+        
+                SuitableTasks = []
+        
+                for task in AssignedTasks:
+                    if task[2] == Username:
+                        SuitableTasks.append(task)
+                        print('Going through tasks...')
+        
+                for GivenTask in SuitableTasks:
+                    TaskSeperator = QLabel(text='________________________________________________________________________________')
+                    NameOfTask = QLabel(text=GivenTask[0])
+                    DescOfTask = QLabel(text=GivenTask[1])
+        
+        
+                    DeadlineGiven_InDateTime = QDateTime.fromString(GivenTask[4], 'dd-MM-yyyy HH:mm')
+                    TimeToDeadline = QDateTime.currentDateTime().secsTo(DeadlineGiven_InDateTime)
+                    Months = TimeToDeadline // 2419200
+                    MonthsRemainder = TimeToDeadline % 2419200
+                    Days = MonthsRemainder // 86400
+                    DaysRemainder = MonthsRemainder % 86400
+                    Hours = (DaysRemainder // 3600)
+                    HoursRemainder = DaysRemainder % 3600
+                    Minutes = HoursRemainder // 60
+                    RemainingDeadline = QLabel(text=str(Months) + ' Months ' + str(Days) + ' Days ' + str(Hours) + ' Hours ' + str(Minutes) + ' Minutes')            
+        
+                    DeadlineLabels.append([RemainingDeadline,GivenTask[4]])
+    
+                    UsernameOfTeamMember = QLabel(text=GivenTask[2])                             
+            
+                    SlotWidget = QWidget()
+                    Slot = QVBoxLayout()
+                    Slot.addWidget(NameOfTask)
+                    Slot.addWidget(DescOfTask)
+                    Slot.addWidget(RemainingDeadline)
+                    Slot.addWidget(UsernameOfTeamMember)
+                    Slot.addWidget(TaskSeperator)
+                    SlotWidget.setLayout(Slot)
+                    SlotContainers.append(SlotWidget)
+    
+            self.ClockTimer = QTimer()
+            self.ClockTimer.start(60000)
+            self.ClockTimer.timeout.connect(lambda l = DeadlineLabels: Update_Deadlines(l))
+    
+            #Scrolling bit
+            TaskDisplayer('',self.Tasks)
+
+            self.AllWidgets = QWidget()
+            self.AllWidgetsVbox = QVBoxLayout()
+            for container in SlotContainers:
+                self.AllWidgetsVbox.addWidget(container)
+            self.AllWidgets.setLayout(self.AllWidgetsVbox)
+            scroll = QScrollArea(self)
+            scroll.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOn)
+            scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
+            scroll.setWidgetResizable(True)
+            scroll.setWidget(self.AllWidgets)
+            scroll.setMinimumSize(1800,900)
+            
+
+        # SlotContainers = []
+
+        # DeadlineLabels = []
+        # def DeadlineCreation(DeadlineGiven,LabelGiven):
+        #     DeadlineGiven_InDateTime = QDateTime.fromString(DeadlineGiven, 'dd-MM-yyyy HH:mm')
+        #     TimeToDeadline = QDateTime.currentDateTime().secsTo(DeadlineGiven_InDateTime)
+        #     Months = TimeToDeadline // 2419200
+        #     MonthsRemainder = TimeToDeadline % 2419200
+        #     Days = MonthsRemainder // 86400
+        #     DaysRemainder = MonthsRemainder % 86400
+        #     Hours = (DaysRemainder // 3600)
+        #     HoursRemainder = DaysRemainder % 3600
+        #     Minutes = HoursRemainder // 60
+        #     LabelGiven.setText(str(Months) + ' Months ' + str(Days) + ' Days ' + str(Hours) + ' Hours ' + str(Minutes) + ' Minutes')
+        #     return LabelGiven
+
+        # def Update_Deadlines(Deadline_Labels):
+        #     print('Entered Update_Deadlines()')
+        #     for Label, Deadline in Deadline_Labels:
+        #         DeadlineCreation(Deadline,Label)
+        #         print('Deadlines Updated!')
+        #     return Deadline_Labels
+
+    
+        # def TaskDisplayer(Username,AssignedTasks):
+    
+        #     SuitableTasks = []
+    
+        #     for task in AssignedTasks:
+        #         if task[2] == Username:
+        #             SuitableTasks.append(task)
+        #             print('Going through tasks...')
+    
+        #     for GivenTask in SuitableTasks:
+        #         TaskSeperator = QLabel(text='________________________________________________________________________________')
+        #         NameOfTask = QLabel(text=GivenTask[0])
+        #         DescOfTask = QLabel(text=GivenTask[1])
+    
+    
+        #         DeadlineGiven_InDateTime = QDateTime.fromString(GivenTask[4], 'dd-MM-yyyy HH:mm')
+        #         TimeToDeadline = QDateTime.currentDateTime().secsTo(DeadlineGiven_InDateTime)
+        #         Months = TimeToDeadline // 2419200
+        #         MonthsRemainder = TimeToDeadline % 2419200
+        #         Days = MonthsRemainder // 86400
+        #         DaysRemainder = MonthsRemainder % 86400
+        #         Hours = (DaysRemainder // 3600)
+        #         HoursRemainder = DaysRemainder % 3600
+        #         Minutes = HoursRemainder // 60
+        #         RemainingDeadline = QLabel(text=str(Months) + ' Months ' + str(Days) + ' Days ' + str(Hours) + ' Hours ' + str(Minutes) + ' Minutes')            
+    
+        #         DeadlineLabels.append([RemainingDeadline,GivenTask[4]])
+
+        #         ActionButton = QPushButton(text='Start Task')
+        #         ActionButton.setFixedSize(400,60)
 
                 
     
-                ActionButton.TaskStatus = 'Incomplete'
-                RemainingTime = RemainingDeadline.text()
+        #         ActionButton.TaskStatus = 'Incomplete'
+        #         RemainingTime = RemainingDeadline.text()
 
-                def ActionButton_clicked(Button, TimeText):
-                    if Button.TaskStatus == 'Incomplete':
-                        Button.TaskStatus = 'In progress'
-                        Button.setText('Finish')
-                    elif Button.TaskStatus == 'In progress':
-                        Button.TaskStatus = 'Complete'
-                        if TimeText ==  '0 Months 0 Days 0 Hours 0 Minutes':
-                            Button.TaskStatus = 'Finished Late'
-                    GivenTask[6] = Button.TaskStatus
-                    print(GivenTask)
+        #         def ActionButton_clicked(Button, TimeText):
+        #             if Button.TaskStatus == 'Incomplete':
+        #                 Button.TaskStatus = 'In progress'
+        #                 Button.setText('Finish')
+        #             elif Button.TaskStatus == 'In progress':
+        #                 Button.TaskStatus = 'Complete'
+        #                 if TimeText ==  '0 Months 0 Days 0 Hours 0 Minutes':
+        #                     Button.TaskStatus = 'Finished Late'
+        #             GivenTask[6] = Button.TaskStatus
+        #             print(GivenTask)
 
                         
                 
-                ActionButton.clicked.connect(lambda checked, b = ActionButton, t = RemainingTime: ActionButton_clicked(b,t))
+        #         ActionButton.clicked.connect(lambda checked, b = ActionButton, t = RemainingTime: ActionButton_clicked(b,t))
     
-                SlotWidget = QWidget()
-                Slot = QVBoxLayout()
-                Slot.addWidget(NameOfTask)
-                Slot.addWidget(DescOfTask)
-                Slot.addWidget(RemainingDeadline)
-                Slot.addWidget(ActionButton)
-                Slot.addWidget(TaskSeperator)
-                SlotWidget.setLayout(Slot)
-                SlotContainers.append(SlotWidget)
+        #         SlotWidget = QWidget()
+        #         Slot = QVBoxLayout()
+        #         Slot.addWidget(NameOfTask)
+        #         Slot.addWidget(DescOfTask)
+        #         Slot.addWidget(RemainingDeadline)
+        #         Slot.addWidget(ActionButton)
+        #         Slot.addWidget(TaskSeperator)
+        #         SlotWidget.setLayout(Slot)
+        #         SlotContainers.append(SlotWidget)
 
-        self.ClockTimer = QTimer()
-        self.ClockTimer.start(60000)
-        self.ClockTimer.timeout.connect(lambda l = DeadlineLabels: Update_Deadlines(l))
+        # self.ClockTimer = QTimer()
+        # self.ClockTimer.start(60000)
+        # self.ClockTimer.timeout.connect(lambda l = DeadlineLabels: Update_Deadlines(l))
 
-        #Scrolling bit
-        TaskDisplayer('bilbo.baggins@make-it-all.co.uk',self.Tasks)
+        # #Scrolling bit
+        # TaskDisplayer('bilbo.baggins@make-it-all.co.uk',self.Tasks) #here is where we started
 
-        self.AllWidgets = QWidget()
-        self.AllWidgetsVbox = QVBoxLayout()
-        for container in SlotContainers:
-            self.AllWidgetsVbox.addWidget(container)
-        self.AllWidgets.setLayout(self.AllWidgetsVbox)
-        scroll = QScrollArea(self)
-        scroll.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOn)
-        scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
-        scroll.setWidgetResizable(True)
-        scroll.setWidget(self.AllWidgets)
-        scroll.setMinimumSize(1800,900)
+        # self.AllWidgets = QWidget()
+        # self.AllWidgetsVbox = QVBoxLayout()
+        # for container in SlotContainers:
+        #     self.AllWidgetsVbox.addWidget(container)
+        # self.AllWidgets.setLayout(self.AllWidgetsVbox)
+        # scroll = QScrollArea(self)
+        # scroll.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOn)
+        # scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
+        # scroll.setWidgetResizable(True)
+        # scroll.setWidget(self.AllWidgets)
+        # scroll.setMinimumSize(1800,900)
 
 if __name__ == '__main__':
     print('Program is Running!')
