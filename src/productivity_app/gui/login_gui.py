@@ -76,17 +76,18 @@ class RegisterWindow(QWidget):
             self.check_email(email)
             error = self.check_valid_password(password)
             role = get_authorised(email)
+            if error:
+                QMessageBox.warning(self,"Password too weak", error)
+                return
             if role is None:
                 QMessageBox.warning(self,"Not authorised","this email is not auuthorised")
                 return
             if user_exist(email):
                 QMessageBox.warning(self,"Account exists", "This account already exists")
                 return            
-            if error:
-                QMessageBox.warning(self,"Password too weak", error)
-            #role = get_authorised(email)
             
 
+            
             add_user(email,password,role)
             QMessageBox.information(self,"success","account created")
 
