@@ -135,6 +135,91 @@ class ViewerForTasks(QWidget):
             scroll.setWidget(self.AllWidgets)
             scroll.setMinimumSize(1800,900)
 
+        elif isinstance(self.user, Manager):
+        
+                SlotContainers = []
+                
+                DeadlineLabels = []
+                def DeadlineCreation(DeadlineGiven,LabelGiven):
+                    DeadlineGiven_InDateTime = QDateTime.fromString(DeadlineGiven, 'dd-MM-yyyy HH:mm')
+                    TimeToDeadline = QDateTime.currentDateTime().secsTo(DeadlineGiven_InDateTime)
+                    Months = TimeToDeadline // 2419200
+                    MonthsRemainder = TimeToDeadline % 2419200
+                    Days = MonthsRemainder // 86400
+                    DaysRemainder = MonthsRemainder % 86400
+                    Hours = (DaysRemainder // 3600)
+                    HoursRemainder = DaysRemainder % 3600
+                    Minutes = HoursRemainder // 60
+                    LabelGiven.setText(str(Months) + ' Months ' + str(Days) + ' Days ' + str(Hours) + ' Hours ' + str(Minutes) + ' Minutes')
+                    return LabelGiven
+        
+                def Update_Deadlines(Deadline_Labels):
+                    print('Entered Update_Deadlines()')
+                    for Label, Deadline in Deadline_Labels:
+                        DeadlineCreation(Deadline,Label)
+                        print('Deadlines Updated!')
+                    return Deadline_Labels
+        
+            
+                def TaskDisplayer(Username,AssignedTasks):
+            
+                    SuitableTasks = []
+            
+                    for task in AssignedTasks:
+                        if Username in task[2]:
+                            SuitableTasks.append(task)
+                            print('Going through tasks...')
+            
+                    for GivenTask in SuitableTasks:
+                        TaskSeperator = QLabel(text='________________________________________________________________________________')
+                        NameOfTask = QLabel(text=GivenTask[0])
+                        DescOfTask = QLabel(text=GivenTask[1])
+            
+            
+                        DeadlineGiven_InDateTime = QDateTime.fromString(GivenTask[4], 'dd-MM-yyyy HH:mm')
+                        TimeToDeadline = QDateTime.currentDateTime().secsTo(DeadlineGiven_InDateTime)
+                        Months = TimeToDeadline // 2419200
+                        MonthsRemainder = TimeToDeadline % 2419200
+                        Days = MonthsRemainder // 86400
+                        DaysRemainder = MonthsRemainder % 86400
+                        Hours = (DaysRemainder // 3600)
+                        HoursRemainder = DaysRemainder % 3600
+                        Minutes = HoursRemainder // 60
+                        RemainingDeadline = QLabel(text=str(Months) + ' Months ' + str(Days) + ' Days ' + str(Hours) + ' Hours ' + str(Minutes) + ' Minutes')            
+            
+                        DeadlineLabels.append([RemainingDeadline,GivenTask[4]])
+        
+                        UsernameOfTeamMember = QLabel(text=GivenTask[2])                             
+                
+                        SlotWidget = QWidget()
+                        Slot = QVBoxLayout()
+                        Slot.addWidget(NameOfTask)
+                        Slot.addWidget(DescOfTask)
+                        Slot.addWidget(RemainingDeadline)
+                        Slot.addWidget(UsernameOfTeamMember)
+                        Slot.addWidget(TaskSeperator)
+                        SlotWidget.setLayout(Slot)
+                        SlotContainers.append(SlotWidget)
+        
+                self.ClockTimer = QTimer()
+                self.ClockTimer.start(60000)
+                self.ClockTimer.timeout.connect(lambda l = DeadlineLabels: Update_Deadlines(l))
+        
+                #Scrolling bit
+                TaskDisplayer('',self.Tasks)
+    
+                self.AllWidgets = QWidget()
+                self.AllWidgetsVbox = QVBoxLayout()
+                for container in SlotContainers:
+                    self.AllWidgetsVbox.addWidget(container)
+                self.AllWidgets.setLayout(self.AllWidgetsVbox)
+                scroll = QScrollArea(self)
+                scroll.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOn)
+                scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
+                scroll.setWidgetResizable(True)
+                scroll.setWidget(self.AllWidgets)
+                scroll.setMinimumSize(1800,900)
+
         elif isinstance(self.user, Employee):
 
             SlotContainers = []
@@ -240,90 +325,7 @@ class ViewerForTasks(QWidget):
             scroll.setWidget(self.AllWidgets)
             scroll.setMinimumSize(1800,900)
 
-        elif isinstance(self.user, Manager):
-
-            SlotContainers = []
-            
-            DeadlineLabels = []
-            def DeadlineCreation(DeadlineGiven,LabelGiven):
-                DeadlineGiven_InDateTime = QDateTime.fromString(DeadlineGiven, 'dd-MM-yyyy HH:mm')
-                TimeToDeadline = QDateTime.currentDateTime().secsTo(DeadlineGiven_InDateTime)
-                Months = TimeToDeadline // 2419200
-                MonthsRemainder = TimeToDeadline % 2419200
-                Days = MonthsRemainder // 86400
-                DaysRemainder = MonthsRemainder % 86400
-                Hours = (DaysRemainder // 3600)
-                HoursRemainder = DaysRemainder % 3600
-                Minutes = HoursRemainder // 60
-                LabelGiven.setText(str(Months) + ' Months ' + str(Days) + ' Days ' + str(Hours) + ' Hours ' + str(Minutes) + ' Minutes')
-                return LabelGiven
-    
-            def Update_Deadlines(Deadline_Labels):
-                print('Entered Update_Deadlines()')
-                for Label, Deadline in Deadline_Labels:
-                    DeadlineCreation(Deadline,Label)
-                    print('Deadlines Updated!')
-                return Deadline_Labels
-    
         
-            def TaskDisplayer(Username,AssignedTasks):
-        
-                SuitableTasks = []
-        
-                for task in AssignedTasks:
-                    if task[2] == Username:
-                        SuitableTasks.append(task)
-                        print('Going through tasks...')
-        
-                for GivenTask in SuitableTasks:
-                    TaskSeperator = QLabel(text='________________________________________________________________________________')
-                    NameOfTask = QLabel(text=GivenTask[0])
-                    DescOfTask = QLabel(text=GivenTask[1])
-        
-        
-                    DeadlineGiven_InDateTime = QDateTime.fromString(GivenTask[4], 'dd-MM-yyyy HH:mm')
-                    TimeToDeadline = QDateTime.currentDateTime().secsTo(DeadlineGiven_InDateTime)
-                    Months = TimeToDeadline // 2419200
-                    MonthsRemainder = TimeToDeadline % 2419200
-                    Days = MonthsRemainder // 86400
-                    DaysRemainder = MonthsRemainder % 86400
-                    Hours = (DaysRemainder // 3600)
-                    HoursRemainder = DaysRemainder % 3600
-                    Minutes = HoursRemainder // 60
-                    RemainingDeadline = QLabel(text=str(Months) + ' Months ' + str(Days) + ' Days ' + str(Hours) + ' Hours ' + str(Minutes) + ' Minutes')            
-        
-                    DeadlineLabels.append([RemainingDeadline,GivenTask[4]])
-    
-                    UsernameOfTeamMember = QLabel(text=GivenTask[2])                             
-            
-                    SlotWidget = QWidget()
-                    Slot = QVBoxLayout()
-                    Slot.addWidget(NameOfTask)
-                    Slot.addWidget(DescOfTask)
-                    Slot.addWidget(RemainingDeadline)
-                    Slot.addWidget(UsernameOfTeamMember)
-                    Slot.addWidget(TaskSeperator)
-                    SlotWidget.setLayout(Slot)
-                    SlotContainers.append(SlotWidget)
-    
-            self.ClockTimer = QTimer()
-            self.ClockTimer.start(60000)
-            self.ClockTimer.timeout.connect(lambda l = DeadlineLabels: Update_Deadlines(l))
-    
-            #Scrolling bit
-            TaskDisplayer('',self.Tasks)
-
-            self.AllWidgets = QWidget()
-            self.AllWidgetsVbox = QVBoxLayout()
-            for container in SlotContainers:
-                self.AllWidgetsVbox.addWidget(container)
-            self.AllWidgets.setLayout(self.AllWidgetsVbox)
-            scroll = QScrollArea(self)
-            scroll.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOn)
-            scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
-            scroll.setWidgetResizable(True)
-            scroll.setWidget(self.AllWidgets)
-            scroll.setMinimumSize(1800,900)
             
 
         # SlotContainers = []
