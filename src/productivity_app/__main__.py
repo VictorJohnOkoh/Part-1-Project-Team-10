@@ -1,6 +1,6 @@
 import sys
 from PyQt6.QtWidgets import QApplication, QStackedWidget, QMainWindow
-from .gui.login_gui import LoginWindow, RegisterWindow
+from productivity_app.gui.login_gui import LoginWindow, RegisterWindow
 from PyQt6.QtCore import QTimer
 from productivity_app.gui.login_gui import LoginWindow
 from productivity_app.gui.dashboard_gui import Dashboard

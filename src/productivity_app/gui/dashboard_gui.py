@@ -61,7 +61,6 @@ class Dashboard(QtWidgets.QWidget):
         training_button = QtWidgets.QPushButton("Training")
         progress_button = QtWidgets.QPushButton("Project Progress")
         assign_tasks_button = QtWidgets.QPushButton("Assign Tasks")
-        register_employee_button = QtWidgets.QPushButton("Register employee")
         logout_button = QtWidgets.QPushButton("Logout")
 
 # connected the buttons to their functions (the functions that call their gui to pop up)
@@ -71,11 +70,10 @@ class Dashboard(QtWidgets.QWidget):
         training_button.clicked.connect(self.training_clicked)
         progress_button.clicked.connect(self.progress_clicked)
         assign_tasks_button.clicked.connect(self.assign_tasks_clicked)
-        register_employee_button.clicked.connect(self.register_employee_clicked)
         logout_button.clicked.connect(self.logout)
 
 
-        all_buttons = [to_do_button, post_button, tasks_button, training_button, progress_button, assign_tasks_button, register_employee_button]
+        all_buttons = [to_do_button, post_button, tasks_button, training_button, progress_button, assign_tasks_button, logout_button]
         for button in all_buttons:
             button.setSizePolicy(QtWidgets.QSizePolicy.Policy.Preferred,
                                  QtWidgets.QSizePolicy.Policy.Expanding)
@@ -94,7 +92,6 @@ class Dashboard(QtWidgets.QWidget):
 
 # only adding the register, project progress and assign task buttons if the user is of the manager class
         if isinstance(self.user, Manager) or isinstance(self.user, Team_Leader):
-            task_box_3.addWidget(register_employee_button, 1)
             task_box_2.addWidget(progress_button, 1)
             task_box_2.addWidget(assign_tasks_button, 1)
             task_box_2.addWidget(training_button, 1)
