@@ -7,6 +7,6 @@ michael.scott@make-it-all.co.uk:$2b$12$juax5MM1iICJHi4lVHKl5eQqZsssMsGhmTyx63hYs
 kermit.frog@make-it-all-co.uk:$2b$12$k13u1gGJ2fcCbH.sCr9iB.GbSKKiL0XFb3UJ7VtD.V352SfbqutNi:team_member
 qui-gon.jinn@make-it-all.co.uk:$2b$12$/z8up2/SGLrfP3z/zPlQwuTqxRRwA68iQnELAELNavEoanCrjbBtS:team_member
 randy.marsh@make-it-all.co.uk:$2b$12$7C64LWlrjKhUJucZrP6yW.ZI5dUL2IClgIxHZq7p0So9SfDqcPRYy:team_member
-anakin.skywalker@make-it-all.co.uk:$2b$12$8mGBWbnbCcCaowGdLIx.cufO7hVkIrZUgh90icxVbcZ9UaQ3Www8G:team_member
+anakin.skywalker@make-it-all.co.uk:$2b$12$8mGBWbnbCcCaowGdLIx.cufO7hVkIrZUgh90icxVbcZ9UaQ3Www8G:manager
 jake.peralta@make-it-all.co.uk:$2b$12$IELMuI8yrkfYcV4sKskYD.c7yUEBXViqDxfdDbqeYR3ryBqEdisAa:team_member
 jim.halpert@make-it-all.co.uk:$2b$12$0Au0r6RUfzt1En1wfYJrYeLGrhq2HMbBzR.OiDDa//Itr46uq4qma:team_member

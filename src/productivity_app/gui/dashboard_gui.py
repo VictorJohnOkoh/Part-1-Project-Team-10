@@ -121,7 +121,7 @@ class Dashboard(QtWidgets.QWidget):
 
     def tasks_clicked(self):
         print("tasks clicked")
-        self.ViewTasksWindow = ViewerForTasks()
+        self.ViewTasksWindow = ViewerForTasks(self.user)
         self.ViewTasksWindow.show()
 
     def training_clicked(self):
