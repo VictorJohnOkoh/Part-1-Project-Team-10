@@ -1,23 +1,27 @@
-from .Project import Project
-from .Employee import Employee
+from productivity_app.users.Project import Project
+from productivity_app.users.Employee import Employee
+from productivity_app.users.TeamLead import Team_Leader
 
 class Team:
-    def __init__(self, project: Project, members: list[Employee]):
-        self.project = project
-        self.members = members
+    def __init__(self, project: Project, members: list[Employee], leader: Team_Leader):
+        self.__project = project
+        self.__members = members
+        self.__leader = leader
 
-    def add_member(self, member: Employee):
-        self.members.append(member)
+    def get_leader(self) -> Team_Leader:
+        return self.__leader
 
-    def remove_member(self, member: Employee):
-        self.members.remove(member)
+    def add_member(self, member: Employee) -> None:
+        self.__members.append(member)
+
+    def remove_member(self, member: Employee) -> None:
+        self.__members.remove(member)
 
     def get_members(self) -> list[Employee]:
-        return self.members
+        return self.__members
 
     def get_project(self) -> Project:
-        return self.project
+        return self.__project
 
     def get_members_count(self) -> int:
-        return len(self.members)
-
+        return len(self.__members)

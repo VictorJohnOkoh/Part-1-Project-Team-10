@@ -6,10 +6,11 @@ from .Post_gui import PostWindow
 from .Project_Progress_gui import ProgressWindow
 from ..users.Employee import Employee
 from .training import Training
-from .to_do_list import ToDoListWindow 
+from .to_do_list_gui import ToDoListWindow 
 from .Assign_Tasks_gui import AssignTasksWindow
 from .Assign_Projects_gui import AssignProjectsWindow
 from .View_Tasks_gui import ViewerForTasks
+from ..users.TeamLead import Team_Leader
 
 #(Are yet to be attached)
 #from .gui.to_do_gui import to_do
@@ -24,7 +25,7 @@ from .View_Tasks_gui import ViewerForTasks
 class Dashboard(QtWidgets.QWidget):
 
 # Runs automatically when someone writes Dashboard()
-    def __init__(self,user):
+    def __init__(self, user, logout_service):
 # Let QWidget do its own setup first, otherwise Qt breaks
         super().__init__()
 
@@ -33,6 +34,7 @@ class Dashboard(QtWidgets.QWidget):
         self.resize(800, 600)
 
         self.user = user
+        self.logout = logout_service
 
 # Build everything that goes inside the window
         self.build_ui()
@@ -59,7 +61,7 @@ class Dashboard(QtWidgets.QWidget):
         training_button = QtWidgets.QPushButton("Training")
         progress_button = QtWidgets.QPushButton("Project Progress")
         assign_tasks_button = QtWidgets.QPushButton("Assign Tasks")
-        register_employee_button = QtWidgets.QPushButton("Register employee")
+        logout_button = QtWidgets.QPushButton("Logout")
 
 # connected the buttons to their functions (the functions that call their gui to pop up)
         to_do_button.clicked.connect(self.to_do_clicked)
@@ -68,10 +70,10 @@ class Dashboard(QtWidgets.QWidget):
         training_button.clicked.connect(self.training_clicked)
         progress_button.clicked.connect(self.progress_clicked)
         assign_tasks_button.clicked.connect(self.assign_tasks_clicked)
-        register_employee_button.clicked.connect(self.register_employee_clicked)
+        logout_button.clicked.connect(self.logout)
 
 
-        all_buttons = [to_do_button, post_button, tasks_button, training_button, progress_button, assign_tasks_button, register_employee_button]
+        all_buttons = [to_do_button, post_button, tasks_button, training_button, progress_button, assign_tasks_button, logout_button]
         for button in all_buttons:
             button.setSizePolicy(QtWidgets.QSizePolicy.Policy.Preferred,
                                  QtWidgets.QSizePolicy.Policy.Expanding)
@@ -89,8 +91,7 @@ class Dashboard(QtWidgets.QWidget):
 
 
 # only adding the register, project progress and assign task buttons if the user is of the manager class
-        if isinstance(self.user, Manager):
-            task_box_3.addWidget(register_employee_button, 1)
+        if isinstance(self.user, Manager) or isinstance(self.user, Team_Leader):
             task_box_2.addWidget(progress_button, 1)
             task_box_2.addWidget(assign_tasks_button, 1)
             task_box_2.addWidget(training_button, 1)
@@ -99,6 +100,7 @@ class Dashboard(QtWidgets.QWidget):
         else:
             pass
 
+        task_box_3.addWidget(logout_button, 1)
         # Attach the layout to this window, so Qt actually displays it
         self.setLayout(main_layout)
 
@@ -139,3 +141,10 @@ class Dashboard(QtWidgets.QWidget):
 
     def register_employee_clicked(self):
         print("register employee clicked")
+
+if __name__ == "__main__":
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    window = Dashboard(Manager(1234, 'John', 'Doe', 'john.doe@example.com'))
+    window.show()
+    sys.exit(app.exec())
