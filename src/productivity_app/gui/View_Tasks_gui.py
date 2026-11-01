@@ -6,6 +6,10 @@ from PyQt6.QtWidgets import (QApplication, QPushButton, QVBoxLayout, QWidget,
                              QLabel, QScrollArea, QMainWindow, QSlider,
                              QLineEdit, QHBoxLayout, QWidget, QLineEdit)
 from productivity_app.gui import Assign_Tasks_gui
+from ..users.Manager import Manager
+from ..users.Employee import Employee
+from ..users.TeamLead import TeamLead
+
 
 class ViewerForTasks(QWidget):
 
@@ -17,28 +21,28 @@ class ViewerForTasks(QWidget):
 
     Tasks = [['Inspect Raw Materials', 'Check incoming raw materials for defects, damage and quality standards before approving them for production.', 'jake.peralta@make-it-all.co.uk', 'Team 1', '10-11-2026 08:30', 45, 'Incomplete'], 
               ['Machine Component Production', 'Operate CNC machinery to manufacture metal components according to the specified engineering drawings and measurements.', 'bilbo.baggins@make-it-all.co.uk', 'Team 2', '11-11-2026 09:00', 120, 'Incomplete'], 
-              ['Assembly Line Preparation', 'Prepare the assembly workstation by organising tools, equipment and components required for the production run.', 'jim.halpert@make-it-all.co.uk', 'Team 3', '06-11-2026 07:40', 60, 'Incomplete'], 
+              ['Assembly Line Preparation', 'Prepare the assembly workstation by organising tools, equipment and components required for the production run.', 'jim.halpert@make-it-all.co.uk', 'Team 4', '06-11-2026 07:40', 60, 'Incomplete'], 
               ['Quality Control Inspection', 'Inspect finished products for manufacturing defects, dimensional accuracy and compliance with company quality standards.', 'sherlock.holmes@make-it-all.co.uk', 'Team 4', '05-11-2026 06:00', 90, 'Incomplete'], 
               ['Equipment Maintenance', 'Carry out routine maintenance on manufacturing equipment, including lubrication, cleaning and checking mechanical components.', 'jim.halpert@make-it-all.co.uk', 'Team 5', '09-11-2026 08:00', 75, 'Incomplete'], 
-              ['Packaging Finished Products', 'Package completed products using the correct protective materials and ensure all packages are labelled correctly.', 'jake.peralta@make-it-all.co.uk', 'Team 6', '10-11-2026 13:30', 60, 'Incomplete'], 
+              ['Packaging Finished Products', 'Package completed products using the correct protective materials and ensure all packages are labelled correctly.', 'jake.peralta@make-it-all.co.uk', 'Team 1', '10-11-2026 13:30', 60, 'Incomplete'], 
               ['Stock Inventory Update', 'Count available manufacturing components and update the inventory management system to reflect current stock levels.', 'sherlock.holmes@make-it-all.co.uk', 'Team 2', '12-11-2026 11:30', 45, 'Incomplete'], 
               ['Production Line Monitoring', 'Monitor the production line to ensure machinery is operating efficiently and production targets are being achieved.', 'jake.peralta@make-it-all.co.uk', 'Team 3', '16-11-2026 14:00', 180, 'Incomplete'], 
               ['Safety Equipment Inspection', 'Inspect workplace safety equipment, including emergency stops, protective guards and personal protective equipment.', 'bilbo.baggins@make-it-all.co.uk', 'Team 1', '06-11-2026 09:30', 60, 'Incomplete'],
-              ['Inspect Raw Materials', 'Check incoming raw materials for defects, damage and quality standards before approving them for production.', 'jim.halpert@make-it-all.co.uk', 'Team 1', '17-11-2026 08:30', 45, 'Incomplete'], 
-              ['Machine Component Production', 'Operate CNC machinery to manufacture metal components according to the specified engineering drawings and measurements.', 'jake.peralta@make-it-all.co.uk', 'Team 2', '18-11-2026 09:00', 120, 'Incomplete'], 
-              ['Assembly Line Preparation', 'Prepare the assembly workstation by organising tools, equipment and components required for the production run.', 'bilbo.baggins@make-it-all.co.uk', 'Team 3', '13-11-2026 07:40', 60, 'Incomplete'], 
+              ['Inspect Raw Materials', 'Check incoming raw materials for defects, damage and quality standards before approving them for production.', 'jim.halpert@make-it-all.co.uk', 'Team 3', '17-11-2026 08:30', 45, 'Incomplete'], 
+              ['Machine Component Production', 'Operate CNC machinery to manufacture metal components according to the specified engineering drawings and measurements.', 'jake.peralta@make-it-all.co.uk', 'Team 3', '18-11-2026 09:00', 120, 'Incomplete'], 
+              ['Assembly Line Preparation', 'Prepare the assembly workstation by organising tools, equipment and components required for the production run.', 'bilbo.baggins@make-it-all.co.uk', 'Team 2', '13-11-2026 07:40', 60, 'Incomplete'], 
               ['Quality Control Inspection', 'Inspect finished products for manufacturing defects, dimensional accuracy and compliance with company quality standards.', 'sherlock.holmes@make-it-all.co.uk', 'Team 4', '13-11-2026 06:00', 90, 'Incomplete'], 
-              ['Equipment Maintenance', 'Carry out routine maintenance on manufacturing equipment, including lubrication, cleaning and checking mechanical components.', 'bilbo.baggins@make-it-all.co.uk', 'Team 5', '16-11-2026 08:00', 75, 'Incomplete'], 
-              ['Packaging Finished Products', 'Package completed products using the correct protective materials and ensure all packages are labelled correctly.', 'bilbo.baggins@make-it-all.co.uk', 'Team 6', '17-11-2026 13:30', 60, 'Incomplete'], 
-              ['Stock Inventory Update', 'Count available manufacturing components and update the inventory management system to reflect current stock levels.', 'jake.peralta@make-it-all.co.uk', 'Team 2', '19-11-2026 11:30', 45, 'Incomplete'], 
-              ['Production Line Monitoring', 'Monitor the production line to ensure machinery is operating efficiently and production targets are being achieved.', 'bilbo.baggins@make-it-all.co.uk', 'Team 3', '23-11-2026 14:00', 180, 'Incomplete'],
-              ['Inspect Raw Materials', 'Check incoming raw materials for defects, damage and quality standards before approving them for production.', 'jim.halpert@make-it-all.co.uk', 'Team 1', '24-11-2026 08:30', 45, 'Incomplete'], 
+              ['Equipment Maintenance', 'Carry out routine maintenance on manufacturing equipment, including lubrication, cleaning and checking mechanical components.', 'bilbo.baggins@make-it-all.co.uk', 'Team 1', '16-11-2026 08:00', 75, 'Incomplete'], 
+              ['Packaging Finished Products', 'Package completed products using the correct protective materials and ensure all packages are labelled correctly.', 'bilbo.baggins@make-it-all.co.uk', 'Team 1', '17-11-2026 13:30', 60, 'Incomplete'], 
+              ['Stock Inventory Update', 'Count available manufacturing components and update the inventory management system to reflect current stock levels.', 'jake.peralta@make-it-all.co.uk', 'Team 3', '19-11-2026 11:30', 45, 'Incomplete'], 
+              ['Production Line Monitoring', 'Monitor the production line to ensure machinery is operating efficiently and production targets are being achieved.', 'bilbo.baggins@make-it-all.co.uk', 'Team 2', '23-11-2026 14:00', 180, 'Incomplete'],
+              ['Inspect Raw Materials', 'Check incoming raw materials for defects, damage and quality standards before approving them for production.', 'jim.halpert@make-it-all.co.uk', 'Team 3', '24-11-2026 08:30', 45, 'Incomplete'], 
               ['Machine Component Production', 'Operate CNC machinery to manufacture metal components according to the specified engineering drawings and measurements.', 'bilbo.baggins@make-it-all.co.uk', 'Team 2', '25-11-2026 09:00', 120, 'Incomplete'], 
               ['Assembly Line Preparation', 'Prepare the assembly workstation by organising tools, equipment and components required for the production run.', 'jim.halpert@make-it-all.co.uk', 'Team 3', '20-11-2026 07:40', 60, 'Incomplete'], 
               ['Quality Control Inspection', 'Inspect finished products for manufacturing defects, dimensional accuracy and compliance with company quality standards.', 'sherlock.holmes@make-it-all.co.uk', 'Team 4', '19-11-2026 06:00', 90, 'Incomplete'], 
-              ['Equipment Maintenance', 'Carry out routine maintenance on manufacturing equipment, including lubrication, cleaning and checking mechanical components.', 'jake.peralta@make-it-all.co.uk', 'Team 5', '23-11-2026 08:00', 75, 'Incomplete'], 
-              ['Packaging Finished Products', 'Package completed products using the correct protective materials and ensure all packages are labelled correctly.', 'bilbo.baggins@make-it-all.co.uk', 'Team 6', '24-11-2026 13:30', 60, 'Incomplete'], 
-              ['Stock Inventory Update', 'Count available manufacturing components and update the inventory management system to reflect current stock levels.', 'jim.halpert@make-it-all.co.uk', 'Team 2', '26-11-2026 11:30', 45, 'Incomplete'], 
+              ['Equipment Maintenance', 'Carry out routine maintenance on manufacturing equipment, including lubrication, cleaning and checking mechanical components.', 'jake.peralta@make-it-all.co.uk', 'Team 4', '23-11-2026 08:00', 75, 'Incomplete'], 
+              ['Packaging Finished Products', 'Package completed products using the correct protective materials and ensure all packages are labelled correctly.', 'bilbo.baggins@make-it-all.co.uk', 'Team 1', '24-11-2026 13:30', 60, 'Incomplete'], 
+              ['Stock Inventory Update', 'Count available manufacturing components and update the inventory management system to reflect current stock levels.', 'jim.halpert@make-it-all.co.uk', 'Team 4', '26-11-2026 11:30', 45, 'Incomplete'], 
               ['Production Line Monitoring', 'Monitor the production line to ensure machinery is operating efficiently and production targets are being achieved.', 'jim.halpert@make-it-all.co.uk', 'Team 3', '30-11-2026 14:00', 180, 'Incomplete']]
 
     def __init__(self, parent=None):
@@ -133,10 +137,9 @@ class ViewerForTasks(QWidget):
         self.ClockTimer.start(60000)
         self.ClockTimer.timeout.connect(lambda l = DeadlineLabels: Update_Deadlines(l))
 
-
-
         #Scrolling bit
         TaskDisplayer('bilbo.baggins@make-it-all.co.uk',self.Tasks)
+
         self.AllWidgets = QWidget()
         self.AllWidgetsVbox = QVBoxLayout()
         for container in SlotContainers:
