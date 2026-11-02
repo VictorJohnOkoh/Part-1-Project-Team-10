@@ -6,10 +6,12 @@ from PyQt6.QtWidgets import (QApplication, QPushButton, QVBoxLayout, QWidget,
                              QLabel, QScrollArea, QMainWindow, QSlider,
                              QLineEdit, QHBoxLayout, QGridLayout)
 from productivity_app.services.Project_Progress_Functions import Projects, Search_Project_Details
+from ..users.Manager import Manager
 
 class ProgressWindow(QtWidgets.QWidget):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, user, parent=None):
+        super().__init__(parent)
+        self.user = user
         self.setWindowTitle("MAKE IT ALL - Project Progress")
         self.resize(800, 600)
         self.User_Interface_Values()
@@ -23,15 +25,30 @@ class ProgressWindow(QtWidgets.QWidget):
 
         Content_Layout = QVBoxLayout(Scroll_Content)
 
-        for Single_Project in Projects:
-            tasks = []
-            project_name = Single_Project
-            Details_Found = Projects[project_name]
-            Team_Leader = Details_Found["teamLead"]
-            Deadline = Details_Found["Deadline"]
-            Estimated_hours = Details_Found["Estimated_hours"]
-            tasks = Details_Found["tasks"]
-            self.Build_UI(project_name, Team_Leader, Deadline, Estimated_hours, tasks, Content_Layout)
+        if isinstance(self.user, (Manager)):
+            for Single_Project in Projects:
+                tasks = []
+                project_name = Single_Project
+                Details_Found = Projects[project_name]
+                Team_LeaderName = Details_Found["teamLead"]
+                Deadline = Details_Found["Deadline"]
+                Estimated_hours = Details_Found["Estimated_hours"]
+                tasks = Details_Found["tasks"]
+                self.Build_UI(project_name, Team_LeaderName, Deadline, Estimated_hours, tasks, Content_Layout)
+
+        else:
+            for Single_Project in Projects:
+                if self.user.get_full_name() in Projects[Single_Project]["teamLead"]:
+                    tasks = []
+                    project_name = Single_Project
+                    Details_Found = Projects[project_name]
+                    Team_LeaderName = Details_Found["teamLead"]
+                    Deadline = Details_Found["Deadline"]
+                    Estimated_hours = Details_Found["Estimated_hours"]
+                    tasks = Details_Found["tasks"]
+                    if Team_LeaderName == self.user.get_full_name():
+                        self.Build_UI(project_name, Team_LeaderName, Deadline, Estimated_hours, tasks, Content_Layout)
+
 
         Content_Layout.addStretch()
         Content_Layout.setSizeConstraint(QtWidgets.QLayout.SizeConstraint.SetMinimumSize)

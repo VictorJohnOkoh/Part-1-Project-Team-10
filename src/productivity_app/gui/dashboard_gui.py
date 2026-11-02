@@ -121,7 +121,7 @@ class Dashboard(QtWidgets.QWidget):
 
     def tasks_clicked(self):
         print("tasks clicked")
-        self.ViewTasksWindow = ViewerForTasks()
+        self.ViewTasksWindow = ViewerForTasks(self.user)
         self.ViewTasksWindow.show()
 
     def training_clicked(self):
@@ -130,7 +130,7 @@ class Dashboard(QtWidgets.QWidget):
         print("training clicked")
 
     def progress_clicked(self):
-        self.progress_window = ProgressWindow()
+        self.progress_window = ProgressWindow(self.user)
         self.progress_window.show()
         print("progress clicked")
 
