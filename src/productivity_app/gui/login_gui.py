@@ -80,7 +80,7 @@ class RegisterWindow(QWidget):
                 QMessageBox.warning(self,"Password too weak", error)
                 return
             if role is None:
-                QMessageBox.warning(self,"Not authorised","this email is not auuthorised")
+                QMessageBox.warning(self,"Not authorised","this email is not authorised")
                 return
             if user_exist(email):
                 QMessageBox.warning(self,"Account exists", "This account already exists")
