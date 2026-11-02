@@ -61,6 +61,7 @@ class Dashboard(QtWidgets.QWidget):
         training_button = QtWidgets.QPushButton("Training")
         progress_button = QtWidgets.QPushButton("Project Progress")
         assign_tasks_button = QtWidgets.QPushButton("Assign Tasks")
+        assign_projects_button = QtWidgets.QPushButton("Assign Projects")
         logout_button = QtWidgets.QPushButton("Logout")
 
 # connected the buttons to their functions (the functions that call their gui to pop up)
@@ -70,10 +71,11 @@ class Dashboard(QtWidgets.QWidget):
         training_button.clicked.connect(self.training_clicked)
         progress_button.clicked.connect(self.progress_clicked)
         assign_tasks_button.clicked.connect(self.assign_tasks_clicked)
+        assign_projects_button.clicked.connect(self.assign_projects_clicked)
         logout_button.clicked.connect(self.logout)
 
 
-        all_buttons = [to_do_button, post_button, tasks_button, training_button, progress_button, assign_tasks_button, logout_button]
+        all_buttons = [to_do_button, post_button, tasks_button, training_button, progress_button, assign_tasks_button, assign_projects_button, logout_button]
         for button in all_buttons:
             button.setSizePolicy(QtWidgets.QSizePolicy.Policy.Preferred,
                                  QtWidgets.QSizePolicy.Policy.Expanding)
@@ -91,7 +93,11 @@ class Dashboard(QtWidgets.QWidget):
 
 
 # only adding the register, project progress and assign task buttons if the user is of the manager class
-        if isinstance(self.user, Manager) or isinstance(self.user, Team_Leader):
+        if isinstance(self.user, Manager):
+            task_box_2.addWidget(progress_button, 1)
+            task_box_2.addWidget(assign_projects_button, 1)
+            task_box_2.addWidget(training_button, 1)
+        elif isinstance(self.user, Team_Leader):
             task_box_2.addWidget(progress_button, 1)
             task_box_2.addWidget(assign_tasks_button, 1)
             task_box_2.addWidget(training_button, 1)
@@ -138,6 +144,11 @@ class Dashboard(QtWidgets.QWidget):
         print("assign tasks clicked")
         self.AssignTasksWindow = AssignTasksWindow()
         self.AssignTasksWindow.show()
+
+    def assign_projects_clicked(self):
+        print("assign projects clicked")
+        self.AssignProjectsWindow = AssignProjectsWindow()
+        self.AssignProjectsWindow.show()
 
     def register_employee_clicked(self):
         print("register employee clicked")
