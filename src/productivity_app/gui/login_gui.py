@@ -21,7 +21,7 @@ class RegisterWindow(QWidget):
         super().__init__()
         self.on_back = on_back
 
-        self.resize(300,300)
+        self.resize(WIDTH, HEIGHT)
         self.setWindowTitle("Register")
         self.email = QLineEdit(placeholderText="Email")
         self.password = QLineEdit(placeholderText="Password",echoMode=QLineEdit.EchoMode.Password)
@@ -79,19 +79,15 @@ class RegisterWindow(QWidget):
             if error:
                 QMessageBox.warning(self,"Password too weak", error)
                 return
-            
             if role is None:
                 QMessageBox.warning(self,"Not authorised","this email is not auuthorised")
                 return
             if user_exist(email):
                 QMessageBox.warning(self,"Account exists", "This account already exists")
                 return            
-            #if error:
-                #QMessageBox.warning(self,"Password too weak", error)
-                #return
-            #role = get_authorised(email)
             
 
+            
             add_user(email,password,role)
             QMessageBox.information(self,"success","account created")
 
@@ -135,7 +131,9 @@ class LoginWindow(QWidget):
     def __init__(self, verify_login, on_register):
         super().__init__()
 
-        self.verify_login = verify_login
+        self.resize(WIDTH, HEIGHT)
+
+        self.switch_screen = verify_login
         self.setWindowTitle("MAKE IT ALL")
         self.resize(WIDTH, HEIGHT)
         self.attempts = 0
@@ -183,20 +181,23 @@ class LoginWindow(QWidget):
     def login(self):
         role = check_user(self.username.text(),self.password.text())
         if role == "team_leader":
-            QMessageBox.information(self,"Team Leader Screen","You are now on the team leader screen")
-        elif role == "team_member":
-            QMessageBox.information(self,"Team member","You are now on the team member screen")
-        else:
-            self.attempts += 1
-            remaining = maximum - self.attempts
+            username = self.username.text()
+            self.username.clear()
             self.password.clear()
-            if remaining > 0:
-                QMessageBox.warning(self,"Login fail","Wrong username/password")
-            else:
-                self.lock_out()
-
-    def lock_out(self):
-        QMessageBox.critical(self,"Locked out", "Too many failed attempts")
+            self.switch_screen(role, username)
+        elif role == "team_member":
+            username = self.username.text()
+            self.username.clear()
+            self.password.clear()
+            self.switch_screen(role, username)
+        elif role == "manager":
+            username = self.username.text()
+            self.username.clear()
+            self.password.clear()
+            self.switch_screen(role, username)
+        else:
+            QMessageBox.warning(self,"Login fail","Wrong username/password")
+            self.password.clear()
 
     def register(self):
         #self.register = RegisterWindow()

@@ -4,7 +4,7 @@ from datetime import datetime
 
 
 class Project:
-    def __init__(self, name, date: type[datetime], goal: str = None, deadline: type[datetime] = None):
+    def __init__(self, name, date: datetime, goal: str | None = None, deadline: datetime | None = None):
         self.name = name
         self.date = date
         self.goal = goal
@@ -16,8 +16,11 @@ class Project:
     def get_project_goal(self) -> str | None:
         return self.goal
 
-    def change_project_goal(self, new_goal) -> None:
+    def change_project_goal(self, new_goal: str | None) -> None:
         self.goal = new_goal
 
-    def get_project_deadline(self):
+    def get_project_deadline(self) -> datetime | None:
         return self.deadline
+
+proj1 = Project('Example', datetime(day=25, month=1, year=2026), 'Complete the demo', datetime(day=25, month=1, year=2027))
+proj2 = Project('Example2', datetime(day=25, month=12, year=2026), 'Write up a the Q4 report', datetime(day=30, month=12, year=2026))

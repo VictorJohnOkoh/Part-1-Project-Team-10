@@ -1,4 +1,6 @@
 from productivity_app.gui.dashboard_gui import Dashboard
 from productivity_app.gui.login_gui import LoginWindow
 from productivity_app.gui.Post_gui import PostWindow
-from productivity_app.gui.Assign_Tasks_gui import AssignWindow
+from productivity_app.gui.Assign_Tasks_gui import AssignTasksWindow
+from productivity_app.gui.View_Tasks_gui import ViewerForTasks
+from productivity_app.gui.Assign_Projects_gui import AssignProjectsWindow
