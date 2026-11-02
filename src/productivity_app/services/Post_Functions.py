@@ -2,16 +2,22 @@
 post = {"general": [
         {
             "title": "Welcome Test Post",
-            "body": "This is a dummy post to verify the GUI and functions are working.",
-            "comments": ["This is a test comment!"]
+            "body": "I love  writing about testing! I feel testing is an important part of software development. Although it can be quite difficult",
+            "comments": ["I agree, testing is very important", "I disagree, testing is not that important"]
         }],
         "cs": [
         {
-            "title": "I hate cs",
-            "body": "Cs is really tiring.",
-            "comments": ["No I certainly disagree", "Yep ;("]
-        }
-    ]}
+            "title": "Computer Science is the future",
+            "body": "With the rise of technology, computer science is becoming more and more important. It is a field that is constantly evolving and changing, and it is a great time to be a part of it.",
+            "comments": ["I see your point", "I think computer science is important, but I don't think it's the future"]
+        }],
+        "Logistics": [
+        {
+            "title": "Logistics is important",
+            "body": "I think everyone in the company should look into logistics. I would find it greatly beneficial if we all can give our ideas on this later",
+            "comments": ["Thanks for the heads up!, I will look into it", "I will work on that right away"]
+        }]
+}
 RestrictedTopics = {}
 
 def RestrictTopics(InpRestrictedTopic):
