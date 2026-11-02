@@ -61,10 +61,8 @@ class ViewerForTasks(QWidget):
                 return LabelGiven
     
             def Update_Deadlines(Deadline_Labels):
-                print('Entered Update_Deadlines()')
                 for Label, Deadline in Deadline_Labels:
                     DeadlineCreation(Deadline,Label)
-                    print('Deadlines Updated!')
                 return Deadline_Labels
     
         
@@ -75,7 +73,6 @@ class ViewerForTasks(QWidget):
                 for task in AssignedTasks:
                     if task[3] == TeamName:
                         SuitableTasks.append(task)
-                        print('Going through tasks...')
         
                 for GivenTask in SuitableTasks:
                     TaskSeperator = QLabel(text='________________________________________________________________________________')
@@ -146,10 +143,8 @@ class ViewerForTasks(QWidget):
                     return LabelGiven
         
                 def Update_Deadlines(Deadline_Labels):
-                    print('Entered Update_Deadlines()')
                     for Label, Deadline in Deadline_Labels:
                         DeadlineCreation(Deadline,Label)
-                        print('Deadlines Updated!')
                     return Deadline_Labels
         
             
@@ -160,7 +155,6 @@ class ViewerForTasks(QWidget):
                     for task in AssignedTasks:
                         if Username in task[2]:
                             SuitableTasks.append(task)
-                            print('Going through tasks...')
             
                     for GivenTask in SuitableTasks:
                         TaskSeperator = QLabel(text='________________________________________________________________________________')
@@ -231,10 +225,8 @@ class ViewerForTasks(QWidget):
                 return LabelGiven
     
             def Update_Deadlines(Deadline_Labels):
-                print('Entered Update_Deadlines()')
                 for Label, Deadline in Deadline_Labels:
                     DeadlineCreation(Deadline,Label)
-                    print('Deadlines Updated!')
                 return Deadline_Labels
     
         
@@ -245,7 +237,6 @@ class ViewerForTasks(QWidget):
                 for task in AssignedTasks:
                     if task[2] == Username:
                         SuitableTasks.append(task)
-                        print('Going through tasks...')
         
                 for GivenTask in SuitableTasks:
                     TaskSeperator = QLabel(text='________________________________________________________________________________')
