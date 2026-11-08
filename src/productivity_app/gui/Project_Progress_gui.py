@@ -55,17 +55,17 @@ class ProgressWindow(QtWidgets.QWidget):
         scroll.setWidget(Scroll_Content)
         main_layout.addWidget(scroll)
 
-    def Build_UI(self, project_name, Team_Leader, Deadline, Estimated_hours, tasks, main_layout):
+    def Build_UI(self, project_name, Team_Leader, Deadline, Estimated_hours, tasks, Content_layout):
 
         Project_Name_label = QtWidgets.QLabel(project_name)
         Project_Name_label.setFont(QtGui.QFont("Arial", 20, QtGui.QFont.Weight.Bold))
         Project_Name_label.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
-        main_layout.addWidget(Project_Name_label)
+        Content_layout.addWidget(Project_Name_label)
 
         Project_Info_label = QtWidgets.QLabel(f"Team Leader Name: {Team_Leader} - Deadline: {Deadline} - Total Estimated Hours: {Estimated_hours}")
         Project_Info_label.setFont(QtGui.QFont("Arial", 12))
         Project_Info_label.setAlignment(QtCore.Qt.AlignmentFlag.AlignLeft)
-        main_layout.addWidget(Project_Info_label)
+        Content_layout.addWidget(Project_Info_label)
 
         Progress_Bar = QtWidgets.QProgressBar()
         completed_hours = 0
@@ -76,7 +76,7 @@ class ProgressWindow(QtWidgets.QWidget):
         percent_complete = (completed_hours/Estimated_hours) * 100
         Progress_Bar.setValue(int(percent_complete))
         Progress_Bar.setFixedHeight(25)
-        main_layout.addWidget(Progress_Bar)
+        Content_layout.addWidget(Progress_Bar)
 
         table = QtWidgets.QTableWidget(len(tasks), 5)
         table.setHorizontalHeaderLabels(["Task Name", "Employee", "Deadline", "Estimated_hours", "Status"])
@@ -98,7 +98,7 @@ class ProgressWindow(QtWidgets.QWidget):
         
         table.setFixedHeight(total_height)
         table.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
-        main_layout.addWidget(table)
+        Content_layout.addWidget(table)
 
 # The execution guard so you can test it directly!
 if __name__ == "__main__":
