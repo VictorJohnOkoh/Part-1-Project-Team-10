@@ -99,8 +99,7 @@ Projects = {"Project_A":
 }
 
 #Note for actual function simply return details found and use the loop below in the gui to show visually
-def Search_Project_Details():
-    ProjectName = str(input("Enter Project Name"))
+def Search_Project_Details(ProjectName):
     StrProjectName = ProjectName.strip()
 
     if StrProjectName not in Projects:

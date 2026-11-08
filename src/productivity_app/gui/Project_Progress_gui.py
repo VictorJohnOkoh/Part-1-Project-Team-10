@@ -2,7 +2,7 @@ import sys
 from PyQt6 import QtWidgets, QtCore, QtGui
 from PyQt6.QtCore import QSize, Qt
 from PyQt6.QtGui import QIcon, QFont
-from PyQt6.QtWidgets import (QApplication, QPushButton, QVBoxLayout, QWidget, 
+from PyQt6.QtWidgets import (QApplication, QBoxLayout, QPushButton, QVBoxLayout, QWidget, 
                              QLabel, QScrollArea, QMainWindow, QSlider,
                              QLineEdit, QHBoxLayout, QGridLayout)
 from productivity_app.services.Project_Progress_Functions import Projects, Search_Project_Details
@@ -19,6 +19,26 @@ class ProgressWindow(QtWidgets.QWidget):
     def User_Interface_Values(self):
         Scroll_Content = QWidget()
         main_layout = QVBoxLayout(self)
+        Widget_Layout = QHBoxLayout()
+
+        self.Topic_Input = QLineEdit()
+        self.Topic_Input.setPlaceholderText("Search for a project...")
+        self.Topic_Input.setMaximumHeight(30)
+        self.Topic_Input.setMaximumWidth(300)
+        Widget_Layout.addWidget(self.Topic_Input)
+
+        self.Employee_Input = QLineEdit()
+        self.Employee_Input.setPlaceholderText("Search for an Employee...")
+        self.Employee_Input.setMaximumHeight(30)
+        self.Employee_Input.setMaximumWidth(300)
+        Widget_Layout.addWidget(self.Employee_Input)
+
+        Submit_Search_Button = QPushButton("Search")
+        Submit_Search_Button.setMaximumHeight(30)
+        Submit_Search_Button.setMaximumWidth(100)
+        #Submit_Search_Button.clicked.connect(lambda: self.Search_Project_Details(self.Topic_Input, self.Employee_Input, self.user))
+        Widget_Layout.addWidget(Submit_Search_Button)
+        main_layout.addLayout(Widget_Layout)
 
         scroll = QScrollArea()
         scroll.setWidgetResizable(True)
@@ -54,6 +74,13 @@ class ProgressWindow(QtWidgets.QWidget):
         Content_Layout.setSizeConstraint(QtWidgets.QLayout.SizeConstraint.SetMinimumSize)
         scroll.setWidget(Scroll_Content)
         main_layout.addWidget(scroll)
+
+    """def Search_Project_Details(TopicInput, EmployeeInput, user):
+        search_topic = TopicInput.text().strip()
+        search_employee = EmployeeInput.text().strip()
+
+        if not search_topic and not search_employee:
+            return"""
 
     def Build_UI(self, project_name, Team_Leader, Deadline, Estimated_hours, tasks, Content_layout):
 
