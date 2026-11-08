@@ -20,6 +20,7 @@ class ProgressWindow(QtWidgets.QWidget):
         Scroll_Content = QWidget()
         main_layout = QVBoxLayout(self)
         Widget_Layout = QHBoxLayout()
+        self.Content_Layout = QVBoxLayout(Scroll_Content)
 
         self.Topic_Input = QLineEdit()
         self.Topic_Input.setPlaceholderText("Search for a project...")
@@ -36,29 +37,35 @@ class ProgressWindow(QtWidgets.QWidget):
         Submit_Search_Button = QPushButton("Search")
         Submit_Search_Button.setMaximumHeight(30)
         Submit_Search_Button.setMaximumWidth(100)
-        #Submit_Search_Button.clicked.connect(lambda: self.Search_Project_Details(self.Topic_Input, self.Employee_Input, self.user))
+        Submit_Search_Button.clicked.connect(lambda: self.Load_Projects(self.user, self.Topic_Input, self.Employee_Input, self.Content_Layout, issearch=True))
         Widget_Layout.addWidget(Submit_Search_Button)
         main_layout.addLayout(Widget_Layout)
 
         scroll = QScrollArea()
         scroll.setWidgetResizable(True)
 
-        Content_Layout = QVBoxLayout(Scroll_Content)
 
-        if isinstance(self.user, (Manager)):
-            for Single_Project in Projects:
-                tasks = []
-                project_name = Single_Project
-                Details_Found = Projects[project_name]
-                Team_LeaderName = Details_Found["teamLead"]
-                Deadline = Details_Found["Deadline"]
-                Estimated_hours = Details_Found["Estimated_hours"]
-                tasks = Details_Found["tasks"]
-                self.Build_UI(project_name, Team_LeaderName, Deadline, Estimated_hours, tasks, Content_Layout)
+        self.Load_Projects(self.user, self.Topic_Input, self.Employee_Input, self.Content_Layout)
 
-        else:
-            for Single_Project in Projects:
-                if self.user.get_full_name() in Projects[Single_Project]["teamLead"]:
+        self.Content_Layout.addStretch()
+        self.Content_Layout.setSizeConstraint(QtWidgets.QLayout.SizeConstraint.SetMinimumSize)
+        scroll.setWidget(Scroll_Content)
+        main_layout.addWidget(scroll)
+
+    def Load_Projects(self, user, Topic_Input, Employee_Input, Content_Layout, issearch=False):
+        if not Topic_Input.text() and not Employee_Input.text():
+            issearch = False
+            
+        for i in range(Content_Layout.count()):
+            item = self.Content_Layout.itemAt(i)
+            if item is not None:
+                widget = item.widget()
+                if widget is not None:
+                    widget.deleteLater()
+        
+        if issearch == False:
+            if isinstance(self.user, (Manager)):
+                for Single_Project in Projects:
                     tasks = []
                     project_name = Single_Project
                     Details_Found = Projects[project_name]
@@ -66,21 +73,66 @@ class ProgressWindow(QtWidgets.QWidget):
                     Deadline = Details_Found["Deadline"]
                     Estimated_hours = Details_Found["Estimated_hours"]
                     tasks = Details_Found["tasks"]
-                    if Team_LeaderName == self.user.get_full_name():
-                        self.Build_UI(project_name, Team_LeaderName, Deadline, Estimated_hours, tasks, Content_Layout)
+                    self.Build_UI(project_name, Team_LeaderName, Deadline, Estimated_hours, tasks, Content_Layout)
 
+            else:
+                for Single_Project in Projects:
+                    if self.user.get_full_name() in Projects[Single_Project]["teamLead"]:
+                        tasks = []
+                        project_name = Single_Project
+                        Details_Found = Projects[project_name]
+                        Team_LeaderName = Details_Found["teamLead"]
+                        Deadline = Details_Found["Deadline"]
+                        Estimated_hours = Details_Found["Estimated_hours"]
+                        tasks = Details_Found["tasks"]
+                        if Team_LeaderName == self.user.get_full_name():
+                            self.Build_UI(project_name, Team_LeaderName, Deadline, Estimated_hours, tasks, Content_Layout)
 
-        Content_Layout.addStretch()
-        Content_Layout.setSizeConstraint(QtWidgets.QLayout.SizeConstraint.SetMinimumSize)
-        scroll.setWidget(Scroll_Content)
-        main_layout.addWidget(scroll)
+        else:
+            search_topic = Topic_Input.text().strip()
+            search_employee = Employee_Input.text().strip()
 
-    """def Search_Project_Details(TopicInput, EmployeeInput, user):
-        search_topic = TopicInput.text().strip()
-        search_employee = EmployeeInput.text().strip()
+            if isinstance(self.user, (Manager)):
+                for Single_Project in Projects:
+                    tasks = []
+                    project_name = Single_Project
+                    Details_Found = Projects[project_name]
+                    Team_LeaderName = Details_Found["teamLead"]
+                    Deadline = Details_Found["Deadline"]
+                    Estimated_hours = Details_Found["Estimated_hours"]
+                    tasks = Details_Found["tasks"]
 
-        if not search_topic and not search_employee:
-            return"""
+                    if search_topic and search_employee:
+                        if (search_topic.lower() in project_name.lower()) and any(search_employee.lower() in task["Employee"].lower() for task in tasks):
+                            self.Build_UI(project_name, Team_LeaderName, Deadline, Estimated_hours, tasks, Content_Layout)
+                    elif search_topic:
+                        if search_topic.lower() in project_name.lower():
+                            self.Build_UI(project_name, Team_LeaderName, Deadline, Estimated_hours, tasks, Content_Layout)
+                    elif search_employee:
+                        if any(search_employee.lower() in task["Employee"].lower() for task in tasks):
+                            self.Build_UI(project_name, Team_LeaderName, Deadline, Estimated_hours, tasks, Content_Layout)
+
+            else:
+                for Single_Project in Projects:
+                    if self.user.get_full_name() in Projects[Single_Project]["teamLead"]:
+                        tasks = []
+                        project_name = Single_Project
+                        Details_Found = Projects[project_name]
+                        Team_LeaderName = Details_Found["teamLead"]
+                        Deadline = Details_Found["Deadline"]
+                        Estimated_hours = Details_Found["Estimated_hours"]
+                        tasks = Details_Found["tasks"]
+
+                        if Team_LeaderName == self.user.get_full_name():
+                            if search_topic and search_employee:
+                                if (search_topic.lower() in project_name.lower()) and any(search_employee.lower() in task["Employee"].lower() for task in tasks):
+                                    self.Build_UI(project_name, Team_LeaderName, Deadline, Estimated_hours, tasks, Content_Layout)
+                            elif search_topic:
+                                if search_topic.lower() in project_name.lower():
+                                    self.Build_UI(project_name, Team_LeaderName, Deadline, Estimated_hours, tasks, Content_Layout)
+                            elif search_employee:
+                                if any(search_employee.lower() in task["Employee"].lower() for task in tasks):
+                                    self.Build_UI(project_name, Team_LeaderName, Deadline, Estimated_hours, tasks, Content_Layout)
 
     def Build_UI(self, project_name, Team_Leader, Deadline, Estimated_hours, tasks, Content_layout):
 
