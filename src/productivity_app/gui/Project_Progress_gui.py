@@ -24,11 +24,15 @@ class ProgressWindow(QtWidgets.QWidget):
         self.Content_Layout = QVBoxLayout(Scroll_Content)
 
         self.Topic_Input = QComboBox()
+        self.Topic_Input.setEditable(True)
+        self.Topic_Input.setInsertPolicy(QComboBox.InsertPolicy.NoInsert)
         Topic_Inputs = Projects.keys()
         self.Topic_Input.addItem("")
         for topic in Topic_Inputs:
             self.Topic_Input.addItem(topic)
-        self.Topic_Input.setPlaceholderText("Search for a project...")
+        self.Topic_Input.completer().setCompletionMode(QtWidgets.QCompleter.CompletionMode.PopupCompletion)
+        self.Topic_Input.completer().setFilterMode(Qt.MatchFlag.MatchContains)
+        self.Topic_Input.lineEdit().setPlaceholderText("Search for a project...")
         self.Topic_Input.setCurrentIndex(-1)
         self.Topic_Input.currentIndexChanged.connect(
             lambda: self.Topic_Input.setCurrentIndex(-1) if self.Topic_Input.currentText() == "" else None
@@ -38,13 +42,17 @@ class ProgressWindow(QtWidgets.QWidget):
         Widget_Layout.addWidget(self.Topic_Input)
 
         self.Employee_Input = QComboBox()
+        self.Employee_Input.setEditable(True)
+        self.Employee_Input.setInsertPolicy(QComboBox.InsertPolicy.NoInsert)
         self.Employee_Input.addItem("")
         for project in Projects.values():
             for task in project["tasks"]:
                 employee_name = task["Employee"]
                 if employee_name not in [self.Employee_Input.itemText(i) for i in range(self.Employee_Input.count())]:
                     self.Employee_Input.addItem(employee_name)
-        self.Employee_Input.setPlaceholderText("Search for an Employee...")
+        self.Employee_Input.completer().setCompletionMode(QtWidgets.QCompleter.CompletionMode.PopupCompletion)
+        self.Employee_Input.completer().setFilterMode(Qt.MatchFlag.MatchContains)
+        self.Employee_Input.lineEdit().setPlaceholderText("Search for an Employee...")
         self.Employee_Input.setCurrentIndex(-1)
         self.Employee_Input.currentIndexChanged.connect(
             lambda: self.Employee_Input.setCurrentIndex(-1) if self.Employee_Input.currentText() == "" else None
