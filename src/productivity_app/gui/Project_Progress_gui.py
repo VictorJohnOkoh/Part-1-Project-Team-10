@@ -2,7 +2,7 @@ import sys
 from PyQt6 import QtWidgets, QtCore, QtGui
 from PyQt6.QtCore import QSize, Qt
 from PyQt6.QtGui import QIcon, QFont
-from PyQt6.QtWidgets import (QApplication, QBoxLayout, QPushButton, QVBoxLayout, QWidget, 
+from PyQt6.QtWidgets import (QApplication, QBoxLayout, QComboBox, QPushButton, QVBoxLayout, QWidget, 
                              QLabel, QScrollArea, QMainWindow, QSlider,
                              QLineEdit, QHBoxLayout, QGridLayout)
 from productivity_app.services.Project_Progress_Functions import Projects, Search_Project_Details
@@ -22,13 +22,23 @@ class ProgressWindow(QtWidgets.QWidget):
         Widget_Layout = QHBoxLayout()
         self.Content_Layout = QVBoxLayout(Scroll_Content)
 
-        self.Topic_Input = QLineEdit()
+        self.Topic_Input = QComboBox()
+        Topic_Inputs = Projects.keys()
+        self.Topic_Input.addItem("")
+        for topic in Topic_Inputs:
+            self.Topic_Input.addItem(topic)
         self.Topic_Input.setPlaceholderText("Search for a project...")
         self.Topic_Input.setMaximumHeight(30)
         self.Topic_Input.setMaximumWidth(300)
         Widget_Layout.addWidget(self.Topic_Input)
 
-        self.Employee_Input = QLineEdit()
+        self.Employee_Input = QComboBox()
+        self.Employee_Input.addItem("")
+        for project in Projects.values():
+            for task in project["tasks"]:
+                employee_name = task["Employee"]
+                if employee_name not in [self.Employee_Input.itemText(i) for i in range(self.Employee_Input.count())]:
+                    self.Employee_Input.addItem(employee_name)
         self.Employee_Input.setPlaceholderText("Search for an Employee...")
         self.Employee_Input.setMaximumHeight(30)
         self.Employee_Input.setMaximumWidth(300)
@@ -53,7 +63,7 @@ class ProgressWindow(QtWidgets.QWidget):
         main_layout.addWidget(scroll)
 
     def Load_Projects(self, user, Topic_Input, Employee_Input, Content_Layout, issearch=False):
-        if not Topic_Input.text() and not Employee_Input.text():
+        if not Topic_Input.currentText() and not Employee_Input.currentText():
             issearch = False
 
         while Content_Layout.count():
@@ -87,8 +97,8 @@ class ProgressWindow(QtWidgets.QWidget):
                             self.Build_UI(project_name, Team_LeaderName, Deadline, Estimated_hours, tasks, Content_Layout)
 
         else:
-            search_topic = Topic_Input.text().strip()
-            search_employee = Employee_Input.text().strip()
+            search_topic = Topic_Input.currentText().strip()
+            search_employee = Employee_Input.currentText().strip()
 
             if isinstance(self.user, (Manager)):
                 for Single_Project in Projects:
