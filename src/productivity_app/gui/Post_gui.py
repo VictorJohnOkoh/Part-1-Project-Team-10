@@ -1,4 +1,5 @@
 import sys
+from PyQt6 import QtWidgets
 from PyQt6.QtCore import QSize, Qt
 from PyQt6.QtGui import QIcon, QFont
 from PyQt6.QtWidgets import (QApplication, QPushButton, QVBoxLayout, QWidget, 
@@ -193,10 +194,19 @@ class PostWindow(QWidget):
 
 
         self.SearchInput = QComboBox()
+        self.SearchInput.setEditable(True)
+        self.SearchInput.setInsertPolicy(QComboBox.InsertPolicy.NoInsert)
         post_topics_combobox = post.keys()
         self.SearchInput.addItem('')
         for topic in post_topics_combobox:
             self.SearchInput.addItem(topic)
+        self.SearchInput.completer().setCompletionMode(QtWidgets.QCompleter.CompletionMode.PopupCompletion)
+        self.SearchInput.completer().setFilterMode(Qt.MatchFlag.MatchContains)
+        self.SearchInput.lineEdit().setPlaceholderText('Search for a topic here')
+        self.SearchInput.setCurrentIndex(-1)
+        self.SearchInput.currentIndexChanged.connect(
+            lambda index: self.SearchInput.setCurrentIndex(-1) if self.SearchInput.currentText() == '' else None
+        )
         self.SearchInput.setFixedWidth(400)
         SubmitSearchButton = QPushButton(text='Search by topic')
         SubmitSearchButton.setFixedSize(400,40)
