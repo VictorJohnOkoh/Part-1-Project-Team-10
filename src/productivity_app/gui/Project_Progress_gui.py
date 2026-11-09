@@ -47,21 +47,19 @@ class ProgressWindow(QtWidgets.QWidget):
 
         self.Load_Projects(self.user, self.Topic_Input, self.Employee_Input, self.Content_Layout)
 
-        self.Content_Layout.addStretch()
-        self.Content_Layout.setSizeConstraint(QtWidgets.QLayout.SizeConstraint.SetMinimumSize)
+        #self.Content_Layout.addStretch()
+        #self.Content_Layout.setSizeConstraint(QtWidgets.QLayout.SizeConstraint.SetMinimumSize)
         scroll.setWidget(Scroll_Content)
         main_layout.addWidget(scroll)
 
     def Load_Projects(self, user, Topic_Input, Employee_Input, Content_Layout, issearch=False):
         if not Topic_Input.text() and not Employee_Input.text():
             issearch = False
-            
-        for i in range(Content_Layout.count()):
-            item = self.Content_Layout.itemAt(i)
-            if item is not None:
-                widget = item.widget()
-                if widget is not None:
-                    widget.deleteLater()
+
+        while Content_Layout.count():
+            item = Content_Layout.takeAt(0)
+            if item.widget():
+                item.widget().deleteLater()
         
         if issearch == False:
             if isinstance(self.user, (Manager)):
@@ -133,6 +131,7 @@ class ProgressWindow(QtWidgets.QWidget):
                             elif search_employee:
                                 if any(search_employee.lower() in task["Employee"].lower() for task in tasks):
                                     self.Build_UI(project_name, Team_LeaderName, Deadline, Estimated_hours, tasks, Content_Layout)
+        Content_Layout.addStretch()
 
     def Build_UI(self, project_name, Team_Leader, Deadline, Estimated_hours, tasks, Content_layout):
 
