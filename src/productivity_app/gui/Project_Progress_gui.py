@@ -1,3 +1,4 @@
+from operator import index
 import sys
 from PyQt6 import QtWidgets, QtCore, QtGui
 from PyQt6.QtCore import QSize, Qt
@@ -28,6 +29,10 @@ class ProgressWindow(QtWidgets.QWidget):
         for topic in Topic_Inputs:
             self.Topic_Input.addItem(topic)
         self.Topic_Input.setPlaceholderText("Search for a project...")
+        self.Topic_Input.setCurrentIndex(-1)
+        self.Topic_Input.currentIndexChanged.connect(
+            lambda: self.Topic_Input.setCurrentIndex(-1) if self.Topic_Input.currentText() == "" else None
+        )
         self.Topic_Input.setMaximumHeight(30)
         self.Topic_Input.setMaximumWidth(300)
         Widget_Layout.addWidget(self.Topic_Input)
@@ -40,6 +45,10 @@ class ProgressWindow(QtWidgets.QWidget):
                 if employee_name not in [self.Employee_Input.itemText(i) for i in range(self.Employee_Input.count())]:
                     self.Employee_Input.addItem(employee_name)
         self.Employee_Input.setPlaceholderText("Search for an Employee...")
+        self.Employee_Input.setCurrentIndex(-1)
+        self.Employee_Input.currentIndexChanged.connect(
+            lambda: self.Employee_Input.setCurrentIndex(-1) if self.Employee_Input.currentText() == "" else None
+        )
         self.Employee_Input.setMaximumHeight(30)
         self.Employee_Input.setMaximumWidth(300)
         Widget_Layout.addWidget(self.Employee_Input)
