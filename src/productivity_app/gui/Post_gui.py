@@ -9,6 +9,9 @@ from productivity_app.services.Post_Functions import post, create_post, make_com
 from ..users.Manager import Manager
 
 #from profiling.tracing import label
+# Bugs:
+    # When you search for a post then make a new post the new post which is made will show up in the search for the previous topic despite not sharing a topic
+    # When you restrict specifically logistics then try search for it and then return to the main page the post will reappear 
 
 class PostWindow(QWidget):
 
@@ -255,13 +258,19 @@ class PostWindow(QWidget):
             for item in self.PostButtons:
                 if item["topic"].lower() == strRestrictedTopic:
                     item["widget"].hide()
+            self.RestrictedTextBox.setCurrentIndex(-1)
 
 
         self.RestrictedTextBox = QComboBox()
+        self.RestrictedTextBox.setEditable(True)
+        self.RestrictedTextBox.setInsertPolicy(QComboBox.InsertPolicy.NoInsert)
         restricted_topics_combobox = post.keys()
         for topic in restricted_topics_combobox:
             self.RestrictedTextBox.addItem(topic)
-        self.RestrictedTextBox.setPlaceholderText('Enter restricted topic here')
+        self.RestrictedTextBox.completer().setCompletionMode(QtWidgets.QCompleter.CompletionMode.PopupCompletion)
+        self.RestrictedTextBox.completer().setFilterMode(Qt.MatchFlag.MatchContains)
+        self.RestrictedTextBox.lineEdit().setPlaceholderText('Enter restricted topic here')
+        self.RestrictedTextBox.setCurrentIndex(-1)
         self.RestrictedTextBox.setFixedWidth(400)
         RestrictedTopicsButton = QPushButton(text='Submit Restricted Topic')
         RestrictedTopicsButton.setFixedSize(400,40)
@@ -285,9 +294,6 @@ class PostWindow(QWidget):
         CreateNewPostButton.setFixedSize(400,80)
         CreateNewPostButton.clicked.connect(self.Create_New_Post)
         self.RightVbox.addWidget(CreateNewPostButton)
-
-
-
 
 
         #Scrolling bit

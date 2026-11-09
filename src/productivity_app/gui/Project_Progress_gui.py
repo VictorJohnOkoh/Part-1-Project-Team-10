@@ -9,6 +9,9 @@ from PyQt6.QtWidgets import (QApplication, QBoxLayout, QComboBox, QPushButton, Q
 from productivity_app.services.Project_Progress_Functions import Projects, Search_Project_Details
 from ..users.Manager import Manager
 
+# Additions Needed:
+    # Integrate with database of projects and tasks
+
 class ProgressWindow(QtWidgets.QWidget):
     def __init__(self, user, parent=None):
         super().__init__(parent)
