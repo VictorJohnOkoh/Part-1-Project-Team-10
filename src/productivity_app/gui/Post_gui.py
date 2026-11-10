@@ -12,7 +12,7 @@ from ..users.Manager import Manager
 # Bugs:
     # Regardless of posts topics being new the drop down always makes new search and restriction options - Fixed
     # When you search for a post then make a new post the new post which is made will show up in the search for the previous topic despite not sharing a topic
-    # When you restrict specifically logistics then try search for it and then return to the main page the post will reappear 
+    # When you restrict specifically logistics then try search for it and then return to the main page the post will reappear - Fixed
 
 class PostWindow(QWidget):
 
@@ -186,10 +186,10 @@ class PostWindow(QWidget):
             strtopic = Topic.strip().lower()
 
             for item in self.PostButtons:
-                if strtopic not in RestrictedTopics and item['topic'] not in RestrictedTopics:
+                if strtopic not in RestrictedTopics and item['topic'].strip().lower() not in RestrictedTopics:
                     if not strtopic:
                         item['widget'].show()
-                    elif item['topic'].lower() == strtopic:
+                    elif item['topic'].strip().lower() == strtopic:
                         item['widget'].show()
                     else:
                         item['widget'].hide()
@@ -262,7 +262,7 @@ class PostWindow(QWidget):
             strRestrictedTopic = InpRestrictedTopics.strip().lower()
 
             for item in self.PostButtons:
-                if item["topic"].lower() == strRestrictedTopic:
+                if item["topic"].strip().lower() == strRestrictedTopic:
                     item["widget"].hide()
             self.RestrictedTextBox.setCurrentIndex(-1)
 
