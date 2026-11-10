@@ -11,7 +11,7 @@ from ..users.Manager import Manager
 #from profiling.tracing import label
 # Bugs:
     # Regardless of posts topics being new the drop down always makes new search and restriction options - Fixed
-    # When you search for a post then make a new post the new post which is made will show up in the search for the previous topic despite not sharing a topic
+    # When you search for a post then make a new post the new post which is made will show up in the search for the previous topic despite not sharing a topic - Fixed
     # When you restrict specifically logistics then try search for it and then return to the main page the post will reappear - Fixed
 
 class PostWindow(QWidget):
@@ -142,6 +142,10 @@ class PostWindow(QWidget):
 
             self.LeftVbox.addWidget(ButtonName)
             self.PostButtons.append({'widget': ButtonName, 'topic': Topic})
+
+            active_search = self.SearchInput.currentText().strip().lower()
+            if active_search and active_search != Topic.strip().lower():
+                ButtonName.hide()
             Add_New_Post_Window.accept()
 
         self.TopicInput = QLineEdit()
