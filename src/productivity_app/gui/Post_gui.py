@@ -10,6 +10,7 @@ from ..users.Manager import Manager
 
 #from profiling.tracing import label
 # Bugs:
+    # Regardless of posts topics being new the drop down always makes new search and restriction options - Fixed
     # When you search for a post then make a new post the new post which is made will show up in the search for the previous topic despite not sharing a topic
     # When you restrict specifically logistics then try search for it and then return to the main page the post will reappear 
 
@@ -55,7 +56,7 @@ class PostWindow(QWidget):
         for topics in post.keys():
             if topics not in RestrictedTopics:
                 posts_found = post[topics]
-                for single_posts in posts_found:
+                for single_posts in reversed(posts_found):
                     ButtonName = single_posts["title"]
                     ButtonLabel_Post = QLabel(text=f"Topic: {topics}\nTitle: {single_posts['title']}\nBody: {single_posts['body']}")
                     self.RightVbox.addWidget(ButtonLabel_Post)
@@ -110,8 +111,13 @@ class PostWindow(QWidget):
                 return
 
             make_post(Topic, Title, Body)
-            self.SearchInput.addItem(Topic)
-            self.RestrictedTextBox.addItem(Topic)
+            search_items = [self.SearchInput.itemText(i).strip().lower() for i in range(self.SearchInput.count())]
+            if Topic not in search_items:
+                self.SearchInput.addItem(Topic)
+
+            restricted_items = [self.RestrictedTextBox.itemText(i).strip().lower() for i in range(self.RestrictedTextBox.count())]
+            if Topic not in restricted_items:
+                self.RestrictedTextBox.addItem(Topic)
 
             self.TopicInput.clear()
             self.TitleInput.clear()
