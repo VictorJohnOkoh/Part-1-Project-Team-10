@@ -90,7 +90,7 @@ class PostWindow(QWidget):
             font = QFont()
             font.setPointSize(20)
 
-            Topic = self.TopicInput.text().strip().lower()
+            Topic = self.TopicInput.currentText().strip().lower()
             if Topic in RestrictedTopics:
                 Message.setFixedSize(300, 100)
                 Message.setText("Topic is restricted")
@@ -148,8 +148,19 @@ class PostWindow(QWidget):
                 ButtonName.hide()
             Add_New_Post_Window.accept()
 
-        self.TopicInput = QLineEdit()
-        self.TopicInput.setPlaceholderText('Enter topic here')
+        self.TopicInput = QComboBox()
+        self.TopicInput.setEditable(True)
+        self.TopicInput.setInsertPolicy(QComboBox.InsertPolicy.NoInsert)
+        self.TopicInput.addItem("")
+        for topic in post.keys():
+            self.TopicInput.addItem(topic)
+        self.TopicInput.completer().setCompletionMode(QtWidgets.QCompleter.CompletionMode.PopupCompletion)
+        self.TopicInput.completer().setFilterMode(Qt.MatchFlag.MatchContains)
+        self.TopicInput.lineEdit().setPlaceholderText('Enter topic here')
+        self.TopicInput.setCurrentIndex(-1)
+        self.TopicInput.currentIndexChanged.connect(
+            lambda: self.TopicInput.setCurrentIndex(-1) if self.TopicInput.currentText() == "" else None
+        )
         self.TitleInput = QLineEdit()
         self.TitleInput.setPlaceholderText('Enter title here')
         self.BodyInput = QTextEdit()
