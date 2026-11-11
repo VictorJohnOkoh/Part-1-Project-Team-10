@@ -5,6 +5,7 @@ from PyQt6.QtGui import QIcon, QFont
 from PyQt6.QtWidgets import (QApplication, QPushButton, QVBoxLayout, QWidget, 
                              QLabel, QScrollArea, QMainWindow, QSlider,
                              QLineEdit, QHBoxLayout, QGridLayout, QTextEdit, QComboBox, QDialog, QMessageBox)
+import textwrap
 from productivity_app.services.Post_Functions import post, create_post, make_comment, RestrictedTopics, view_post, make_post, RestrictTopics
 from ..users.Manager import Manager
 
@@ -57,16 +58,27 @@ class PostWindow(QWidget):
             if topics not in RestrictedTopics:
                 posts_found = post[topics]
                 for single_posts in reversed(posts_found):
-                    ButtonName = single_posts["title"]
                     ButtonLabel_Post = QLabel(text=f"Topic: {topics}\nTitle: {single_posts['title']}\nBody: {single_posts['body']}")
                     self.RightVbox.addWidget(ButtonLabel_Post)
                     ButtonLabel_Post.hide()
                     self.Labels.append(ButtonLabel_Post)
 
-                    #TempReplyLabelStorage = comment_finder(self, single_posts["comments"], ReplyLabels)
-                    ButtonName = QPushButton(text=ButtonName)
+                    wrapped_title = textwrap.fill(single_posts['title'], width=25)
+                    Buttontext = f"Topic: {topics}\nTitle: {wrapped_title}"
+
+                    title_len = len(single_posts['title'])
+                    if title_len > 50:
+                        btn_font = 14
+                    elif title_len > 35:
+                        btn_font = 16
+                    else:
+                        btn_font = 18
+
+                    button_font = QFont()
+                    button_font.setPointSize(btn_font)
+                    ButtonName = QPushButton(text=Buttontext)
                     ButtonName.setFixedSize(400,160)
-                    ButtonName.setFont(font)
+                    ButtonName.setFont(button_font)
 
                     ButtonName.clicked.connect(lambda checked, z=ButtonLabel_Post, t=topics, title=single_posts["title"]: (
                         setattr(self, 'current_topic', t),
@@ -87,8 +99,8 @@ class PostWindow(QWidget):
 
 
         def SubmitNewPost():
-            font = QFont()
-            font.setPointSize(20)
+            #font = QFont()
+            #font.setPointSize(20)
 
             Topic = self.TopicInput.currentText().strip().lower()
             if Topic in RestrictedTopics:
@@ -128,9 +140,26 @@ class PostWindow(QWidget):
             ButtonLabel_Post.hide()
             self.Labels.append(ButtonLabel_Post)
 
-            ButtonName = QPushButton(text=Title)
+            title_len = len(Title)
+            if title_len > 50:
+                btn_font = 14
+                wrap_width = 30
+            elif title_len > 35:
+                btn_font = 16
+                wrap_width = 24
+            else:
+                btn_font = 18
+                wrap_width = 20
+
+            wrapped_title = textwrap.fill(Title, width=wrap_width)
+            button_text = f"Topic: {Topic}\nTitle: {wrapped_title}"
+
+            button_font = QFont()
+            button_font.setPointSize(btn_font)
+
+            ButtonName = QPushButton(text=button_text)
             ButtonName.setFixedSize(400, 160)
-            ButtonName.setFont(font)
+            ButtonName.setFont(button_font)
 
             ButtonName.clicked.connect(lambda checked, z=ButtonLabel_Post, t=Topic, title=Title: (
                 setattr(self, 'current_topic', t),
