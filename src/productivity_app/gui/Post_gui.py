@@ -89,7 +89,7 @@ class PostWindow(QWidget):
                     ButtonName.clicked.connect(self.ReplyInput.clear)
                     self.LeftVbox.addWidget(ButtonName) 
 
-                    self.PostButtons.append({'widget': ButtonName, 'topic': topics}) 
+                    self.PostButtons.append({'widget': ButtonName, 'topic': topics, 'title': single_posts["title"]}) 
 
     def Create_New_Post(self):
         Message = QMessageBox()
@@ -131,6 +131,10 @@ class PostWindow(QWidget):
             if Topic not in restricted_items:
                 self.RestrictedTextBox.addItem(Topic)
 
+            title_items = [self.TitleSearchInput.itemText(i).strip().lower() for i in range(self.TitleSearchInput.count())]
+            if Title not in title_items:
+                self.TitleSearchInput.addItem(Title)
+
             self.TopicInput.clear()
             self.TitleInput.clear()
             self.BodyInput.clear()
@@ -170,7 +174,7 @@ class PostWindow(QWidget):
             #ButtonName.clicked.connect(self.ReplyInput.clear)
 
             self.LeftVbox.addWidget(ButtonName)
-            self.PostButtons.append({'widget': ButtonName, 'topic': Topic})
+            self.PostButtons.append({'widget': ButtonName, 'topic': Topic, 'title': Title})
 
             active_search = self.SearchInput.currentText().strip().lower()
             if active_search and active_search != Topic.strip().lower():
@@ -245,6 +249,24 @@ class PostWindow(QWidget):
                     Message.exec()
                     return
 
+        def TitleSearch():
+            Message = QMessageBox()
+            Title = self.TitleSearchInput.currentText()
+            strTitle = Title.strip().lower()
+
+            for item in self.PostButtons:
+                item_topic = item['topic'].strip().lower()
+                item_title = item['title'].strip().lower()
+
+                if item_topic in RestrictedTopics:
+                    item['widget'].hide()
+                else:
+                    if not strTitle:
+                        item['widget'].show()
+                    elif item_title == strTitle:
+                        item['widget'].show()
+                    else:
+                        item['widget'].hide()
 
         self.SearchInput = QComboBox()
         self.SearchInput.setEditable(True)
@@ -266,6 +288,28 @@ class PostWindow(QWidget):
         SubmitSearchButton.clicked.connect(SearchPost)
         self.RightVbox.addWidget(self.SearchInput)
         self.RightVbox.addWidget(SubmitSearchButton)
+
+        self.TitleSearchInput = QComboBox()
+        self.TitleSearchInput.setEditable(True)
+        self.TitleSearchInput.setInsertPolicy(QComboBox.InsertPolicy.NoInsert)
+        self.TitleSearchInput.addItem('')
+        for topics in post_topics_combobox:
+            posts_info = post[topics]
+            for single_post in posts_info:
+                self.TitleSearchInput.addItem(single_post["title"])
+        self.TitleSearchInput.completer().setCompletionMode(QtWidgets.QCompleter.CompletionMode.PopupCompletion)
+        self.TitleSearchInput.completer().setFilterMode(Qt.MatchFlag.MatchContains)
+        self.TitleSearchInput.lineEdit().setPlaceholderText('Search for a title here')
+        self.TitleSearchInput.setCurrentIndex(-1)
+        self.TitleSearchInput.currentIndexChanged.connect(
+            lambda index: self.TitleSearchInput.setCurrentIndex(-1) if self.TitleSearchInput.currentText() == '' else None
+        )
+        self.TitleSearchInput.setFixedWidth(400)
+        SubmitTitleButton = QPushButton(text='Search by title')
+        SubmitTitleButton.setFixedSize(400, 40)
+        SubmitTitleButton.clicked.connect(TitleSearch) 
+        self.RightVbox.addWidget(self.TitleSearchInput)
+        self.RightVbox.addWidget(SubmitTitleButton)           
 
         self.CurrentButtonIndex = 0
 
