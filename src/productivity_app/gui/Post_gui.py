@@ -44,6 +44,8 @@ class PostWindow(QWidget):
 
         for comments in target_comments:
             commentLabels = QLabel(text=comments)
+            commentLabels.setWordWrap(True)
+            commentLabels.setFixedWidth(400)
 
             input_index = self.RightVbox.indexOf(self.ReplyInput)
             self.RightVbox.addWidget(commentLabels)
@@ -59,6 +61,8 @@ class PostWindow(QWidget):
                 posts_found = post[topics]
                 for single_posts in reversed(posts_found):
                     ButtonLabel_Post = QLabel(text=f"Topic: {topics}\nTitle: {single_posts['title']}\nBody: {single_posts['body']}")
+                    ButtonLabel_Post.setWordWrap(True)
+                    ButtonLabel_Post.setFixedWidth(400)
                     self.RightVbox.addWidget(ButtonLabel_Post)
                     ButtonLabel_Post.hide()
                     self.Labels.append(ButtonLabel_Post)
@@ -140,7 +144,9 @@ class PostWindow(QWidget):
             self.BodyInput.clear()
 
             ButtonLabel_Post = QLabel(text=f"Topic: {Topic}\nTitle: {Title}\nBody: {Body}")
-            self.RightVbox.insertWidget(8, ButtonLabel_Post)
+            ButtonLabel_Post.setWordWrap(True)
+            ButtonLabel_Post.setFixedWidth(400)
+            self.RightVbox.insertWidget(9, ButtonLabel_Post)
             ButtonLabel_Post.hide()
             self.Labels.append(ButtonLabel_Post)
 
