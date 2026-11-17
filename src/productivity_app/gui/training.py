@@ -61,8 +61,9 @@ class ViewInfo(QtWidgets.QWidget):
         data_entry_3 = QtWidgets.QLabel("Average Task per Week: 7")
         data_entry_4 = QtWidgets.QLabel("Current Task Amount: 4")
         data_entry_5 = QtWidgets.QLabel("Hours per week: 102hr")
+        data_entry_6 = QtWidgets.QLabel("Average effort per task: 1.15")
 
-        data_entries = [data_entry_1, data_entry_2, data_entry_3, data_entry_4, data_entry_5]
+        data_entries = [data_entry_1, data_entry_2, data_entry_3, data_entry_4, data_entry_5, data_entry_6]
 
         layout_1 = QtWidgets.QHBoxLayout()
         layout_2 = QtWidgets.QVBoxLayout()
@@ -99,18 +100,33 @@ class TrainingQuestion(QtWidgets.QWidget):
         main_layout = QtWidgets.QVBoxLayout()
 
         question_label = QtWidgets.QLabel("What Topic does this person need training on?")
+        add_topic_button = QtWidgets.QPushButton("Add Topic")
+        remove_topic_button = QtWidgets.QPushButton("Remove Topic")
+        button_layout = QtWidgets.QHBoxLayout()
+
+        topic_buttons = [add_topic_button,remove_topic_button]
+
         name_input = QtWidgets.QLineEdit()
         name_input.setPlaceholderText("Enter Topic")
         text = name_input.text()
         
         main_layout.addWidget(question_label,1)
         main_layout.addWidget(name_input,1)
+        main_layout.addLayout(button_layout,1)
 
+        for button in topic_buttons:
+                    button.setSizePolicy(
+                            QtWidgets.QSizePolicy.Policy.Fixed,
+                            QtWidgets.QSizePolicy.Policy.Expanding)
+                    button.clicked.connect(self.training_buttons_clicked)
+                    button_layout.addWidget(button,4)
+
+        
         self.setLayout(main_layout)
         
-
-
-
+    def training_buttons_clicked(self):
+             self.close()
+        
 class Training(QtWidgets.QWidget):
 
 # Runs automatically when someone writes Dashboard()
@@ -232,6 +248,7 @@ class Training(QtWidgets.QWidget):
         self.training_question = TrainingQuestion(self.user)
         self.training_question.show()
         print("Training has been clicked")
+
         
 
 

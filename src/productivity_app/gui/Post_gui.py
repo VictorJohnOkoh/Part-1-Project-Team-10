@@ -53,7 +53,7 @@ class PostWindow(QWidget):
                 posts_found = post[topics]
                 for single_posts in posts_found:
                     ButtonName = single_posts["title"]
-                    ButtonLabel_Post = QLabel(text=single_posts["body"])
+                    ButtonLabel_Post = QLabel(text=f"Topic: {topics}\nTitle: {single_posts['title']}\nBody: {single_posts['body']}")
                     self.RightVbox.addWidget(ButtonLabel_Post)
                     ButtonLabel_Post.hide()
                     self.Labels.append(ButtonLabel_Post)
@@ -113,7 +113,7 @@ class PostWindow(QWidget):
             self.TitleInput.clear()
             self.BodyInput.clear()
 
-            ButtonLabel_Post = QLabel(text=Body)
+            ButtonLabel_Post = QLabel(text=f"Topic: {Topic}\nTitle: {Title}\nBody: {Body}")
             self.RightVbox.insertWidget(8, ButtonLabel_Post)
             ButtonLabel_Post.hide()
             self.Labels.append(ButtonLabel_Post)
