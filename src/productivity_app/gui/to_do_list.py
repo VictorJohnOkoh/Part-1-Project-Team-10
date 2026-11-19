@@ -3,7 +3,7 @@ import sys
 #because dashboard gui imports this file
 
 #from productivity_app.gui.dashboard_gui import Dashboard
-from PyQt6.QtCore import Qt
+from PyQt6.QtCore import Qt,QDateTime
 from PyQt6.QtWidgets import(
     QButtonGroup,
     QHBoxLayout,
@@ -13,7 +13,11 @@ from PyQt6.QtWidgets import(
     QLineEdit,
     QPushButton,
     QMessageBox,
-    QApplication
+    QApplication,
+    QTextEdit,
+    QDateTimeEdit,
+    QComboBox
+
 )
 
 WIDTH, HEIGHT = 800,450
@@ -67,6 +71,70 @@ class TaskRow(QWidget):
         self.label.setFont(font)
 
 
+class addNewTaskWindow(QWidget):
+    def __init__(self):
+        super().__init__()
+
+        self.add_new_task = QWidget()
+        self.add_new_task_vbox = QVBoxLayout(self.add_new_task)
+
+        self.resize(WIDTH,HEIGHT)
+
+        #text box for task name
+        self.enter_task_name = QLabel(text = "Enter the task name")
+        self.new_task = QLineEdit(placeholderText = "New Task")
+        self.new_task.setFixedWidth(750)
+
+        #text box for task description
+        self.enter_task_description = QLabel(text = "Enter the task description")
+        self.add_description = QTextEdit(placeholderText = "Enter the description of the task")
+        self.add_description.setFixedSize(750,150)
+
+        #text box for estimated hours
+        self.enter_estimated_hours = QLabel(text = "Enter the estimate time")
+        self.estimated_time = QLineEdit(placeholderText = "Enter the estimated time in hours")
+        self.estimated_time.setFixedWidth(750)
+
+        #calendar to set deadline
+        self.enter_deadline = QLabel(text = "Enter the deadline of this task")
+        self.deadline_date_time = QDateTimeEdit()
+        self.deadline_date_time.setCalendarPopup(True)
+        self.deadline_date_time.setDateTime(QDateTime.currentDateTime())
+
+        #dropdown menu to enter priority
+        self.enter_priority = QLabel(text = "Enter the task priority")
+        self.task_priority = QComboBox()
+        self.task_priority.addItems(["Low","Medium","High"])
+        # self.task_priority.currentIndexChanged.connect(self.index_changed)
+
+        #button to add new task
+        new_task_button = QPushButton("Add new task")
+        new_task_button.setFixedSize(100,30)
+        new_task_button.move(400,300)
+        #move button to the bottom of the screen
+        #call function to take user back to to-do list with new task added
+
+        #button to go back without adding new task
+        cancel_button = QPushButton("Cancel")
+        cancel_button.setFixedSize(100,30)
+        cancel_button.move(400,300)
+        #call function to take user back to to-do list without adding the new task
+
+        self.add_new_task_vbox.addWidget(self.enter_task_name)
+        self.add_new_task_vbox.addWidget(self.new_task)
+        self.add_new_task_vbox.addWidget(self.enter_task_description)
+        self.add_new_task_vbox.addWidget(self.add_description)
+        self.add_new_task_vbox.addWidget(self.enter_estimated_hours)
+        self.add_new_task_vbox.addWidget(self.estimated_time)
+        self.add_new_task_vbox.addWidget(self.enter_deadline)
+        self.add_new_task_vbox.addWidget(self.deadline_date_time)
+        self.add_new_task_vbox.addWidget(self.enter_priority)
+        self.add_new_task_vbox.addWidget(self.task_priority)
+        self.add_new_task_vbox.addWidget(new_task_button)
+        self.add_new_task_vbox.addWidget(cancel_button)
+
+        self.setWindowTitle("Add new task")
+        self.setLayout(self.add_new_task_vbox)
 class ToDoListWindow(QWidget):
     def __init__(self):
         super().__init__()
@@ -75,6 +143,13 @@ class ToDoListWindow(QWidget):
         self.setWindowTitle("To-Do List")
         self.new_task = QLineEdit(placeholderText = "New Task")
         self.new_task.move(300,350)
+
+        self.add_description = QTextEdit()
+        
+
+
+
+
 
         #button to add new tasks
         button = QPushButton("Add new task")
@@ -105,12 +180,13 @@ class ToDoListWindow(QWidget):
         #layout.addStretch()
         
         #adding hardcoded example tasks
-        for text,status in hardcoded_tasks:
-            row = TaskRow(text)
-            row.set_status(status)
-            self.tasks_layout.addWidget(row)
+        # for text,status in hardcoded_tasks:
+        #     row = TaskRow(text)
+        #     row.set_status(status)
+        #     self.tasks_layout.addWidget(row)
 
     def add_task(self):
+        #call function to add new task screen
         text = self.new_task.text().strip()
         if not text:
             return
@@ -122,6 +198,6 @@ class ToDoListWindow(QWidget):
         print("Back button clicked")
 
 app = QApplication(sys.argv)
-window = ToDoListWindow()
+window = addNewTaskWindow()
 window.show()
 sys.exit(app.exec())
