@@ -40,14 +40,22 @@ class AssignProjectsWindow(QWidget):
         self.Is_Format_Correct = False
         ProjectName = self.ProjectNameInput.text().strip()
         EmpName = self.EmployeeNameInput.currentText().strip()
+        Deadline = self.DeadlineInput.text().strip()
+        EstimatedHours = self.EstimatedHoursInput.text().strip()
+        intEstHours = int(EstimatedHours)
 
+        if not Deadline or not EstimatedHours:
+            self.Is_Format_Correct = False
+            self.Is_Format_Correct_Message()
+            return
+        
         self.ProjectNameInput.clear()
 
-        if len(ProjectName) != 0 and ProjectName not in Projects:
+        if len(ProjectName) != 0 and ProjectName not in Projects and isinstance(intEstHours, int):
             print('message assigned!')
             Projects[ProjectName] = {"teamLead" : EmpName,
-                                     "Deadline" : "12/04/29",
-                                     "Estimated_hours" : 112,
+                                     "Deadline" : Deadline,
+                                     "Estimated_hours" : intEstHours,
                                      "tasks" : []}
             self.Is_Format_Correct = True
         else:
@@ -74,6 +82,15 @@ class AssignProjectsWindow(QWidget):
                      self.EmployeeNameInput.addItem(User[0])
         self.EmployeeNameInput.setFixedWidth(400)
 
+        self.DeadlineInput = QLineEdit()
+        self.DeadlineInput.setPlaceholderText('Enter Deadline')
+        self.DeadlineInput.setFixedWidth(400)
+
+        self.EstimatedHoursInput = QLineEdit()
+        self.EstimatedHoursInput.setPlaceholderText('Enter Estimated Hours')
+        self.EstimatedHoursInput.setFixedWidth(400)
+        
+
 
 
         # setting up the deadline chooser for the managers/ team leaders
@@ -85,7 +102,8 @@ class AssignProjectsWindow(QWidget):
 
         self.AssignVbox.addWidget(self.ProjectNameInput)
         self.AssignVbox.addWidget(self.EmployeeNameInput)
-        self.AssignVbox.addWidget(self.ProjectNameInput)
+        self.AssignVbox.addWidget(self.DeadlineInput)
+        self.AssignVbox.addWidget(self.EstimatedHoursInput)
         self.AssignVbox.addWidget(ProjectAssignerSubmitButton)
 
         self.setWindowTitle('Project Assignment')
