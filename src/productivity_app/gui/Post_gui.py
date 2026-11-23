@@ -1,13 +1,19 @@
 import sys
+from PyQt6 import QtWidgets
 from PyQt6.QtCore import QSize, Qt
 from PyQt6.QtGui import QIcon, QFont
 from PyQt6.QtWidgets import (QApplication, QPushButton, QVBoxLayout, QWidget, 
                              QLabel, QScrollArea, QMainWindow, QSlider,
                              QLineEdit, QHBoxLayout, QGridLayout, QTextEdit, QComboBox, QDialog, QMessageBox)
+import textwrap
 from productivity_app.services.Post_Functions import post, create_post, make_comment, RestrictedTopics, view_post, make_post, RestrictTopics
 from ..users.Manager import Manager
 
 #from profiling.tracing import label
+# Bugs:
+    # Regardless of posts topics being new the drop down always makes new search and restriction options - Fixed
+    # When you search for a post then make a new post the new post which is made will show up in the search for the previous topic despite not sharing a topic - Fixed
+    # When you restrict specifically logistics then try search for it and then return to the main page the post will reappear - Fixed
 
 class PostWindow(QWidget):
 
@@ -38,6 +44,8 @@ class PostWindow(QWidget):
 
         for comments in target_comments:
             commentLabels = QLabel(text=comments)
+            commentLabels.setWordWrap(True)
+            commentLabels.setFixedWidth(400)
 
             input_index = self.RightVbox.indexOf(self.ReplyInput)
             self.RightVbox.addWidget(commentLabels)
@@ -51,17 +59,30 @@ class PostWindow(QWidget):
         for topics in post.keys():
             if topics not in RestrictedTopics:
                 posts_found = post[topics]
-                for single_posts in posts_found:
-                    ButtonName = single_posts["title"]
+                for single_posts in reversed(posts_found):
                     ButtonLabel_Post = QLabel(text=f"Topic: {topics}\nTitle: {single_posts['title']}\nBody: {single_posts['body']}")
+                    ButtonLabel_Post.setWordWrap(True)
+                    ButtonLabel_Post.setFixedWidth(400)
                     self.RightVbox.addWidget(ButtonLabel_Post)
                     ButtonLabel_Post.hide()
                     self.Labels.append(ButtonLabel_Post)
 
-                    #TempReplyLabelStorage = comment_finder(self, single_posts["comments"], ReplyLabels)
-                    ButtonName = QPushButton(text=ButtonName)
+                    wrapped_title = textwrap.fill(single_posts['title'], width=25)
+                    Buttontext = f"Topic: {topics}\nTitle: {wrapped_title}"
+
+                    title_len = len(single_posts['title'])
+                    if title_len > 50:
+                        btn_font = 14
+                    elif title_len > 35:
+                        btn_font = 16
+                    else:
+                        btn_font = 18
+
+                    button_font = QFont()
+                    button_font.setPointSize(btn_font)
+                    ButtonName = QPushButton(text=Buttontext)
                     ButtonName.setFixedSize(400,160)
-                    ButtonName.setFont(font)
+                    ButtonName.setFont(button_font)
 
                     ButtonName.clicked.connect(lambda checked, z=ButtonLabel_Post, t=topics, title=single_posts["title"]: (
                         setattr(self, 'current_topic', t),
@@ -72,7 +93,7 @@ class PostWindow(QWidget):
                     ButtonName.clicked.connect(self.ReplyInput.clear)
                     self.LeftVbox.addWidget(ButtonName) 
 
-                    self.PostButtons.append({'widget': ButtonName, 'topic': topics}) 
+                    self.PostButtons.append({'widget': ButtonName, 'topic': topics, 'title': single_posts["title"]}) 
 
     def Create_New_Post(self):
         Message = QMessageBox()
@@ -82,10 +103,10 @@ class PostWindow(QWidget):
 
 
         def SubmitNewPost():
-            font = QFont()
-            font.setPointSize(20)
+            #font = QFont()
+            #font.setPointSize(20)
 
-            Topic = self.TopicInput.text().strip().lower()
+            Topic = self.TopicInput.currentText().strip().lower()
             if Topic in RestrictedTopics:
                 Message.setFixedSize(300, 100)
                 Message.setText("Topic is restricted")
@@ -106,21 +127,49 @@ class PostWindow(QWidget):
                 return
 
             make_post(Topic, Title, Body)
-            self.SearchInput.addItem(Topic)
-            self.RestrictedTextBox.addItem(Topic)
+            search_items = [self.SearchInput.itemText(i).strip().lower() for i in range(self.SearchInput.count())]
+            if Topic not in search_items:
+                self.SearchInput.addItem(Topic)
+
+            restricted_items = [self.RestrictedTextBox.itemText(i).strip().lower() for i in range(self.RestrictedTextBox.count())]
+            if Topic not in restricted_items:
+                self.RestrictedTextBox.addItem(Topic)
+
+            title_items = [self.TitleSearchInput.itemText(i).strip().lower() for i in range(self.TitleSearchInput.count())]
+            if Title not in title_items:
+                self.TitleSearchInput.addItem(Title)
 
             self.TopicInput.clear()
             self.TitleInput.clear()
             self.BodyInput.clear()
 
             ButtonLabel_Post = QLabel(text=f"Topic: {Topic}\nTitle: {Title}\nBody: {Body}")
-            self.RightVbox.insertWidget(8, ButtonLabel_Post)
+            ButtonLabel_Post.setWordWrap(True)
+            ButtonLabel_Post.setFixedWidth(400)
+            self.RightVbox.insertWidget(9, ButtonLabel_Post)
             ButtonLabel_Post.hide()
             self.Labels.append(ButtonLabel_Post)
 
-            ButtonName = QPushButton(text=Title)
+            title_len = len(Title)
+            if title_len > 50:
+                btn_font = 14
+                wrap_width = 30
+            elif title_len > 35:
+                btn_font = 16
+                wrap_width = 24
+            else:
+                btn_font = 18
+                wrap_width = 20
+
+            wrapped_title = textwrap.fill(Title, width=wrap_width)
+            button_text = f"Topic: {Topic}\nTitle: {wrapped_title}"
+
+            button_font = QFont()
+            button_font.setPointSize(btn_font)
+
+            ButtonName = QPushButton(text=button_text)
             ButtonName.setFixedSize(400, 160)
-            ButtonName.setFont(font)
+            ButtonName.setFont(button_font)
 
             ButtonName.clicked.connect(lambda checked, z=ButtonLabel_Post, t=Topic, title=Title: (
                 setattr(self, 'current_topic', t),
@@ -131,11 +180,26 @@ class PostWindow(QWidget):
             #ButtonName.clicked.connect(self.ReplyInput.clear)
 
             self.LeftVbox.addWidget(ButtonName)
-            self.PostButtons.append({'widget': ButtonName, 'topic': Topic})
+            self.PostButtons.append({'widget': ButtonName, 'topic': Topic, 'title': Title})
+
+            active_search = self.SearchInput.currentText().strip().lower()
+            if active_search and active_search != Topic.strip().lower():
+                ButtonName.hide()
             Add_New_Post_Window.accept()
 
-        self.TopicInput = QLineEdit()
-        self.TopicInput.setPlaceholderText('Enter topic here')
+        self.TopicInput = QComboBox()
+        self.TopicInput.setEditable(True)
+        self.TopicInput.setInsertPolicy(QComboBox.InsertPolicy.NoInsert)
+        self.TopicInput.addItem("")
+        for topic in post.keys():
+            self.TopicInput.addItem(topic)
+        self.TopicInput.completer().setCompletionMode(QtWidgets.QCompleter.CompletionMode.PopupCompletion)
+        self.TopicInput.completer().setFilterMode(Qt.MatchFlag.MatchContains)
+        self.TopicInput.lineEdit().setPlaceholderText('Enter topic here')
+        self.TopicInput.setCurrentIndex(-1)
+        self.TopicInput.currentIndexChanged.connect(
+            lambda: self.TopicInput.setCurrentIndex(-1) if self.TopicInput.currentText() == "" else None
+        )
         self.TitleInput = QLineEdit()
         self.TitleInput.setPlaceholderText('Enter title here')
         self.BodyInput = QTextEdit()
@@ -176,10 +240,10 @@ class PostWindow(QWidget):
             strtopic = Topic.strip().lower()
 
             for item in self.PostButtons:
-                if strtopic not in RestrictedTopics and item['topic'] not in RestrictedTopics:
+                if strtopic not in RestrictedTopics and item['topic'].strip().lower() not in RestrictedTopics:
                     if not strtopic:
                         item['widget'].show()
-                    elif item['topic'].lower() == strtopic:
+                    elif item['topic'].strip().lower() == strtopic:
                         item['widget'].show()
                     else:
                         item['widget'].hide()
@@ -191,18 +255,67 @@ class PostWindow(QWidget):
                     Message.exec()
                     return
 
+        def TitleSearch():
+            Message = QMessageBox()
+            Title = self.TitleSearchInput.currentText()
+            strTitle = Title.strip().lower()
+
+            for item in self.PostButtons:
+                item_topic = item['topic'].strip().lower()
+                item_title = item['title'].strip().lower()
+
+                if item_topic in RestrictedTopics:
+                    item['widget'].hide()
+                else:
+                    if not strTitle:
+                        item['widget'].show()
+                    elif item_title == strTitle:
+                        item['widget'].show()
+                    else:
+                        item['widget'].hide()
 
         self.SearchInput = QComboBox()
+        self.SearchInput.setEditable(True)
+        self.SearchInput.setInsertPolicy(QComboBox.InsertPolicy.NoInsert)
         post_topics_combobox = post.keys()
         self.SearchInput.addItem('')
         for topic in post_topics_combobox:
             self.SearchInput.addItem(topic)
+        self.SearchInput.completer().setCompletionMode(QtWidgets.QCompleter.CompletionMode.PopupCompletion)
+        self.SearchInput.completer().setFilterMode(Qt.MatchFlag.MatchContains)
+        self.SearchInput.lineEdit().setPlaceholderText('Search for a topic here')
+        self.SearchInput.setCurrentIndex(-1)
+        self.SearchInput.currentIndexChanged.connect(
+            lambda index: self.SearchInput.setCurrentIndex(-1) if self.SearchInput.currentText() == '' else None
+        )
         self.SearchInput.setFixedWidth(400)
         SubmitSearchButton = QPushButton(text='Search by topic')
         SubmitSearchButton.setFixedSize(400,40)
         SubmitSearchButton.clicked.connect(SearchPost)
         self.RightVbox.addWidget(self.SearchInput)
         self.RightVbox.addWidget(SubmitSearchButton)
+
+        self.TitleSearchInput = QComboBox()
+        self.TitleSearchInput.setEditable(True)
+        self.TitleSearchInput.setInsertPolicy(QComboBox.InsertPolicy.NoInsert)
+        self.TitleSearchInput.addItem('')
+        for topics in post_topics_combobox:
+            posts_info = post[topics]
+            for single_post in posts_info:
+                self.TitleSearchInput.addItem(single_post["title"])
+        self.TitleSearchInput.completer().setCompletionMode(QtWidgets.QCompleter.CompletionMode.PopupCompletion)
+        self.TitleSearchInput.completer().setFilterMode(Qt.MatchFlag.MatchContains)
+        self.TitleSearchInput.lineEdit().setPlaceholderText('Search for a title here')
+        self.TitleSearchInput.setCurrentIndex(-1)
+        self.TitleSearchInput.currentIndexChanged.connect(
+            lambda index: self.TitleSearchInput.setCurrentIndex(-1) if self.TitleSearchInput.currentText() == '' else None
+        )
+        self.TitleSearchInput.setFixedWidth(400)
+        SubmitTitleButton = QPushButton(text='Search by title')
+        SubmitTitleButton.setFixedSize(400, 40)
+        SubmitTitleButton.clicked.connect(TitleSearch) 
+        self.RightVbox.addWidget(self.TitleSearchInput)
+        self.RightVbox.addWidget(SubmitTitleButton)           
 
         self.CurrentButtonIndex = 0
 
@@ -243,15 +356,21 @@ class PostWindow(QWidget):
             strRestrictedTopic = InpRestrictedTopics.strip().lower()
 
             for item in self.PostButtons:
-                if item["topic"].lower() == strRestrictedTopic:
+                if item["topic"].strip().lower() == strRestrictedTopic:
                     item["widget"].hide()
+            self.RestrictedTextBox.setCurrentIndex(-1)
 
 
         self.RestrictedTextBox = QComboBox()
+        self.RestrictedTextBox.setEditable(True)
+        self.RestrictedTextBox.setInsertPolicy(QComboBox.InsertPolicy.NoInsert)
         restricted_topics_combobox = post.keys()
         for topic in restricted_topics_combobox:
             self.RestrictedTextBox.addItem(topic)
-        self.RestrictedTextBox.setPlaceholderText('Enter restricted topic here')
+        self.RestrictedTextBox.completer().setCompletionMode(QtWidgets.QCompleter.CompletionMode.PopupCompletion)
+        self.RestrictedTextBox.completer().setFilterMode(Qt.MatchFlag.MatchContains)
+        self.RestrictedTextBox.lineEdit().setPlaceholderText('Enter restricted topic here')
+        self.RestrictedTextBox.setCurrentIndex(-1)
         self.RestrictedTextBox.setFixedWidth(400)
         RestrictedTopicsButton = QPushButton(text='Submit Restricted Topic')
         RestrictedTopicsButton.setFixedSize(400,40)
@@ -275,9 +394,6 @@ class PostWindow(QWidget):
         CreateNewPostButton.setFixedSize(400,80)
         CreateNewPostButton.clicked.connect(self.Create_New_Post)
         self.RightVbox.addWidget(CreateNewPostButton)
-
-
-
 
 
         #Scrolling bit

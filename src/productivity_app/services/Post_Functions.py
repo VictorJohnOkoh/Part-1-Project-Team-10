@@ -11,7 +11,7 @@ post = {"general": [
             "body": "With the rise of technology, computer science is becoming more and more important. It is a field that is constantly evolving and changing, and it is a great time to be a part of it.",
             "comments": ["I see your point", "I think computer science is important, but I don't think it's the future"]
         }],
-        "Logistics": [
+        "logistics": [
         {
             "title": "Logistics is important",
             "body": "I think everyone in the company should look into logistics. I would find it greatly beneficial if we all can give our ideas on this later",
