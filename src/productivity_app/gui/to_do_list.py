@@ -74,9 +74,10 @@ class TaskRow(QWidget):
 class addNewTaskWindow(QWidget):
     def __init__(self):
         super().__init__()
+        #self.on_back = on_back
 
-        self.add_new_task = QWidget()
-        self.add_new_task_vbox = QVBoxLayout(self.add_new_task)
+        self.AddNewTask = QWidget()
+        self.add_new_task_vbox = QVBoxLayout(self.AddNewTask)
 
         self.resize(WIDTH,HEIGHT)
 
@@ -110,7 +111,8 @@ class addNewTaskWindow(QWidget):
         #button to add new task
         new_task_button = QPushButton("Add new task")
         new_task_button.setFixedSize(100,30)
-        new_task_button.move(400,300)
+        #new_task_button.move(400,300)
+        new_task_button.clicked.connect(self.add_new_task)
         #move button to the bottom of the screen
         #call function to take user back to to-do list with new task added
 
@@ -118,6 +120,7 @@ class addNewTaskWindow(QWidget):
         cancel_button = QPushButton("Cancel")
         cancel_button.setFixedSize(100,30)
         cancel_button.move(400,300)
+        cancel_button.clicked.connect(self.back_button)
         #call function to take user back to to-do list without adding the new task
 
         self.add_new_task_vbox.addWidget(self.enter_task_name)
@@ -135,43 +138,68 @@ class addNewTaskWindow(QWidget):
 
         self.setWindowTitle("Add new task")
         self.setLayout(self.add_new_task_vbox)
+
+    def back_button(self):
+        #self.on_back()
+        pass
+    
+    is_format_correct = False
+
+    #function to output if any of the formats of the data entered is incorrect
+    def is_format_correct_message(self):
+        message = QMessageBox()
+        message.setWindowTitle("Add new task")
+        if self.is_format_correct == True:
+            print("call function to go create new task row of the new task")
+            #call function to back to to-do list
+        else:
+            message.setText("Insufficient data provided")
+            message.setInformativeText("Please try again")
+            message.setIcon(QMessageBox.Icon.Critical)
+            message.exec()
+
+    def add_new_task(self):
+        self.is_format_correct = False
+        task_name = self.enter_task_name.text()
+        task_desc = self.add_description.toPlainText()
+        estim_time = self.estimated_time.text()
+        chosen_deadline = self.deadline_date_time.dateTime()
+        priority = self.task_priority.currentText()
+
+        if len(task_name)!=0 and len(task_desc)!=0 and len(estim_time)!=0:
+            self.is_format_correct = True
+        self.is_format_correct_message()
+
 class ToDoListWindow(QWidget):
-    def __init__(self):
+    def __init__(self,add_task):
         super().__init__()
+        self.add_task = add_task
 
         self.resize(WIDTH,HEIGHT)
         self.setWindowTitle("To-Do List")
-        self.new_task = QLineEdit(placeholderText = "New Task")
-        self.new_task.move(300,350)
-
-        self.add_description = QTextEdit()
-        
-
-
-
-
+        # self.new_task = QLineEdit(placeholderText = "New Task")
+        # self.new_task.move(300,350)
 
         #button to add new tasks
-        button = QPushButton("Add new task")
-        button.setFixedSize(100,30)
-        button.move(250,300)
-        #button.raise_()
-        #go to function to add new task
-        button.clicked.connect(self.add_task)
-        
+        add_task_button = QPushButton("Add new task")
+        add_task_button.setFixedSize(100,30)
+        #button.move(250,300)
+        add_task_button.clicked.connect(self.add_task)
+
+        #might have to be scrapped if we have the menu on the side
         #button to back to the users' dashboard
         back_button = QPushButton("Go back")
         back_button.setFixedSize(100,30)
         back_button.clicked.connect(self.go_back)
 
         input_row = QHBoxLayout()
-        input_row.addWidget(self.new_task)
-        input_row.addWidget(button)
+        #input_row.addWidget(self.new_task)
+        input_row.addWidget(add_task_button)
 
         layout = QVBoxLayout(self)
         layout.addWidget(QLabel("TO-DO LIST"),alignment= Qt.AlignmentFlag.AlignTop | Qt.AlignmentFlag.AlignCenter)
-        layout.addWidget(self.new_task)
-        layout.addWidget(button)
+        #layout.addWidget(self.new_task)
+        layout.addWidget(add_task_button)
         layout.addWidget(back_button)
         layout.addLayout(input_row)
 
@@ -187,11 +215,7 @@ class ToDoListWindow(QWidget):
 
     def add_task(self):
         #call function to add new task screen
-        text = self.new_task.text().strip()
-        if not text:
-            return
-        self.tasks_layout.addWidget(TaskRow(text))
-        self.new_task.clear()
+        self.add_task()
 
     #function to take the user to their dashboard
     def go_back(self):
