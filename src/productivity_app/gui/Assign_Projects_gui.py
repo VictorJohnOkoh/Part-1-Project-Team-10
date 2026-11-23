@@ -6,6 +6,7 @@ from PyQt6.QtGui import QIcon
 from PyQt6.QtWidgets import (QApplication, QPushButton, QVBoxLayout, QWidget, 
                              QLabel, QScrollArea, QMainWindow, QSlider,
                              QHBoxLayout, QLineEdit,QDateTimeEdit, QTextEdit, QMessageBox, QComboBox, QDialog)
+from productivity_app.services.Project_Progress_Functions import Projects
 import os
 # Directory = os.productivity_app.gui('Assign_Tasks_gui.py')
 # FilePath = os.productivity_app.users('test_users.txt')
@@ -16,10 +17,8 @@ FilePath = os.path.join(Directory, "..", "users", "valid_users.txt")
 
 class AssignProjectsWindow(QWidget):
 
-    Projects = []
-
     def GiveProjects(self):
-        return self.Projects
+        return Projects
 
 
     Is_Format_Correct = False
@@ -30,28 +29,30 @@ class AssignProjectsWindow(QWidget):
         if self.Is_Format_Correct == True:
             Message.setText('Project successfully Assigned!')
             Message.setIcon(QMessageBox.Icon.Information)
-            print(self.Projects)
         else:
-             Message.setText('Insufficient data provided!')
+             Message.setText('Data input incorrect')
              Message.setInformativeText('Please try again.')
              Message.setIcon(QMessageBox.Icon.Critical)
         Message.exec()
 
 
     def ProjectAssignerSubmitButton_clicked(self):
-                self.Is_Format_Correct = False
-                ProjectName = self.ProjectNameInput.text()
-                EmpName = self.EmployeeNameInput.currentText()
+        self.Is_Format_Correct = False
+        ProjectName = self.ProjectNameInput.text().strip()
+        EmpName = self.EmployeeNameInput.currentText().strip()
 
-                self.ProjectNameInput.clear()
+        self.ProjectNameInput.clear()
 
-                if len(ProjectName) != 0:
-                    print('message assigned!')
-                    self.Projects.append([ProjectName,EmpName])
-                    self.Is_Format_Correct = True
-                else:
-                    print('Incorrect, try again!')
-                self.Is_Format_Correct_Message()
+        if len(ProjectName) != 0 and ProjectName not in Projects:
+            print('message assigned!')
+            Projects[ProjectName] = {"teamLead" : EmpName,
+                                     "Deadline" : "12/04/29",
+                                     "Estimated_hours" : 112,
+                                     "tasks" : []}
+            self.Is_Format_Correct = True
+        else:
+            print('Incorrect, try again!')
+        self.Is_Format_Correct_Message()
                 
     def __init__(self, parent=None):
         super().__init__(parent)

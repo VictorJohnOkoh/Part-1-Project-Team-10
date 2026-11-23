@@ -6,7 +6,9 @@ from PyQt6.QtGui import QIcon
 from PyQt6.QtWidgets import (QApplication, QPushButton, QVBoxLayout, QWidget, 
                              QLabel, QScrollArea, QMainWindow, QSlider,
                              QHBoxLayout, QLineEdit,QDateTimeEdit, QTextEdit, QMessageBox, QComboBox, QDialog)
+from productivity_app.services.Project_Progress_Functions import Projects
 import os
+
 # Directory = os.productivity_app.gui('Assign_Tasks_gui.py')
 # FilePath = os.productivity_app.users('test_users.txt')
 
@@ -17,11 +19,6 @@ FilePath = os.path.join(Directory, "..", "users", "valid_users.txt")
 class AssignTasksWindow(QWidget):
 
     Assignments = []
-
-    ProjectNames = ['Team 1', 'Team 2', 'Team 3', 'Team 4', 'Team 5', 'Team 6',
- 'Team 7', 'Team 8', 'Team 9', 'Team 10', 'Team 11', 'Team 12',
- 'Team 13', 'Team 14', 'Team 15', 'Team 16', 'Team 17', 'Team 18',
- 'Team 19', 'Team 20', 'Team 21', 'Team 22']
 
     @staticmethod
     def GiveAssignments():
@@ -69,9 +66,9 @@ class AssignTasksWindow(QWidget):
                     print('Incorrect, try again!')
                 self.Is_Format_Correct_Message()
                 
-    def __init__(self, parent=None):
+    def __init__(self, user, parent=None):
         super().__init__(parent)
-
+        self.user = user
 
         self.AssignWidget = QWidget()
         self.AssignVbox = QVBoxLayout(self.AssignWidget)
@@ -100,8 +97,10 @@ class AssignTasksWindow(QWidget):
 
 
         self.ProjectNameInput = QComboBox()
-        for project in self.ProjectNames:
-            self.ProjectNameInput.addItem(project)
+        for projectNames in Projects.keys():
+            ProjectDetails = Projects[projectNames]
+            if ProjectDetails["teamLead"] == self.user.get_full_name():
+                self.ProjectNameInput.addItem(projectNames)
         self.ProjectNameInput.setFixedWidth(400)
         # setting up the deadline chooser for the managers/ team leaders
 

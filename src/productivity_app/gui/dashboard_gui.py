@@ -142,7 +142,7 @@ class Dashboard(QtWidgets.QWidget):
 
     def assign_tasks_clicked(self):
         print("assign tasks clicked")
-        self.AssignTasksWindow = AssignTasksWindow()
+        self.AssignTasksWindow = AssignTasksWindow(self.user)
         self.AssignTasksWindow.show()
 
     def assign_projects_clicked(self):
