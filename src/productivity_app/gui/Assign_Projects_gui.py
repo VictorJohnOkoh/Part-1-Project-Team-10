@@ -51,7 +51,7 @@ class AssignProjectsWindow(QWidget):
         
         self.ProjectNameInput.clear()
 
-        if len(ProjectName) != 0 and ProjectName not in Projects and isinstance(intEstHours, int):
+        if len(ProjectName) != 0 and ProjectName not in Projects:
             print('message assigned!')
             Projects[ProjectName] = {"teamLead" : EmpName,
                                      "Deadline" : Deadline,

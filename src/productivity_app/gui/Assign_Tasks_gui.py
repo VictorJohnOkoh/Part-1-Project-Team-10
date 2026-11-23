@@ -142,7 +142,6 @@ if __name__ == '__main__':
 
 
 """print('Program is Running!')
->>>>>>> b353ea9844baeaa639631c3ea9944b86ab04550a
 app = QApplication(sys.argv)
 window = AssignWindow()
 window.show()
