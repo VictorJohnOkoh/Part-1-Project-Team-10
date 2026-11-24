@@ -1,3 +1,5 @@
+import datetime
+from datetime import datetime
 import sys
 #import may have to get removed because it creates a circular import 
 #because dashboard gui imports this file
@@ -146,7 +148,25 @@ class addNewTaskWindow(QWidget):
     is_format_correct = False
 
     #function to output if any of the formats of the data entered is incorrect
-    def is_format_correct_message(self):
+    #include a new parameter to allow us to output whichever field is incomplete or incorrect
+    
+    #all of the calls to functions to check if the fields are valid
+    def validate_task(self, task_name, task_desc, estim_time, chosen_deadline):
+        errors = []
+
+        if not task_name.strip():
+            errors.append("Task name can't be empty")
+        if not task_desc.strip():
+            errors.append("Task description can't be empty")
+        if self.check_estimated_time(estim_time):
+            errors.append("Estimated time must be a number")
+        if not self.check_deadline_valid(chosen_deadline):
+            errors.append("Deadline is not valid")
+
+        return errors
+
+    #function to output if there are any errors via a message box
+    def is_format_correct_message(self,errors=None):
         message = QMessageBox()
         message.setWindowTitle("Add new task")
         if self.is_format_correct == True:
@@ -154,7 +174,7 @@ class addNewTaskWindow(QWidget):
             #call function to back to task row class
         else:
             message.setText("Insufficient data provided")
-            message.setInformativeText("Please try again")
+            message.setInformativeText("\n".join(errors or []))
             message.setIcon(QMessageBox.Icon.Critical)
             message.exec()
 
@@ -163,13 +183,8 @@ class addNewTaskWindow(QWidget):
         return isinstance(estimated_time, (int, float))
 
     #function to check if the deadline is in the future when a new task is being created and not in the past
-    def check_deadline_valid(self,chosen_deadline):
-        now = QDate.currentDate()
-        deadline = chosen_deadline.toString(Qt.DateFormat.ISODate)
-        if deadline>=now:
-            return True
-        else:
-            return False
+    def check_deadline_valid(self,chosen_deadline: datetime):
+        return chosen_deadline > datetime.now()
 
     #function to check if all of the data fields are valid and relevant actions are then taken
     def add_new_task(self):
@@ -180,9 +195,9 @@ class addNewTaskWindow(QWidget):
         chosen_deadline = self.deadline_date_time.dateTime()
         priority = self.task_priority.currentText()
 
-        if len(task_name)!=0 and len(task_desc)!=0 and self.check_estimated_time(estim_time) and self.check_deadline_valid(chosen_deadline):
-            self.is_format_correct = True
-        self.is_format_correct_message()
+        errors = self.validate_task(task_name, task_desc, estim_time, chosen_deadline)
+        self.is_format_correct = not errors
+        self.is_format_correct_message(errors)
 
 class ToDoListWindow(QWidget):
     def __init__(self):#removed ",add_task"
