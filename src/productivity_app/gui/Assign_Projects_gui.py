@@ -42,13 +42,17 @@ class AssignProjectsWindow(QWidget):
         EmpName = self.EmployeeNameInput.currentText().strip()
         Deadline = self.DeadlineInput.text().strip()
         EstimatedHours = self.EstimatedHoursInput.text().strip()
-        intEstHours = int(EstimatedHours)
 
-        if not Deadline or not EstimatedHours:
+        if not Deadline or not EstimatedHours or not EstimatedHours.isdigit():
             self.Is_Format_Correct = False
             self.Is_Format_Correct_Message()
             return
-        
+
+        intEstHours = int(EstimatedHours)
+
+        if intEstHours <= 0:
+            self.Is_Format_Correct_Message()
+            return
         self.ProjectNameInput.clear()
 
         if len(ProjectName) != 0 and ProjectName not in Projects:
