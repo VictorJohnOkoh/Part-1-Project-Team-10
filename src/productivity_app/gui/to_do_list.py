@@ -3,7 +3,7 @@ import sys
 #because dashboard gui imports this file
 
 #from productivity_app.gui.dashboard_gui import Dashboard
-from PyQt6.QtCore import Qt,QDateTime
+from PyQt6.QtCore import Qt,QDateTime,QDate
 from PyQt6.QtWidgets import(
     QButtonGroup,
     QHBoxLayout,
@@ -158,6 +158,20 @@ class addNewTaskWindow(QWidget):
             message.setIcon(QMessageBox.Icon.Critical)
             message.exec()
 
+    #function to check if the estimated time entered is a valid integer or float value and not a string
+    def check_estimated_time(self,estimated_time):
+        return isinstance(estimated_time, (int, float))
+
+    #function to check if the deadline is in the future when a new task is being created and not in the past
+    def check_deadline_valid(self,chosen_deadline):
+        now = QDate.currentDate()
+        deadline = chosen_deadline.toString(Qt.DateFormat.ISODate)
+        if deadline>=now:
+            return True
+        else:
+            return False
+
+    #function to check if all of the data fields are valid and relevant actions are then taken
     def add_new_task(self):
         self.is_format_correct = False
         task_name = self.enter_task_name.text()
@@ -166,7 +180,7 @@ class addNewTaskWindow(QWidget):
         chosen_deadline = self.deadline_date_time.dateTime()
         priority = self.task_priority.currentText()
 
-        if len(task_name)!=0 and len(task_desc)!=0 and len(estim_time)!=0:
+        if len(task_name)!=0 and len(task_desc)!=0 and self.check_estimated_time(estim_time) and self.check_deadline_valid(chosen_deadline):
             self.is_format_correct = True
         self.is_format_correct_message()
 
@@ -180,6 +194,7 @@ class ToDoListWindow(QWidget):
 
         self.resize(WIDTH,HEIGHT)
 
+        #button to take the user to add new task screen when clicked
         add_new_task_button = QPushButton("Add task")
         add_new_task_button.setFixedSize(100,30)
         add_new_task_button.clicked.connect(self.add_task)
@@ -199,6 +214,6 @@ class ToDoListWindow(QWidget):
         print("Back button clicked")
 
 app = QApplication(sys.argv)
-window = ToDoListWindow()
+window = addNewTaskWindow()
 window.show()
 sys.exit(app.exec())
