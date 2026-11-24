@@ -222,13 +222,14 @@ class ToDoListWindow(QWidget):
     def add_task(self):
         #call function to add new task screen
         # self.add_task()
-        print("function to add task window")
+        self.add_new_task = addNewTaskWindow()
+        self.add_new_task.show()
 
     #function to take the user to their dashboard
     def go_back(self):
         print("Back button clicked")
 
 app = QApplication(sys.argv)
-window = addNewTaskWindow()
+window = ToDoListWindow()
 window.show()
 sys.exit(app.exec())
