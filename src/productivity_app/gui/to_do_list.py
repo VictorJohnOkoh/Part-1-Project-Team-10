@@ -28,33 +28,33 @@ WIDTH, HEIGHT = 800,450
 
 STATUS = ["Not Started","In Progress","Finished"]
 class TaskRow(QWidget):
-    def __init__(self,text):
+    def __init__(self):
         super().__init__()
 
         #initialise new task status as not started
         self.status = STATUS[0]
 
-        row = QHBoxLayout(self)
-        self.label = QLabel(text)
-        row.addWidget(self.label,stretch = 1)
+        #row = QHBoxLayout(self)
+        
+        #row.addWidget(self.label,stretch = 1)
 
         #creates the group used for each of the statuses as exclusive so only one can be  clicked at a time
-        self.group = QButtonGroup(self)
-        self.group.setExclusive(True)
-        self.buttons = {}
+        # self.group = QButtonGroup(self)
+        # self.group.setExclusive(True)
+        # self.buttons = {}
 
         #loops over the exisiting statuses we have and creates a button for each of them
         #when one of the buttons are clicked the statuses are then changed
-        for s in STATUS:
-            b = QPushButton(s)
-            b.setCheckable(True)
-            b.setFixedSize(100,30)
-            b.clicked.connect(lambda checked, s=s: self.set_status(s))
-            self.group.addButton(b)
-            row.addWidget(b)
-            self.buttons[s] = b
+        # for s in STATUS:
+        #     b = QPushButton(s)
+        #     b.setCheckable(True)
+        #     b.setFixedSize(100,30)
+        #     b.clicked.connect(lambda checked, s=s: self.set_status(s))
+        #     self.group.addButton(b)
+        #     row.addWidget(b)
+        #     self.buttons[s] = b
 
-        self.buttons[self.status].setChecked(True)
+        # self.buttons[self.status].setChecked(True)
 
     def create_taskrow(self,task_name,task_desc,deadline,priority):
         print(task_name,task_desc,deadline,priority)
@@ -81,7 +81,7 @@ class addNewTaskWindow(QWidget):
         self.taskrow = taskrow
         self.is_format_correct = False
 
-        self.add_new_task_vbox = QVBoxLayout(self.AddNewTask)
+        self.add_new_task_vbox = QVBoxLayout()
 
         self.resize(WIDTH,HEIGHT)
 
@@ -182,8 +182,11 @@ class addNewTaskWindow(QWidget):
         message = QMessageBox()
         message.setWindowTitle("Add new task")
         if self.is_format_correct == True:
+            name, desc, deadline, priority = self.get_task_data()
             self.taskrow.create_taskrow(name, desc, deadline, priority)
-            #call function to back to task row class
+            self.clear_text()
+            self.back_button()
+            
         else:
             message.setText("Insufficient data provided")
             message.setInformativeText("\n".join(errors or []))
@@ -215,6 +218,7 @@ class ToDoListWindow(QWidget):
     def __init__(self):#removed ",add_task"
         super().__init__()
         # self.add_task = add_task
+        self.taskrow = TaskRow()
 
         self.ToDoList = QWidget()
         self.to_do_list_vbox = QVBoxLayout(self.ToDoList)
@@ -232,9 +236,7 @@ class ToDoListWindow(QWidget):
         self.setLayout(self.to_do_list_vbox)
 
     def add_task(self):
-        #call function to add new task screen
-        # self.add_task()
-        self.add_new_task = addNewTaskWindow()
+        self.add_new_task = addNewTaskWindow(self.taskrow)
         self.add_new_task.show()
 
     #function to take the user to their dashboard
