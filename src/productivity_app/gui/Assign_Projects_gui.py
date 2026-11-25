@@ -1,6 +1,7 @@
 #Assign Tasks
 import random
 import sys
+from PyQt6 import QtWidgets
 from PyQt6.QtCore import QSize, Qt, QDateTime
 from PyQt6.QtGui import QIcon
 from PyQt6.QtWidgets import (QApplication, QPushButton, QVBoxLayout, QWidget, 
@@ -79,12 +80,22 @@ class AssignProjectsWindow(QWidget):
         self.ProjectNameInput.setFixedWidth(400)
 
         self.EmployeeNameInput = QComboBox()
+        self.EmployeeNameInput.setEditable(True)
+        self.EmployeeNameInput.setInsertPolicy(QComboBox.InsertPolicy.NoInsert)
+        self.EmployeeNameInput.addItem("")
         with open(FilePath,'r') as Users:
             for UserLine in Users:
                 User = UserLine.strip().split(':')
                 if len(User) >= 3 and User[2].strip() == 'team_leader':
                     full_name = User[0].strip().split('@')[0].replace('.', ' ').title()
                     self.EmployeeNameInput.addItem(full_name)
+        self.EmployeeNameInput.completer().setCompletionMode(QtWidgets.QCompleter.CompletionMode.PopupCompletion)
+        self.EmployeeNameInput.completer().setFilterMode(Qt.MatchFlag.MatchContains)
+        self.EmployeeNameInput.lineEdit().setPlaceholderText('Enter Employee Name')
+        self.EmployeeNameInput.setCurrentIndex(-1)
+        self.EmployeeNameInput.currentIndexChanged.connect(
+            lambda: self.EmployeeNameInput.setCurrentIndex(-1) if self.EmployeeNameInput.currentText() == "" else None
+        )
         self.EmployeeNameInput.setFixedWidth(400)
 
         self.DeadlineInput = QLineEdit()
