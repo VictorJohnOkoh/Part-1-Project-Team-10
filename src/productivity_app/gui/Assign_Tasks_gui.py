@@ -45,26 +45,32 @@ class AssignTasksWindow(QWidget):
 
 
     def TaskAssignerSubmitButton_clicked(self):
-                self.Is_Format_Correct = False
-                TaskName = self.TaskNameInput.text()
-                TaskDesc = self.TaskDescriptionInput.toPlainText()
-                EmpName = self.EmployeeNameInput.currentText()
-                Team = self.ProjectNameInput.currentText()
-                EstimatedTime = self.TaskEstimatedTimeInput.text()
-                ChosenDeadline = self.ChosenDateAndTime.dateTime()
+        self.Is_Format_Correct = False
+        TaskName = self.TaskNameInput.text()
+        TaskDesc = self.TaskDescriptionInput.toPlainText()
+        EmpName = self.EmployeeNameInput.currentText()
+        Team = self.ProjectNameInput.currentText()
+        EstimatedTime = self.TaskEstimatedTimeInput.text().strip()
+        ChosenDeadline = self.ChosenDateAndTime.dateTime()
 
-                self.TaskNameInput.clear()
-                self.TaskDescriptionInput.clear()
-                self.TaskEstimatedTimeInput.clear()
-                self.ChosenDateAndTime.setDateTime(QDateTime.currentDateTime())
-
-                if len(TaskName) != 0 and len(TaskDesc) != 0 and len(EstimatedTime) != 0:
-                    print('message assigned!')
-                    self.Assignments.append([TaskName,TaskDesc,EmpName,Team,ChosenDeadline.toString('dd-MM-yyyy HH:mm'),EstimatedTime,'Incomplete'])
-                    self.Is_Format_Correct = True
-                else:
-                    print('Incorrect, try again!')
-                self.Is_Format_Correct_Message()
+        if len(TaskName) != 0 and len(TaskDesc) != 0 and EstimatedTime.isdigit() and int(EstimatedTime) > 0 and Team in Projects:
+            print('message assigned!')
+            Projects[Team]["tasks"].append({
+                "taskName": TaskName,
+                "Employee": EmpName,
+                "Deadline": ChosenDeadline.toString('dd-MM-yyyy HH:mm'),
+                "Status": "In Progress",
+                "Estimated_hours": int(EstimatedTime)
+            })
+            self.TaskNameInput.clear()
+            self.TaskDescriptionInput.clear()
+            self.TaskEstimatedTimeInput.clear()
+            self.ChosenDateAndTime.setDateTime(QDateTime.currentDateTime())
+            #self.Assignments.append([TaskName,TaskDesc,EmpName,Team,ChosenDeadline.toString('dd-MM-yyyy HH:mm'),EstimatedTime,'Incomplete'])
+            self.Is_Format_Correct = True
+        else:
+            print('Incorrect, try again!')
+        self.Is_Format_Correct_Message()
                 
     def __init__(self, user, parent=None):
         super().__init__(parent)
@@ -90,9 +96,10 @@ class AssignTasksWindow(QWidget):
         self.EmployeeNameInput = QComboBox()
         with open(FilePath,'r') as Users:
             for UserLine in Users:
-                User = UserLine.split(':')
-                if User[2] == 'team_member\n':
-                     self.EmployeeNameInput.addItem(User[0])
+                User = UserLine.strip().split(':')
+                if len(User) >= 3 and User[2].strip() == 'team_member':
+                    full_name = User[0].strip().split('@')[0].replace('.', ' ').title()
+                    self.EmployeeNameInput.addItem(full_name)
         self.EmployeeNameInput.setFixedWidth(400)
 
 

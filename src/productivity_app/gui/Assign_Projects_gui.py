@@ -81,9 +81,10 @@ class AssignProjectsWindow(QWidget):
         self.EmployeeNameInput = QComboBox()
         with open(FilePath,'r') as Users:
             for UserLine in Users:
-                User = UserLine.split(':')
-                if User[2] == 'team_leader\n':
-                     self.EmployeeNameInput.addItem(User[0])
+                User = UserLine.strip().split(':')
+                if len(User) >= 3 and User[2].strip() == 'team_leader':
+                    full_name = User[0].strip().split('@')[0].replace('.', ' ').title()
+                    self.EmployeeNameInput.addItem(full_name)
         self.EmployeeNameInput.setFixedWidth(400)
 
         self.DeadlineInput = QLineEdit()
