@@ -24,9 +24,7 @@ from PyQt6.QtWidgets import(
 
 WIDTH, HEIGHT = 800,450
 
-hardcoded_tasks = [("attend meeting","In Progress"),
-                   ("complete research","Not Started"),
-                   ("ask customer for clarification","Finished")]
+
 
 STATUS = ["Not Started","In Progress","Finished"]
 class TaskRow(QWidget):
@@ -58,6 +56,9 @@ class TaskRow(QWidget):
 
         self.buttons[self.status].setChecked(True)
 
+    def create_taskrow(self,task_name,task_desc,deadline,priority):
+        print(task_name,task_desc,deadline,priority)
+
     """
     runs when a status button is clicked and updates the stored status
     the buttons are exclusive so when a new status is clicked it unchecks all of the other buttons
@@ -74,11 +75,12 @@ class TaskRow(QWidget):
 
 
 class addNewTaskWindow(QWidget):
-    def __init__(self):
+    def __init__(self,taskrow):
         super().__init__()
         #self.on_back = on_back
+        self.taskrow = taskrow
+        self.is_format_correct = False
 
-        self.AddNewTask = QWidget()
         self.add_new_task_vbox = QVBoxLayout(self.AddNewTask)
 
         self.resize(WIDTH,HEIGHT)
@@ -144,11 +146,21 @@ class addNewTaskWindow(QWidget):
     def back_button(self):
         #self.on_back()
         pass
-    
-    is_format_correct = False
 
-    #function to output if any of the formats of the data entered is incorrect
-    #include a new parameter to allow us to output whichever field is incomplete or incorrect
+    def get_task_data(self):
+        return(
+            self.new_task.text().strip(),
+            self.add_description.toPlainText().strip(),
+            self.deadline_date_time.dateTime().toString("dd/MM/yyyy HH:mm"),
+            self.task_priority.currentText()
+        )
+
+    def clear_text(self):
+        self.new_task.clear()
+        self.add_description.clear()
+        self.estimated_time.clear()
+        self.deadline_date_time.setDateTime(QDateTime.currentDateTime())
+        self.task_priority.setCurrentIndex(0)
     
     #all of the calls to functions to check if the fields are valid
     def validate_task(self, task_name, task_desc, estim_time, chosen_deadline):
@@ -170,7 +182,7 @@ class addNewTaskWindow(QWidget):
         message = QMessageBox()
         message.setWindowTitle("Add new task")
         if self.is_format_correct == True:
-            print("call function to go create new task row of the new task")
+            self.taskrow.create_taskrow(name, desc, deadline, priority)
             #call function to back to task row class
         else:
             message.setText("Insufficient data provided")
